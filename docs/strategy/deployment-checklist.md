@@ -9,15 +9,25 @@ rg -n --hidden --glob '!node_modules/**' --glob '!.git/**' "(CLOUDFLARE_API_TOKE
 npm run build
 ```
 
-## Cloudflare Pages
+## Cloudflare Workers Static Assets
 
-First deploy:
+Cloudflare Pages project creation returned an API 500 during first rollout, so the deployable path is Workers Static Assets:
 
 ```bash
-npx wrangler pages deploy dist --project-name leonida-ledger --branch main
+npx wrangler deploy
 ```
 
-Long-term production should use Git integration:
+The static assets directory is configured in `wrangler.jsonc`:
+
+```json
+{
+  "assets": {
+    "directory": "./dist"
+  }
+}
+```
+
+Long-term production may still use Pages Git integration after creating a fresh Pages project from the Cloudflare Dashboard:
 
 - framework preset: Astro;
 - build command: `npm run build`;

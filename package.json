@@ -7,7 +7,7 @@
     "dev": "astro dev --host 127.0.0.1",
     "build": "astro check && astro build",
     "preview": "astro preview --host 127.0.0.1",
-    "deploy": "npm run build && wrangler pages deploy dist --project-name leonida-ledger --branch main"
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",

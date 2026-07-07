@@ -33,14 +33,14 @@ npm run deploy
 
 ## Deployment
 
-The first deploy can use Wrangler direct upload:
+Cloudflare Pages project creation returned a Cloudflare API 500 during the first rollout, so this repo uses Cloudflare Workers Static Assets. It still serves the static Astro output from Cloudflare's edge network and supports `_headers`.
 
 ```bash
 npm run build
-npx wrangler pages deploy dist --project-name leonida-ledger --branch main
+npx wrangler deploy
 ```
 
-For long-term production, connect the GitHub repo to Cloudflare Pages with:
+If Pages Git integration is preferred later, create a fresh Pages project in the Cloudflare Dashboard and use:
 
 - build command: `npm run build`
 - output directory: `dist`
