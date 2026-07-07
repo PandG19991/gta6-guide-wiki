@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://leonida-ledger.pages.dev/sitemap.xml
+Sitemap: https://leonida-ledger.pandg1991.workers.dev/sitemap.xml
 
