@@ -13,6 +13,9 @@ export function getStaticPaths() {
 }
 
 const { guide } = Astro.props;
+const relatedGuides = guides
+  .filter((candidate) => candidate.slug !== guide.slug && candidate.category === guide.category)
+  .slice(0, 3);
 const schema = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -66,5 +69,20 @@ const schema = {
       })}
     </div>
   </section>
+
+  {relatedGuides.length > 0 && (
+    <section class="section-tight shell">
+      <h2 class="page-title">Related Guides</h2>
+      <div class="content-grid">
+        {relatedGuides.map((item) => (
+          <article class="content-card">
+            <div class="card-meta"><ConfidenceBadge value={item.confidence} /></div>
+            <h3><a href={`/guides/${item.slug}/`}>{item.title}</a></h3>
+            <p>{item.deck}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
 </BaseLayout>
 
