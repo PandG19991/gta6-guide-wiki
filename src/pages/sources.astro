@@ -1,0 +1,41 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { sources } from "@data/sources";
+---
+
+<BaseLayout title="Sources and Evidence Ledger" description="The official and policy sources behind Leonida Ledger's GTA 6 guide pages.">
+  <header class="page-header shell">
+    <div class="page-kicker">Trust layer</div>
+    <h1 class="page-title">Sources and Evidence Ledger</h1>
+    <p class="page-intro">
+      Every important factual claim starts here. Official publisher and platform sources outrank media summaries, community theories, and rumors.
+    </p>
+  </header>
+
+  <section class="section-tight shell">
+    <table class="source-table">
+      <thead>
+        <tr>
+          <th>Priority</th>
+          <th>Source</th>
+          <th>Use</th>
+          <th>Accessed</th>
+        </tr>
+      </thead>
+      <tbody>
+        {sources.map((source) => (
+          <tr>
+            <td class="mono">{source.priority}</td>
+            <td>
+              <a href={source.url} target="_blank" rel="nofollow noopener"><strong>{source.title}</strong></a>
+              <br />{source.publisher}
+            </td>
+            <td>{source.notes}</td>
+            <td class="mono">{source.accessed}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+</BaseLayout>
+

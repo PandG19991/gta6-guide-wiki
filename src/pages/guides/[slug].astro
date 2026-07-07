@@ -1,0 +1,70 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ConfidenceBadge from "@components/ConfidenceBadge.astro";
+import { guides } from "@data/guides";
+import { sourceById } from "@data/sources";
+import { site } from "@data/site";
+
+export function getStaticPaths() {
+  return guides.map((guide) => ({
+    params: { slug: guide.slug },
+    props: { guide }
+  }));
+}
+
+const { guide } = Astro.props;
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: guide.title,
+  description: guide.deck,
+  dateModified: guide.updated,
+  author: { "@type": "Organization", name: site.name },
+  mainEntityOfPage: `${site.url}/guides/${guide.slug}/`
+};
+---
+
+<BaseLayout title={guide.title} description={guide.deck} schema={schema}>
+  <header class="page-header shell">
+    <div class="page-kicker">{guide.category} / {guide.intent}</div>
+    <h1 class="page-title">{guide.title}</h1>
+    <p class="page-intro">{guide.deck}</p>
+  </header>
+
+  <section class="section-tight shell split">
+    <article class="panel">
+      <h2>Current Answer</h2>
+      <p><ConfidenceBadge value={guide.confidence} /> <span class="mono">Updated {guide.updated}</span></p>
+      <ul>
+        {guide.bullets.map((bullet) => <li>{bullet}</li>)}
+      </ul>
+      <h3>Next Update</h3>
+      <p>{guide.nextUpdate}</p>
+    </article>
+    <aside class="panel">
+      <h2>Search Terms Covered</h2>
+      <p>{guide.searchTerms.join(" / ")}</p>
+      <h3>Page Status</h3>
+      <p>
+        This page is marked <strong>{guide.status}</strong>. If a fact is not official or tested, it is not written as confirmed.
+      </p>
+    </aside>
+  </section>
+
+  <section class="section-tight shell">
+    <h2 class="page-title">Source Ledger</h2>
+    <div class="source-list">
+      {guide.sourceIds.map((id) => {
+        const source = sourceById[id];
+        return (
+          <p>
+            <a href={source.url} target="_blank" rel="nofollow noopener">{source.title}</a>
+            <br />
+            {source.publisher}. Accessed {source.accessed}. {source.notes}
+          </p>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>
+

@@ -1,0 +1,34 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { confidenceLevels } from "@data/site";
+---
+
+<BaseLayout title="Editorial Policy" description="Leonida Ledger's source, copyright, rumor, and ad-safety policy for GTA 6 guides.">
+  <header class="page-header shell">
+    <div class="page-kicker">Editorial policy</div>
+    <h1 class="page-title">How We Keep The Guide Useful</h1>
+    <p class="page-intro">
+      This site is built for search traffic, but it should not become low-value SEO sludge. Pages need a real answer,
+      a source trail, and a clear confidence label.
+    </p>
+  </header>
+
+  <section class="section-tight shell split">
+    <div class="panel">
+      <h2>Confidence Labels</h2>
+      {confidenceLevels.map((level) => (
+        <p><strong>{level.label}:</strong> {level.description}</p>
+      ))}
+    </div>
+    <div class="panel">
+      <h2>Hard Exclusions</h2>
+      <ul>
+        <li>No leaked pre-release footage, image packs, maps, or downloadable copyrighted material.</li>
+        <li>No copied guide text or rewritten thin summaries from other sites.</li>
+        <li>No fake cheat codes, fake money exploits, or GTA Online cheating content.</li>
+        <li>No page that exists only to show ads or target a keyword without original value.</li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+

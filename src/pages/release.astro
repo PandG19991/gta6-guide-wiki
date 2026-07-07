@@ -1,0 +1,78 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ConfidenceBadge from "@components/ConfidenceBadge.astro";
+import { site } from "@data/site";
+import { sourceById } from "@data/sources";
+
+const facts = [
+  ["Release date", "November 19, 2026", "official"],
+  ["Platforms", "PlayStation 5 and Xbox Series X|S", "official"],
+  ["Standard price", "$79.99", "official"],
+  ["Ultimate Edition price", "$99.99", "official"],
+  ["Digital preload", "November 12, 2026", "official"],
+  ["PC release date", "Not officially announced", "official"]
+] as const;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "GTA 6 Release Date, Countdown, and Preload Times",
+  dateModified: site.currentDate,
+  author: { "@type": "Organization", name: site.name },
+  mainEntityOfPage: `${site.url}/release/`
+};
+---
+
+<BaseLayout title="GTA 6 Release Date and Preload Guide" description="Official GTA 6 release date, platforms, preload timing, pricing, and preorder status with source links." schema={schema}>
+  <header class="page-header shell">
+    <div class="page-kicker">Official launch prep</div>
+    <h1 class="page-title">GTA 6 Release Date and Preload Guide</h1>
+    <p class="page-intro">
+      Fast answer: Grand Theft Auto VI is officially scheduled for November 19, 2026 on PS5 and Xbox Series X|S.
+      Digital preloading is currently scheduled for November 12, 2026. PC timing remains unannounced.
+    </p>
+  </header>
+
+  <section class="section-tight shell split">
+    <div class="panel">
+      <h2>Launch Facts</h2>
+      <table class="database-table">
+        <tbody>
+          {facts.map(([label, value, confidence]) => (
+            <tr>
+              <th>{label}</th>
+              <td>{value}</td>
+              <td><ConfidenceBadge value={confidence} /></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div class="panel">
+      <h2>What To Watch Next</h2>
+      <ul>
+        <li>Store page updates for preload timing by region.</li>
+        <li>Any official PC, performance, or PS5 Pro feature statement.</li>
+        <li>Retailer language for boxed versions that include download codes.</li>
+        <li>Rating-board listings and launch marketing details.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-tight shell">
+    <h2 class="page-title">Primary Sources</h2>
+    <div class="source-list">
+      {["rockstar-vi", "take-two-preorders", "rockstar-preorders"].map((id) => {
+        const source = sourceById[id];
+        return (
+          <p>
+            <a href={source.url} rel="nofollow noopener" target="_blank">{source.title}</a>
+            <br />
+            {source.publisher}: {source.notes}
+          </p>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>
+

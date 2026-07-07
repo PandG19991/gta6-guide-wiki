@@ -1,0 +1,59 @@
+---
+interface Props {
+  category: string;
+}
+
+const { category } = Astro.props;
+const icon = category.toLowerCase();
+---
+
+<span class="guide-icon" aria-hidden="true">
+  {icon === "release" && (
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3">
+      <rect x="9" y="11" width="30" height="28"></rect>
+      <path d="M16 7v8M32 7v8M9 20h30"></path>
+      <path d="M19 29h10"></path>
+    </svg>
+  )}
+  {icon === "map" && (
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3">
+      <path d="M8 12 18 8l12 5 10-4v27l-10 4-12-5-10 4V12Z"></path>
+      <path d="M18 8v27M30 13v27"></path>
+    </svg>
+  )}
+  {icon === "vehicles" && (
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3">
+      <path d="M9 27h30l-4-10H13l-4 10Z"></path>
+      <path d="M12 27v9M36 27v9M16 36h16"></path>
+      <circle cx="16" cy="31" r="2"></circle>
+      <circle cx="32" cy="31" r="2"></circle>
+    </svg>
+  )}
+  {icon === "missions" && (
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3">
+      <circle cx="24" cy="24" r="15"></circle>
+      <path d="M24 4v10M24 34v10M4 24h10M34 24h10"></path>
+      <circle cx="24" cy="24" r="4"></circle>
+    </svg>
+  )}
+  {icon === "cheats" && (
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3">
+      <rect x="9" y="13" width="30" height="22"></rect>
+      <path d="M15 20h4M23 20h4M31 20h4M15 28h4M23 28h4M31 28h4"></path>
+    </svg>
+  )}
+  {icon === "characters" && (
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3">
+      <circle cx="24" cy="16" r="7"></circle>
+      <path d="M11 39c2-9 8-14 13-14s11 5 13 14"></path>
+    </svg>
+  )}
+  {(icon === "buying" || icon === "seo") && (
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3">
+      <path d="M10 13h28v22H10z"></path>
+      <path d="M15 20h18M15 27h10"></path>
+      <path d="M34 33 40 39"></path>
+    </svg>
+  )}
+</span>
+

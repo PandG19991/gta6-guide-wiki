@@ -1,0 +1,11 @@
+{
+  "name": "Leonida Ledger",
+  "short_name": "Leonida",
+  "description": "Source-tracked GTA 6 guide hub.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f4ee",
+  "theme_color": "#ef4b3e",
+  "icons": []
+}
+

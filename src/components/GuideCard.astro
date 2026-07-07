@@ -1,0 +1,31 @@
+---
+import ConfidenceBadge from "./ConfidenceBadge.astro";
+import GuideIcon from "./GuideIcon.astro";
+import type { Guide } from "@data/guides";
+
+interface Props {
+  guide: Guide;
+}
+
+const { guide } = Astro.props;
+---
+
+<article
+  class="guide-row"
+  data-guide-card
+  data-category={guide.category}
+  data-intent={guide.intent}
+  data-confidence={guide.confidence}
+  data-search={`${guide.title} ${guide.deck} ${guide.searchTerms.join(" ")}`.toLowerCase()}
+>
+  <GuideIcon category={guide.category} />
+  <div class="guide-main">
+    <h3><a href={`/guides/${guide.slug}/`}>{guide.title.replace("GTA 6 ", "")}</a></h3>
+    <p>{guide.deck}</p>
+  </div>
+  <div class="guide-links">
+    {guide.bullets.slice(0, 3).map((bullet) => <span>{bullet}<b aria-hidden="true">-></b></span>)}
+  </div>
+  <ConfidenceBadge value={guide.confidence} />
+</article>
+

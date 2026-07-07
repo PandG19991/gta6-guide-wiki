@@ -1,0 +1,22 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import GuideCard from "@components/GuideCard.astro";
+import { guides } from "@data/guides";
+---
+
+<BaseLayout title="GTA 6 Guides" description="All Leonida Ledger GTA 6 guides, trackers, launch-week pages, and evergreen database plans.">
+  <header class="page-header shell">
+    <div class="page-kicker">Guide index</div>
+    <h1 class="page-title">GTA 6 Guides</h1>
+    <p class="page-intro">
+      Search-intent pages grouped by what players need now and what will become tested launch-week walkthroughs later.
+    </p>
+  </header>
+
+  <section class="section-tight shell">
+    <div class="guide-list">
+      {guides.map((guide) => <GuideCard guide={guide} />)}
+    </div>
+  </section>
+</BaseLayout>
+

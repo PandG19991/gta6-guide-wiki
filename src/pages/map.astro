@@ -1,0 +1,57 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ConfidenceBadge from "@components/ConfidenceBadge.astro";
+
+const regions = [
+  ["Vice City", "Miami-inspired urban core", "official"],
+  ["Leonida Keys", "Island and coastal region", "official"],
+  ["Grassrivers", "Wetlands region", "official"],
+  ["Port Gellhorn", "Coastal destination", "official"],
+  ["Ambrosia", "Industrial/community region", "official"],
+  ["Mount Kalaga", "Northern/wildland destination", "official"]
+] as const;
+---
+
+<BaseLayout title="GTA 6 Map and Leonida Evidence Tracker" description="A source-tracked GTA 6 map hub for official Leonida regions, trailer-observed details, and future interactive map markers.">
+  <header class="page-header shell">
+    <div class="page-kicker">Map intel</div>
+    <h1 class="page-title">GTA 6 Map and Leonida Evidence Tracker</h1>
+    <p class="page-intro">
+      This is the map hub before launch: official region names are separated from observed trailer details and community theories.
+      The interactive marker layer will only use official or self-verified points after launch.
+    </p>
+  </header>
+
+  <section class="section-tight shell split">
+    <div class="panel">
+      <h2>Official Region Board</h2>
+      <table class="database-table">
+        <thead>
+          <tr>
+            <th>Region</th>
+            <th>Role</th>
+            <th>Confidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          {regions.map(([name, role, confidence]) => (
+            <tr>
+              <td><strong>{name}</strong></td>
+              <td>{role}</td>
+              <td><ConfidenceBadge value={confidence} /></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div class="panel">
+      <h2>Map Product Plan</h2>
+      <ul>
+        <li>Pre-launch: region evidence cards, no leak-hosting, no fake coordinate claims.</li>
+        <li>Launch week: add verified shops, activities, safehouses, early vehicles, and collectible layers.</li>
+        <li>Evergreen: user checklist, filter groups, route notes, and 100% completion path.</li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
