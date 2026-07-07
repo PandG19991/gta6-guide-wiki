@@ -16,15 +16,54 @@ const { guide } = Astro.props;
 const relatedGuides = guides
   .filter((candidate) => candidate.slug !== guide.slug && candidate.category === guide.category)
   .slice(0, 3);
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  headline: guide.title,
-  description: guide.deck,
-  dateModified: guide.updated,
-  author: { "@type": "Organization", name: site.name },
-  mainEntityOfPage: `${site.url}/guides/${guide.slug}/`
-};
+const faqItems = [
+  {
+    question: `What is the short answer for ${guide.title}?`,
+    answer: guide.bullets[0]
+  },
+  {
+    question: `How reliable is this ${guide.category.toLowerCase()} page?`,
+    answer: `This page is marked ${guide.confidence}. It does not treat rumors, leaks, or untested launch-week details as confirmed facts.`
+  },
+  {
+    question: `When will this ${guide.category.toLowerCase()} guide be updated?`,
+    answer: guide.nextUpdate
+  }
+];
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: guide.title,
+    description: guide.deck,
+    datePublished: guide.updated,
+    dateModified: guide.updated,
+    author: { "@type": "Organization", name: site.name },
+    publisher: { "@type": "Organization", name: site.name },
+    mainEntityOfPage: `${site.url}/guides/${guide.slug}/`
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "Guides", item: `${site.url}/guides/` },
+      { "@type": "ListItem", position: 3, name: guide.title, item: `${site.url}/guides/${guide.slug}/` }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer
+      }
+    }))
+  }
+];
 ---
 
 <BaseLayout title={guide.title} description={guide.deck} schema={schema}>
@@ -67,6 +106,18 @@ const schema = {
           </p>
         );
       })}
+    </div>
+  </section>
+
+  <section class="section-tight shell">
+    <h2 class="page-title">Quick FAQ</h2>
+    <div class="faq-list">
+      {faqItems.map((item) => (
+        <details>
+          <summary>{item.question}</summary>
+          <p>{item.answer}</p>
+        </details>
+      ))}
     </div>
   </section>
 

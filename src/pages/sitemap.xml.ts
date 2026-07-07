@@ -17,12 +17,16 @@ const staticPages = [
 
 export const GET: APIRoute = () => {
   const urls = [
-    ...staticPages,
-    ...guides.map((guide) => `/guides/${guide.slug}/`)
+    ...staticPages.map((path) => ({ path, lastmod: site.currentDate, changefreq: "weekly" })),
+    ...guides.map((guide) => ({
+      path: `/guides/${guide.slug}/`,
+      lastmod: guide.updated,
+      changefreq: guide.status === "launch-week" ? "weekly" : "monthly"
+    }))
   ];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
-    .map((path) => `  <url><loc>${new URL(path, site.url).toString()}</loc><lastmod>${site.currentDate}</lastmod></url>`)
+    .map((url) => `  <url><loc>${new URL(url.path, site.url).toString()}</loc><lastmod>${url.lastmod}</lastmod><changefreq>${url.changefreq}</changefreq></url>`)
     .join("\n")}\n</urlset>`;
 
   return new Response(body, {
