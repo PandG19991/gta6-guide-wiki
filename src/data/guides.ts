@@ -15,6 +15,12 @@ export type Guide = {
   bullets: string[];
   nextUpdate: string;
   searchTerms: string[];
+  decisionRows?: Array<{
+    option: string;
+    bestFor: string;
+    status: string;
+    caveat: string;
+  }>;
 };
 
 export const guides: Guide[] = [
@@ -35,7 +41,21 @@ export const guides: Guide[] = [
       "No official PC release date has been announced yet."
     ],
     nextUpdate: "Track store-page changes and any platform-specific preload window updates.",
-    searchTerms: ["gta 6 release date", "gta 6 preload", "gta 6 platforms"]
+    searchTerms: ["gta 6 release date", "gta 6 preload", "gta 6 platforms"],
+    decisionRows: [
+      {
+        option: "PS5 / Xbox Series X|S launch",
+        bestFor: "Console players planning day-one access",
+        status: "Official release date is November 19, 2026, with digital preload scheduled for November 12, 2026.",
+        caveat: "Check final platform store pages close to launch for local timing, preload windows, and file size."
+      },
+      {
+        option: "PC launch",
+        bestFor: "Players waiting for a PC version",
+        status: "No official PC release date is listed in the current launch copy.",
+        caveat: "Do not trust PC preorder or download claims unless they cite Rockstar, Take-Two, or a platform store."
+      }
+    ]
   },
   {
     slug: "gta-6-pre-order-standard-vs-ultimate",
@@ -54,7 +74,27 @@ export const guides: Guide[] = [
       "Digital preorders include one free month of GTA+ according to the current publisher announcement."
     ],
     nextUpdate: "Add retailer availability and region-specific store links only from official or storefront sources.",
-    searchTerms: ["gta 6 pre order", "gta 6 price", "gta 6 ultimate edition"]
+    searchTerms: ["gta 6 pre order", "gta 6 price", "gta 6 ultimate edition"],
+    decisionRows: [
+      {
+        option: "Standard Edition",
+        bestFor: "Players who want the base game at the lowest currently listed price",
+        status: "Publisher announcement lists Standard Edition at $79.99.",
+        caveat: "Wait for final platform store pages before assuming regional tax, bundles, or refund terms."
+      },
+      {
+        option: "Ultimate Edition",
+        bestFor: "Players who know they want the higher-priced edition benefits",
+        status: "Publisher announcement lists Ultimate Edition at $99.99.",
+        caveat: "Do not buy only from the edition name; verify the exact included items on official store pages."
+      },
+      {
+        option: "Wait before preordering",
+        bestFor: "Players unsure about platform, edition contents, or PC availability",
+        status: "Preorder bonus timing is official, but some storefront details are still best checked near launch.",
+        caveat: "Waiting may mean losing time-limited preorder extras if Rockstar keeps the current cutoff."
+      }
+    ]
   },
   {
     slug: "gta-6-map-leonida-regions-evidence-tracker",
@@ -149,7 +189,27 @@ export const guides: Guide[] = [
       "Players who only want the single-player launch can wait for final storefront details before choosing an edition."
     ],
     nextUpdate: "Add platform store links and regional price checks when the storefront pages expose stable public data.",
-    searchTerms: ["gta 6 price", "gta 6 standard edition", "gta 6 ultimate edition price"]
+    searchTerms: ["gta 6 price", "gta 6 standard edition", "gta 6 ultimate edition price"],
+    decisionRows: [
+      {
+        option: "$79.99 Standard Edition",
+        bestFor: "Single-player-first buyers and players who mainly want launch access",
+        status: "Official publisher announcement lists the Standard Edition at $79.99.",
+        caveat: "Final storefront taxes, refunds, and local currency prices should be checked on the platform store."
+      },
+      {
+        option: "$99.99 Ultimate Edition",
+        bestFor: "Buyers who can verify the extra benefits are worth the additional cost",
+        status: "Official publisher announcement lists the Ultimate Edition at $99.99.",
+        caveat: "Avoid assuming value from the word Ultimate; compare the final official item list first."
+      },
+      {
+        option: "Wait for storefront details",
+        bestFor: "Budget-sensitive buyers, PC waiters, and players unsure about edition contents",
+        status: "Core pricing is official, but store-level terms can still matter before purchase.",
+        caveat: "Waiting may affect preorder bonus eligibility if the current bonus window remains unchanged."
+      }
+    ]
   },
   {
     slug: "is-gta-6-coming-to-pc",
@@ -168,7 +228,21 @@ export const guides: Guide[] = [
       "This page will update only when an official PC announcement exists."
     ],
     nextUpdate: "Watch official Rockstar, Take-Two, and storefront pages for a PC platform announcement.",
-    searchTerms: ["is gta 6 coming to pc", "gta 6 pc release date", "gta 6 pc confirmed"]
+    searchTerms: ["is gta 6 coming to pc", "gta 6 pc release date", "gta 6 pc confirmed"],
+    decisionRows: [
+      {
+        option: "Buy on PS5 / Xbox Series X|S",
+        bestFor: "Players who want the officially listed launch platforms",
+        status: "Rockstar and Take-Two currently list PlayStation 5 and Xbox Series X|S for launch.",
+        caveat: "Storefront-specific preload, file size, and feature details still need final store checks."
+      },
+      {
+        option: "Wait for PC",
+        bestFor: "PC-only players or players who prefer mods, keyboard/mouse, or future PC performance settings",
+        status: "No official PC release date is listed on the current official GTA 6 page.",
+        caveat: "Avoid third-party PC preorder, beta, or download claims until an official PC announcement exists."
+      }
+    ]
   },
   {
     slug: "gta-6-platforms-ps5-xbox-series-x-s",
@@ -187,7 +261,27 @@ export const guides: Guide[] = [
       "Storefront-specific download, preload, and performance details should be checked close to launch."
     ],
     nextUpdate: "Add store-page links and any platform-specific feature notes once they are public and stable.",
-    searchTerms: ["gta 6 platforms", "gta 6 ps5", "gta 6 xbox series x"]
+    searchTerms: ["gta 6 platforms", "gta 6 ps5", "gta 6 xbox series x"],
+    decisionRows: [
+      {
+        option: "PlayStation 5",
+        bestFor: "Players already on PS5 or choosing a confirmed console platform",
+        status: "Listed in the current official launch platform copy.",
+        caveat: "Check the PlayStation store close to launch for download size, preload timing, and platform terms."
+      },
+      {
+        option: "Xbox Series X|S",
+        bestFor: "Players already on current Xbox hardware or choosing a confirmed console platform",
+        status: "Listed in the current official launch platform copy.",
+        caveat: "Check the Xbox store close to launch for download size, preload timing, and platform terms."
+      },
+      {
+        option: "PC / last-gen / Nintendo",
+        bestFor: "Players who do not want to buy on the currently listed launch consoles",
+        status: "Not listed as launch platforms in the current official launch copy.",
+        caveat: "Treat dates, store pages, and download links as unconfirmed unless Rockstar, Take-Two, or a platform store publishes them."
+      }
+    ]
   },
   {
     slug: "gta-6-preload-download-size-prep",
@@ -206,7 +300,27 @@ export const guides: Guide[] = [
       "Players should keep console storage, account access, and payment details ready before preload week."
     ],
     nextUpdate: "Add PS5 and Xbox file size, version number, and preload windows when official store metadata appears.",
-    searchTerms: ["gta 6 preload", "gta 6 download size", "gta 6 physical download code"]
+    searchTerms: ["gta 6 preload", "gta 6 download size", "gta 6 physical download code"],
+    decisionRows: [
+      {
+        option: "Digital preorder",
+        bestFor: "Players who want the simplest preload path",
+        status: "Digital preloading is scheduled to begin November 12, 2026.",
+        caveat: "Final file size and exact platform timing still need official store metadata."
+      },
+      {
+        option: "Physical box with download code",
+        bestFor: "Collectors or gift buyers who still want launch-week preload support",
+        status: "Current publisher copy describes the physical version as containing a download code available November 12, 2026.",
+        caveat: "Retailer delivery or pickup timing can still affect when the code is actually in hand."
+      },
+      {
+        option: "Storage prep",
+        bestFor: "Anyone with limited console storage or slow internet",
+        status: "Final file size is not treated as confirmed yet.",
+        caveat: "Keep free space, account access, payment status, and console updates ready before preload week."
+      }
+    ]
   },
   {
     slug: "gta-6-gta-plus-preorder-benefit",
@@ -225,7 +339,27 @@ export const guides: Guide[] = [
       "Physical buyers should verify retailer and platform terms because the free month is tied to digital preorders in the announcement."
     ],
     nextUpdate: "Add exact redemption flow and renewal terms when platform store pages expose them clearly.",
-    searchTerms: ["gta 6 gta plus", "gta 6 preorder gta+", "gta 6 digital preorder bonus"]
+    searchTerms: ["gta 6 gta plus", "gta 6 preorder gta+", "gta 6 digital preorder bonus"],
+    decisionRows: [
+      {
+        option: "Digital preorder with GTA+ month",
+        bestFor: "Players who already use or want to test GTA+ around launch",
+        status: "Publisher announcement lists one free month of GTA+ for digital preorders.",
+        caveat: "Check renewal, cancellation, and platform account terms before redeeming."
+      },
+      {
+        option: "Physical purchase",
+        bestFor: "Players who prefer a box or retailer purchase",
+        status: "The free month is described around digital preorders in the current announcement.",
+        caveat: "Verify retailer and platform terms before assuming the same subscription benefit applies."
+      },
+      {
+        option: "Ignore the subscription bonus",
+        bestFor: "Players buying only for GTA 6 story access",
+        status: "The current benefit language does not confirm a GTA 6 Online feature list.",
+        caveat: "Do not overvalue the bonus until Rockstar explains launch-era online services clearly."
+      }
+    ]
   },
   {
     slug: "gta-6-physical-vs-digital-preorder",
@@ -244,7 +378,27 @@ export const guides: Guide[] = [
       "Physical buyers should verify retailer delivery timing if launch-night access matters."
     ],
     nextUpdate: "Add retailer-specific pickup, delivery, and code-redemption notes only from public retailer pages.",
-    searchTerms: ["gta 6 physical vs digital", "gta 6 physical edition", "gta 6 download code"]
+    searchTerms: ["gta 6 physical vs digital", "gta 6 physical edition", "gta 6 download code"],
+    decisionRows: [
+      {
+        option: "Digital preorder",
+        bestFor: "Launch-night access, automatic preload, and fewer retailer timing variables",
+        status: "Digital preorders are currently the cleanest path for November 12 preload.",
+        caveat: "Read platform refund rules before preloading."
+      },
+      {
+        option: "Physical download-code box",
+        bestFor: "Collectors, gift buyers, or players who prefer retailer purchases",
+        status: "Publisher copy describes the physical version as a box with a download code.",
+        caveat: "Delivery, pickup time, and code redemption can affect launch access."
+      },
+      {
+        option: "Wait after launch",
+        bestFor: "Players prioritizing reviews, performance reports, or final edition details",
+        status: "Waiting avoids preorder uncertainty.",
+        caveat: "You may miss preorder timing or launch-week preload convenience."
+      }
+    ]
   },
   {
     slug: "gta-6-vintage-vice-city-pack",
@@ -263,7 +417,21 @@ export const guides: Guide[] = [
       "This site will not claim exclusive items beyond what official copy confirms."
     ],
     nextUpdate: "Add the official item list and platform terms when Rockstar exposes stable edition detail pages.",
-    searchTerms: ["vintage vice city pack", "gta 6 preorder bonus", "gta 6 bonus items"]
+    searchTerms: ["vintage vice city pack", "gta 6 preorder bonus", "gta 6 bonus items"],
+    decisionRows: [
+      {
+        option: "Buy inside the bonus window",
+        bestFor: "Players who know they want GTA 6 and value preorder cosmetics or extras",
+        status: "Take-Two says preorders and purchases before November 20, 2026 include the pack.",
+        caveat: "Verify the exact item list on official edition pages before treating the pack as a major value driver."
+      },
+      {
+        option: "Wait for more detail",
+        bestFor: "Players who care more about reviews, performance, or final edition contents",
+        status: "The pack name and timing are official, but item-level value still needs stable official detail.",
+        caveat: "Waiting past the cutoff could mean losing the preorder bonus if terms stay the same."
+      }
+    ]
   },
   {
     slug: "gta-6-trailer-2-breakdown-evidence",

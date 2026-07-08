@@ -17,6 +17,7 @@ const relatedGuides = guides
   .filter((candidate) => candidate.slug !== guide.slug && candidate.category === guide.category)
   .slice(0, 3);
 const firstAnswer = guide.bullets[0];
+const decisionRows = guide.decisionRows ?? [];
 const verificationPlan = [
   {
     label: "Current proof",
@@ -128,6 +129,32 @@ const schema = [
       </p>
     </aside>
   </section>
+
+  {decisionRows.length > 0 && (
+    <section class="section-tight shell">
+      <h2 class="page-title">Decision Table</h2>
+      <table class="source-table decision-table">
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Best for</th>
+            <th>Current status</th>
+            <th>Caveat</th>
+          </tr>
+        </thead>
+        <tbody>
+          {decisionRows.map((row) => (
+            <tr>
+              <td><strong>{row.option}</strong></td>
+              <td>{row.bestFor}</td>
+              <td>{row.status}</td>
+              <td>{row.caveat}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+  )}
 
   <section class="section-tight shell">
     <h2 class="page-title">Source Ledger</h2>

@@ -615,6 +615,14 @@ select {
   color: var(--muted);
 }
 
+.decision-table td {
+  line-height: 1.48;
+}
+
+.decision-table td:first-child {
+  min-width: 180px;
+}
+
 .mono {
   font-family: var(--font-mono);
 }
