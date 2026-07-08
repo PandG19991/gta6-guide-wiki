@@ -1,0 +1,88 @@
+---
+import Gta6Rail from "@components/Gta6Rail.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { sourceById } from "@data/sources";
+import { vehicleDatabaseRows } from "@data/gta6";
+import { site } from "@data/site";
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "GTA 6 Vehicle Database",
+    description: "A source-labeled GTA 6 vehicle category database that tracks observed classes and launch-week verification needs.",
+    url: `${site.url}/gta-6/database/vehicles/`
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "GTA 6", item: `${site.url}/gta-6/` },
+      { "@type": "ListItem", position: 3, name: "Database", item: `${site.url}/gta-6/database/` },
+      { "@type": "ListItem", position: 4, name: "Vehicles", item: `${site.url}/gta-6/database/vehicles/` }
+    ]
+  }
+];
+---
+
+<BaseLayout
+  title="GTA 6 Vehicle Database"
+  description="GTA 6 vehicle database with proof-labeled categories, source notes, and launch-week testing targets without unverified model spam."
+  schema={schema}
+>
+  <header class="page-header shell">
+    <div class="page-kicker">Vehicles database</div>
+    <h1 class="page-title">GTA 6 Vehicle Database</h1>
+    <p class="page-intro">
+      A conservative vehicle list for search users: vehicle categories we can responsibly track now, and exactly what must be tested at launch.
+    </p>
+  </header>
+
+  <Gta6Rail />
+
+  <section class="section-tight shell">
+    <table class="source-table vehicle-table">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Status</th>
+          <th>Proof note</th>
+          <th>Launch use</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        {vehicleDatabaseRows.map((row) => {
+          const source = sourceById[row.sourceId];
+          return (
+            <tr>
+              <td data-label="Category"><strong><a href={row.page}>{row.category}</a></strong></td>
+              <td data-label="Status"><span class={`badge ${row.status.toLowerCase()}`}>{row.status}</span></td>
+              <td data-label="Proof note">{row.proof}</td>
+              <td data-label="Launch use">{row.launchUse}</td>
+              <td data-label="Source"><a href={source.url} target="_blank" rel="nofollow noopener">{source.publisher}</a></td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section-tight shell split">
+    <article class="panel">
+      <h2>Why no model spam?</h2>
+      <p>
+        GTABase can publish hundreds of vehicle entries because it has an older database graph and a different media policy. This site waits for official names or repeatable launch tests before opening model pages.
+      </p>
+    </article>
+    <article class="panel">
+      <h2>Launch checklist</h2>
+      <ul>
+        <li>Record class, handling, storage, and acquisition path.</li>
+        <li>Separate story mode, online, preorder, and mission-locked vehicles.</li>
+        <li>Attach source, platform, date, and repeatability to every claim.</li>
+      </ul>
+    </article>
+  </section>
+</BaseLayout>

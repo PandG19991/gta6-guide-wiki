@@ -3,6 +3,10 @@ import BrandMark from "./BrandMark.astro";
 import { navItems, site } from "@data/site";
 
 const currentPath = Astro.url.pathname;
+const isCurrent = (href: string) => {
+  if (href === "/gta-6/") return currentPath === href || (currentPath.startsWith(href) && !currentPath.startsWith("/gta-6/database/"));
+  return currentPath === href || (href !== "/" && currentPath.startsWith(href));
+};
 ---
 
 <header class="site-header">
@@ -13,7 +17,7 @@ const currentPath = Astro.url.pathname;
     </a>
     <nav class="main-nav" aria-label="Primary navigation">
       {navItems.map((item) => (
-        <a href={item.href} aria-current={currentPath.startsWith(item.href) ? "page" : undefined}>
+        <a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
           {item.label}
         </a>
       ))}

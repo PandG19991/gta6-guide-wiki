@@ -15,6 +15,25 @@ const requiredEvidenceTables = [
 ];
 
 const failures = [];
+const requiredBuiltPages = [
+  ["dist/gta-6/index.html", ["GTA 6 Database Hub", "Database Surface", "Confirmed Features"]],
+  ["dist/gta-6/features/index.html", ["GTA 6 Features Confirmed So Far", "Release Information", "Vehicles and Driving"]],
+  ["dist/gta-6/database/index.html", ["GTA 6 Database", "Vehicles", "Update trigger"]],
+  ["dist/gta-6/database/vehicles/index.html", ["GTA 6 Vehicle Database", "Why no model spam?", "Launch checklist"]]
+];
+
+for (const [file, requiredText] of requiredBuiltPages) {
+  if (!existsSync(file)) {
+    failures.push(`${file}: missing built page`);
+    continue;
+  }
+
+  const html = readFileSync(file, "utf8");
+  for (const text of requiredText) {
+    if (!html.includes(text)) failures.push(`${file}: missing required text ${text}`);
+  }
+  if (html.includes(">undefined<")) failures.push(`${file}: contains undefined output`);
+}
 
 for (const [slug, minRows] of requiredEvidenceTables) {
   const file = join("dist", "guides", slug, "index.html");
@@ -42,10 +61,18 @@ for (const [slug, minRows] of requiredEvidenceTables) {
   if (!tableHtml.includes('rel="nofollow noopener"')) failures.push(`${slug}: source links should be nofollow noopener`);
 }
 
+const vehiclePage = "dist/gta-6/database/vehicles/index.html";
+if (existsSync(vehiclePage)) {
+  const html = readFileSync(vehiclePage, "utf8");
+  const rowCount = (html.match(/<tr>/g) ?? []).length - 1;
+  if (rowCount < 6) failures.push(`${vehiclePage}: expected at least 6 vehicle rows, found ${rowCount}`);
+  if (!html.includes('rel="nofollow noopener"')) failures.push(`${vehiclePage}: source links should be nofollow noopener`);
+}
+
 if (failures.length) {
   console.error("Content quality check failed:");
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log(`Content quality check passed: ${requiredEvidenceTables.length} evidence tables.`);
+console.log(`Content quality check passed: ${requiredEvidenceTables.length} evidence tables and ${requiredBuiltPages.length} P0 pages.`);

@@ -1,0 +1,98 @@
+---
+import Gta6Rail from "@components/Gta6Rail.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ConfidenceBadge from "@components/ConfidenceBadge.astro";
+import { gta6DatabaseCards, gta6FeatureSections, gta6HubStats } from "@data/gta6";
+import { site } from "@data/site";
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "GTA 6 Hub",
+    description: "A source-labeled GTA 6 hub for confirmed release facts, features, database rows, and launch-week testing.",
+    url: `${site.url}/gta-6/`
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "GTA 6", item: `${site.url}/gta-6/` }
+    ]
+  }
+];
+---
+
+<BaseLayout
+  title="GTA 6 Database Hub"
+  description="A clean GTA 6 hub for confirmed features, release facts, database categories, vehicle tracking, and source-labeled launch guides."
+  schema={schema}
+>
+  <header class="page-header shell hub-header">
+    <div>
+      <div class="page-kicker">GTA 6 hub</div>
+      <h1 class="page-title">GTA 6 Database Hub</h1>
+      <p class="page-intro">
+        A source-labeled entry point for release facts, confirmed features, database categories, vehicle tracking, and launch-week guides.
+      </p>
+    </div>
+    <div class="hub-actions">
+      <a class="button" href="/gta-6/features/">Confirmed Features</a>
+      <a class="button secondary" href="/gta-6/database/">Open Database</a>
+    </div>
+  </header>
+
+  <Gta6Rail />
+
+  <section class="section-tight shell">
+    <div class="stats-grid">
+      {gta6HubStats.map((stat) => (
+        <article class="stat-card">
+          <strong class="meta-label">{stat.label}</strong>
+          <p>{stat.value}</p>
+          <span>{stat.detail}</span>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-tight shell">
+    <div class="section-heading">
+      <h2>Confirmed Features</h2>
+      <p>GTABase wins with database breadth. Our answer is smaller but stricter: every feature cluster carries a confidence label and a source path.</p>
+    </div>
+    <div class="feature-grid">
+      {gta6FeatureSections.slice(0, 4).map((section) => (
+        <article class="content-card compact-card">
+          <div class="card-meta"><ConfidenceBadge value={section.confidence} /></div>
+          <h3><a href={section.href}>{section.title}</a></h3>
+          <p>{section.points[0]}</p>
+        </article>
+      ))}
+    </div>
+    <div class="section-actions">
+      <a class="button secondary" href="/gta-6/features/">View all feature evidence</a>
+    </div>
+  </section>
+
+  <section class="section-tight shell">
+    <div class="section-heading">
+      <h2>Database Surface</h2>
+      <p>Vehicles, characters, locations, editions, cheats, and missions stay as structured categories until individual pages have enough proof.</p>
+    </div>
+    <div class="content-grid">
+      {gta6DatabaseCards.map((card) => (
+        <article class="content-card">
+          <div class="card-meta">
+            <ConfidenceBadge value={card.confidence} />
+            <span class="badge unconfirmed">{card.count} records</span>
+          </div>
+          <h3><a href={card.href}>{card.title}</a></h3>
+          <p>{card.deck}</p>
+          <p><strong>Next:</strong> {card.nextUpdate}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

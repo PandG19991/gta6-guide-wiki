@@ -1,0 +1,68 @@
+---
+import Gta6Rail from "@components/Gta6Rail.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ConfidenceBadge from "@components/ConfidenceBadge.astro";
+import { gta6FeatureSections } from "@data/gta6";
+import { sourceById } from "@data/sources";
+import { site } from "@data/site";
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "GTA 6 Features Confirmed So Far",
+    description: "A source-labeled feature guide for GTA 6 release, platforms, Leonida, characters, vehicles, editions, cheats, and launch testing.",
+    datePublished: site.currentDate,
+    dateModified: site.currentDate,
+    author: { "@type": "Organization", name: site.name },
+    publisher: { "@type": "Organization", name: site.name },
+    mainEntityOfPage: `${site.url}/gta-6/features/`
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "GTA 6", item: `${site.url}/gta-6/` },
+      { "@type": "ListItem", position: 3, name: "Features", item: `${site.url}/gta-6/features/` }
+    ]
+  }
+];
+---
+
+<BaseLayout
+  title="GTA 6 Features Confirmed So Far"
+  description="Source-labeled GTA 6 features guide covering release, platforms, Leonida, characters, vehicles, editions, cheats, and launch testing."
+  schema={schema}
+>
+  <header class="page-header shell">
+    <div class="page-kicker">Confirmed so far</div>
+    <h1 class="page-title">GTA 6 Features Confirmed So Far</h1>
+    <p class="page-intro">
+      This is the non-leak version of a GTA 6 features mega page: official facts first, observed evidence second, and launch-week unknowns clearly marked.
+    </p>
+  </header>
+
+  <Gta6Rail />
+
+  <section class="section-tight shell">
+    <div class="feature-list">
+      {gta6FeatureSections.map((section) => {
+        const source = sourceById[section.sourceId];
+        return (
+          <article class="feature-panel">
+            <div class="card-meta"><ConfidenceBadge value={section.confidence} /></div>
+            <h2>{section.title}</h2>
+            <ul>
+              {section.points.map((point) => <li>{point}</li>)}
+            </ul>
+            <p class="source-note">
+              Primary source: <a href={source.url} target="_blank" rel="nofollow noopener">{source.publisher}</a>
+            </p>
+            <a class="button secondary" href={section.href}>Open related guide</a>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>

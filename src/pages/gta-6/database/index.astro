@@ -1,0 +1,58 @@
+---
+import Gta6Rail from "@components/Gta6Rail.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ConfidenceBadge from "@components/ConfidenceBadge.astro";
+import { gta6DatabaseCards } from "@data/gta6";
+import { site } from "@data/site";
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "GTA 6 Database",
+    description: "Structured GTA 6 database categories for vehicles, characters, locations, editions, cheats, missions, and evidence status.",
+    url: `${site.url}/gta-6/database/`
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "GTA 6", item: `${site.url}/gta-6/` },
+      { "@type": "ListItem", position: 3, name: "Database", item: `${site.url}/gta-6/database/` }
+    ]
+  }
+];
+---
+
+<BaseLayout
+  title="GTA 6 Database"
+  description="Structured GTA 6 database hub for vehicles, characters, locations, editions, cheats, missions, and source confidence."
+  schema={schema}
+>
+  <header class="page-header shell">
+    <div class="page-kicker">Database</div>
+    <h1 class="page-title">GTA 6 Database</h1>
+    <p class="page-intro">
+      A database surface built for guide depth, not thin item spam. Categories open into detail pages only when official or tested proof exists.
+    </p>
+  </header>
+
+  <Gta6Rail />
+
+  <section class="section-tight shell">
+    <div class="database-category-grid">
+      {gta6DatabaseCards.map((section) => (
+        <article class="database-category-card">
+          <div class="card-meta">
+            <ConfidenceBadge value={section.confidence} />
+            <span class="badge unconfirmed">{section.count} records</span>
+          </div>
+          <h2><a href={section.href}>{section.title}</a></h2>
+          <p>{section.deck}</p>
+          <p><strong>Update trigger:</strong> {section.nextUpdate}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

@@ -4,10 +4,13 @@ import { guideCategoryMeta, guides } from "@data/guides";
 
 const staticPages = [
   "/",
+  "/gta-6/",
+  "/gta-6/features/",
+  "/gta-6/database/",
+  "/gta-6/database/vehicles/",
   "/release/",
   "/map/",
   "/guides/",
-  "/database/",
   "/updates/",
   "/sources/",
   "/editorial-policy/",

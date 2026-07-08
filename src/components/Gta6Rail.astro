@@ -1,0 +1,13 @@
+---
+import { gta6RailItems } from "@data/gta6";
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="gta-rail shell" aria-label="GTA 6 database sections">
+  {gta6RailItems.map((item) => (
+    <a href={item.href} aria-current={currentPath === item.href ? "page" : undefined}>
+      {item.label}
+    </a>
+  ))}
+</nav>

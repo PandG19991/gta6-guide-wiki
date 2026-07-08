@@ -1,32 +1,21 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import ConfidenceBadge from "@components/ConfidenceBadge.astro";
-import { databaseSections } from "@data/database";
+import { site } from "@data/site";
 ---
 
-<BaseLayout title="GTA 6 Database" description="Structured GTA 6 database hub for people, places, vehicles, missions, cheats, and evidence status.">
+<BaseLayout
+  title="GTA 6 Database Entry"
+  description="Legacy database entry for Leonida Ledger. The current GTA 6 database hub now lives under the GTA 6 section."
+  canonical={`${site.url}/gta-6/database/`}
+>
   <header class="page-header shell">
-    <div class="page-kicker">Database</div>
+    <div class="page-kicker">Database moved</div>
     <h1 class="page-title">GTA 6 Database</h1>
     <p class="page-intro">
-      The database exists to support useful guide pages and internal links. Empty categories stay empty until official or tested data exists.
+      The current database hub is now organized under the GTA 6 section so the content tree matches player search paths.
     </p>
-  </header>
-
-  <section class="section-tight shell">
-    <div class="content-grid">
-      {databaseSections.map((section) => (
-        <article class="content-card">
-          <div class="card-meta">
-            <ConfidenceBadge value={section.confidence} />
-            <span class="badge unconfirmed">{section.count} records</span>
-          </div>
-          <h3>{section.title}</h3>
-          <p><strong>Fields:</strong> {section.fields.join(", ")}</p>
-          <p>{section.records.length ? section.records.join(" / ") : "No public records yet. This category opens after official or hands-on verification."}</p>
-        </article>
-      ))}
+    <div class="section-actions">
+      <a class="button" href="/gta-6/database/">Open the GTA 6 database</a>
     </div>
-  </section>
+  </header>
 </BaseLayout>
-

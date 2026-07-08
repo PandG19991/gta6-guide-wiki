@@ -10,10 +10,11 @@ export const site = {
 };
 
 export const navItems = [
+  { label: "GTA 6", href: "/gta-6/" },
   { label: "Release", href: "/release/" },
   { label: "Map", href: "/map/" },
   { label: "Guides", href: "/guides/" },
-  { label: "Database", href: "/database/" },
+  { label: "Database", href: "/gta-6/database/" },
   { label: "Updates", href: "/updates/" },
   { label: "Sources", href: "/sources/" }
 ];
