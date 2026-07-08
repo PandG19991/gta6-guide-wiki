@@ -22,6 +22,34 @@ const {
 
 const pageTitle = title === site.name ? site.name : `${title} | ${site.name}`;
 const absoluteImage = new URL(image, site.url).toString();
+const imageAlt = "Leonida Ledger source-tracked GTA 6 guide dossier";
+const pageSchema = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+const hasPageWebSiteSchema = pageSchema.some((item) => (item as { "@type"?: unknown })["@type"] === "WebSite");
+const siteSchema: Record<string, unknown>[] = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: site.name,
+    url: site.url,
+    logo: new URL("/favicon.svg", site.url).toString()
+  }
+];
+if (!hasPageWebSiteSchema) {
+  siteSchema.push({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.name,
+    url: site.url,
+    description: site.description,
+    inLanguage: "en-US",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${site.url}/guides/?q={search_term_string}`,
+      "query-input": "required name=search_term_string"
+    }
+  });
+}
+const jsonLd = [...siteSchema, ...pageSchema];
 ---
 
 <!doctype html>
@@ -40,13 +68,17 @@ const absoluteImage = new URL(image, site.url).toString();
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={absoluteImage} />
+    <meta property="og:image:width" content="1672" />
+    <meta property="og:image:height" content="941" />
+    <meta property="og:image:alt" content={imageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={absoluteImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="/site.webmanifest" />
-    {schema && <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />}
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
     <Header />
