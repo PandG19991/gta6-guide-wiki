@@ -15,6 +15,18 @@ const schema = [
   },
   {
     "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "GTA 6 vehicle categories",
+    numberOfItems: vehicleDatabaseRows.length,
+    itemListElement: vehicleDatabaseRows.map((row, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: row.category,
+      url: `${site.url}${row.page}`
+    }))
+  },
+  {
+    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: site.url },
