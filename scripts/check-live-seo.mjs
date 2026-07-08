@@ -50,6 +50,11 @@ const sitemap = fetchText(`${base}/sitemap.xml`);
 const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
 if (urls.length < 40) fail(`sitemap has too few URLs: ${urls.length}`);
 
+const feed = fetchText(`${base}/feed.xml`);
+const feedItems = (feed.match(/<item>/g) ?? []).length;
+if (!feed.includes("<rss version=\"2.0\">")) fail("feed.xml must be RSS 2.0");
+if (feedItems < 20) fail(`feed.xml has too few items: ${feedItems}`);
+
 const sitemapSet = new Set(urls);
 for (const path of corePaths) {
   const url = `${base}${path}`;
@@ -69,6 +74,7 @@ for (const path of corePaths) {
   if (!html.includes(`<link rel="canonical" href="${url}"`)) fail(`${url}: missing matching canonical`);
   if (/<meta name="robots" content="[^"]*noindex/i.test(html)) fail(`${url}: contains noindex`);
   if (!html.includes('type="application/ld+json"')) fail(`${url}: missing JSON-LD`);
+  if (!html.includes('rel="alternate" type="application/rss+xml"')) fail(`${url}: missing RSS alternate link`);
 }
 
 console.log(`Live SEO check passed: ${urls.length} sitemap URLs at ${base}.`);
