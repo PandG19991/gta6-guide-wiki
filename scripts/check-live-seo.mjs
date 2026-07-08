@@ -9,6 +9,10 @@ if (!base) throw new Error("Missing site URL. Set SITE_URL or src/data/site.ts s
 
 const corePaths = [
   "/",
+  "/gta-6/",
+  "/gta-6/features/",
+  "/gta-6/database/",
+  "/gta-6/database/vehicles/",
   "/guides/",
   "/release/",
   "/guides/is-gta-6-coming-to-pc/",
@@ -26,6 +30,8 @@ const fetchText = (url) => {
       "--silent",
       "--show-error",
       "--location",
+      "--header",
+      "Cache-Control: no-cache",
       "--max-time",
       "30",
       url
