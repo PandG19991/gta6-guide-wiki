@@ -1008,6 +1008,86 @@ export const guideEvidenceRows: Record<string, EvidenceRow[]> = {
       sourceId: "rockstar-copyright"
     }
   ],
+  "gta-6-vice-city-location-guide": [
+    {
+      claim: "Official setting",
+      status: "Official",
+      proof: "Rockstar's Leonida page presents Vice City as an official GTA 6 destination inside Leonida.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Launch context",
+      status: "Official",
+      proof: "The current official GTA 6 page frames Vice City and Leonida as the public setting context for the game.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Neighborhood restraint",
+      status: "Analysis",
+      proof: "The page does not publish neighborhood, shop, collectible, or activity claims before official or tested location data exists.",
+      sourceId: "rockstar-leonida"
+    }
+  ],
+  "gta-6-leonida-keys-location-guide": [
+    {
+      claim: "Official destination name",
+      status: "Official",
+      proof: "Leonida Keys is listed as an official destination on Rockstar's Leonida page.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Character tie",
+      status: "Official",
+      proof: "Jason's official profile connects him to the Keys and local drug runners.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Marker restraint",
+      status: "Analysis",
+      proof: "Activity, property, and vehicle-spawn claims remain out until official material or launch-week testing supports them.",
+      sourceId: "rockstar-leonida"
+    }
+  ],
+  "gta-6-grassrivers-location-guide": [
+    {
+      claim: "Official destination name",
+      status: "Official",
+      proof: "Grassrivers is listed as an official destination on Rockstar's Leonida page.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Boundary restraint",
+      status: "Analysis",
+      proof: "The current page treats the destination name as confirmed without claiming the full map boundary.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Collectible restraint",
+      status: "Analysis",
+      proof: "Collectible, wildlife, route, and activity notes wait for official detail or launch-week testing.",
+      sourceId: "rockstar-leonida"
+    }
+  ],
+  "gta-6-port-gellhorn-location-guide": [
+    {
+      claim: "Official destination name",
+      status: "Official",
+      proof: "Port Gellhorn appears as an official destination name on Rockstar's Leonida page.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Layout restraint",
+      status: "Analysis",
+      proof: "The page does not infer city layout, economy, mission chains, or activity density before launch.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Future proof path",
+      status: "Analysis",
+      proof: "Missions, vehicles, activities, and collectibles will be added only when official material or tested gameplay supports them.",
+      sourceId: "rockstar-leonida"
+    }
+  ],
   "how-to-avoid-gta-6-spoilers-before-launch": [
     {
       claim: "Official-source path",

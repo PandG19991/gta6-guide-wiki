@@ -12,6 +12,10 @@ const requiredEvidenceTables = [
   ["gta-6-physical-vs-digital-preorder", 3],
   ["gta-6-vintage-vice-city-pack", 3],
   ["gta-6-trailer-2-breakdown-evidence", 3],
+  ["gta-6-vice-city-location-guide", 3],
+  ["gta-6-leonida-keys-location-guide", 3],
+  ["gta-6-grassrivers-location-guide", 3],
+  ["gta-6-port-gellhorn-location-guide", 3],
   ["how-to-avoid-gta-6-spoilers-before-launch", 3],
   ["gta-6-domain-strategy-fan-site-seo", 3]
 ];
