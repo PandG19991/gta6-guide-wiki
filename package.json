@@ -10,6 +10,7 @@
     "check:indexability": "node scripts/check-indexability.mjs",
     "check:links": "node scripts/check-links.mjs",
     "check:content": "node scripts/check-content-quality.mjs",
+    "check:live-seo": "node scripts/check-live-seo.mjs",
     "preview": "astro preview --host 127.0.0.1",
     "deploy": "npm run build && npm run check:metadata && npm run check:indexability && npm run check:links && npm run check:content && wrangler deploy"
   },
