@@ -53,3 +53,27 @@ for (const slug of guideDirs) {
   if (!articleSchema?.image) throw new Error(`${file}: missing Article image`);
   if (articleSchema.inLanguage !== "en-US") throw new Error(`${file}: missing Article inLanguage`);
 }
+
+const categoryDirs = readdirSync("dist/guides/category", { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name);
+
+for (const slug of categoryDirs) {
+  const file = `dist/guides/category/${slug}/index.html`;
+  const html = readFileSync(file, "utf8");
+  const json = html.match(/<script type="application\/ld\+json">(.*?)<\/script>/)?.[1];
+  if (!json) throw new Error(`${file}: missing JSON-LD`);
+
+  const schema = JSON.parse(json);
+  const types = schema.map((item) => item["@type"]);
+  for (const type of ["CollectionPage", "BreadcrumbList"]) {
+    if (!types.includes(type)) throw new Error(`${file}: missing ${type} schema`);
+  }
+
+  const collectionSchema = schema.find((item) => item["@type"] === "CollectionPage");
+  const itemList = collectionSchema?.mainEntity;
+  if (itemList?.["@type"] !== "ItemList") throw new Error(`${file}: missing CollectionPage mainEntity ItemList`);
+  if (!Array.isArray(itemList.itemListElement) || itemList.itemListElement.length === 0) {
+    throw new Error(`${file}: missing category ItemList entries`);
+  }
+}
