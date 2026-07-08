@@ -16,6 +16,10 @@ const requiredEvidenceTables = [
   ["gta-6-leonida-keys-location-guide", 3],
   ["gta-6-grassrivers-location-guide", 3],
   ["gta-6-port-gellhorn-location-guide", 3],
+  ["gta-6-characters-official-cast", 3],
+  ["gta-6-jason-duval-character-guide", 3],
+  ["gta-6-lucia-caminos-character-guide", 3],
+  ["gta-6-real-dimez-character-guide", 3],
   ["how-to-avoid-gta-6-spoilers-before-launch", 3],
   ["gta-6-domain-strategy-fan-site-seo", 3]
 ];

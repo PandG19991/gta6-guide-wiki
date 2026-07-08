@@ -1088,6 +1088,86 @@ export const guideEvidenceRows: Record<string, EvidenceRow[]> = {
       sourceId: "rockstar-leonida"
     }
   ],
+  "gta-6-characters-official-cast": [
+    {
+      claim: "Official central pair",
+      status: "Official",
+      proof: "Rockstar's Leonida page profiles Jason Duval and Lucia Caminos as the central character pair in the current story setup.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Official supporting profiles",
+      status: "Official",
+      proof: "The same official page also profiles Cal Hampton, Boobie Ike, Dre'Quan Priest, Real Dimez, Raul Bautista, and Brian Heder.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Casting restraint",
+      status: "Analysis",
+      proof: "Voice actor, mission role, and ending claims stay out unless Rockstar, Take-Two, or tested gameplay confirms them.",
+      sourceId: "rockstar-leonida"
+    }
+  ],
+  "gta-6-jason-duval-character-guide": [
+    {
+      claim: "Official profile",
+      status: "Official",
+      proof: "Jason Duval has an official profile on Rockstar's Leonida page.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Keys connection",
+      status: "Official",
+      proof: "Rockstar's bio connects Jason to the Keys and local drug runners.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Story restraint",
+      status: "Analysis",
+      proof: "The page does not claim Jason's full mission arc, voice actor, gameplay abilities, or ending before official or tested evidence exists.",
+      sourceId: "rockstar-leonida"
+    }
+  ],
+  "gta-6-lucia-caminos-character-guide": [
+    {
+      claim: "Official profile",
+      status: "Official",
+      proof: "Lucia Caminos has an official profile on Rockstar's Leonida page.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Official background",
+      status: "Official",
+      proof: "Rockstar's bio connects Lucia to family, prison, and a plan to change her odds.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Story restraint",
+      status: "Analysis",
+      proof: "Gameplay abilities, mission order, relationship outcomes, and endings remain unconfirmed on this site.",
+      sourceId: "rockstar-leonida"
+    }
+  ],
+  "gta-6-real-dimez-character-guide": [
+    {
+      claim: "Official profile",
+      status: "Official",
+      proof: "Real Dimez are officially profiled on Rockstar's Leonida page.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Official music-scene tie",
+      status: "Official",
+      proof: "The official copy links Real Dimez to social media presence, rap tracks, DWNPLY, and Only Raw Records.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Mission restraint",
+      status: "Analysis",
+      proof: "Song lists, radio appearances, exact mission roles, and reward claims remain out until official or tested evidence supports them.",
+      sourceId: "rockstar-leonida"
+    }
+  ],
   "how-to-avoid-gta-6-spoilers-before-launch": [
     {
       claim: "Official-source path",
