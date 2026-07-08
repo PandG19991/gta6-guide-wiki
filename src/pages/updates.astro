@@ -10,9 +10,9 @@ const launchQueue = guides.filter((guide) => guide.status === "launch-week").sli
 const schema = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  name: "Leonida Ledger Updates",
+  name: "GTA 6 News And Guide Updates",
   url: `${site.url}/updates/`,
-  description: "Source-tracked update log and publishing queue for the Leonida Ledger GTA 6 guide hub.",
+  description: "Latest GTA 6 guide updates, source checks, publishing queue, and transparent change log for Leonida Ledger.",
   mainEntity: {
     "@type": "ItemList",
     itemListElement: recentGuides.map((guide, index) => ({
@@ -25,19 +25,42 @@ const schema = {
 };
 ---
 
-<BaseLayout title="Updates" description="Source-tracked GTA 6 guide updates, recent page changes, and the Leonida Ledger publishing queue." schema={schema}>
-  <header class="page-header shell">
-    <div class="page-kicker">Living update log</div>
-    <h1 class="page-title">Updates</h1>
+<BaseLayout title="GTA 6 News And Guide Updates" description="Latest GTA 6 guide updates, source checks, publishing queue, and transparent change log for Leonida Ledger." schema={schema}>
+  <header class="page-header news-header shell">
+    <div class="page-kicker">GTA 6 news desk</div>
+    <h1 class="page-title">GTA 6 News And Guide Updates</h1>
     <p class="page-intro">
-      A public change log for factual updates, source reviews, guide refreshes, and launch-week publishing priorities.
+      Latest guide refreshes, source checks, and launch-week publishing priorities, with the full evidence ledger kept below.
     </p>
   </header>
+
+  <section class="section-tight news-section shell">
+    <div class="section-heading">
+      <h2>Latest GTA 6 News And Guides</h2>
+      <p>Start with the player-facing updates. Each card links to a guide page that can rank, refresh, and grow as official or tested details arrive.</p>
+    </div>
+    <div class="content-grid">
+      {recentGuides.slice(0, 6).map((guide) => (
+        <article class="content-card">
+          <div class="card-meta">
+            <ConfidenceBadge value={guide.confidence} />
+            <span class="badge category">{guide.category}</span>
+          </div>
+          <h3><a href={`/guides/${guide.slug}/`}>{guide.title}</a></h3>
+          <p>{guide.deck}</p>
+          <div class="card-actions">
+            <strong class="meta-label">Updated</strong>
+            <p>{guide.updated} / {guide.status}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
 
   <section class="section-tight shell">
     <div class="section-heading">
       <h2>Source Ledger</h2>
-      <p>Every meaningful factual change should leave a trail: date, confidence, source, and what changed.</p>
+      <p>Every meaningful factual change still leaves a trail: date, confidence, source, and what changed.</p>
     </div>
     <table class="ledger-table">
       <thead>
@@ -59,26 +82,6 @@ const schema = {
         ))}
       </tbody>
     </table>
-  </section>
-
-  <section class="section shell">
-    <div class="section-heading">
-      <h2>Recent Guides</h2>
-      <p>Current high-intent pages available for indexing, internal linking, and RSS subscribers.</p>
-    </div>
-    <div class="content-grid">
-      {recentGuides.map((guide) => (
-        <article class="content-card">
-          <div class="card-meta"><ConfidenceBadge value={guide.confidence} /></div>
-          <h3><a href={`/guides/${guide.slug}/`}>{guide.title}</a></h3>
-          <p>{guide.deck}</p>
-          <div class="card-actions">
-            <strong class="meta-label">Updated</strong>
-            <p>{guide.updated} / {guide.status}</p>
-          </div>
-        </article>
-      ))}
-    </div>
   </section>
 
   <section class="section-tight shell split">

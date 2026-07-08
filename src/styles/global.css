@@ -654,6 +654,11 @@ select {
   color: var(--gray);
 }
 
+.badge.category {
+  background: rgba(22, 22, 22, 0.08);
+  color: var(--ink-soft);
+}
+
 .badge.policy {
   background: rgba(123, 64, 140, 0.14);
   color: #6f3f83;
@@ -925,6 +930,23 @@ select {
 
 .page-header {
   padding-block: clamp(58px, 10vw, 120px) clamp(28px, 6vw, 64px);
+}
+
+.news-header {
+  padding-block: clamp(44px, 7vw, 78px) clamp(22px, 4vw, 38px);
+}
+
+.news-header .page-title,
+.news-section .section-heading h2 {
+  font-size: clamp(2.7rem, 5.8vw, 5rem);
+}
+
+.news-section {
+  padding-top: clamp(24px, 4vw, 42px);
+}
+
+.news-section .section-heading {
+  margin-bottom: clamp(18px, 3vw, 28px);
 }
 
 .page-kicker {

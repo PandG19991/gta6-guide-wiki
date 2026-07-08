@@ -17,6 +17,8 @@ const heroGuideSlugs = [
 const heroGuides = heroGuideSlugs
   .map((slug) => guides.find((guide) => guide.slug === slug))
   .filter((guide): guide is (typeof guides)[number] => Boolean(guide));
+const latestGuides = [...guides].sort((a, b) => b.updated.localeCompare(a.updated)).slice(0, 3);
+const latestUpdates = ledgerUpdates.slice(0, 2);
 
 const schema = {
   "@context": "https://schema.org",
@@ -82,6 +84,34 @@ const schema = {
         <b>Site Mode</b>
         <span>Evidence-first</span>
       </div>
+    </div>
+  </section>
+
+  <section class="section-tight shell">
+    <div class="section-heading">
+      <h2>Latest GTA 6 News And Guides</h2>
+      <p>Fresh source checks, high-intent guides, and launch prep pages for players who want the useful answer first.</p>
+    </div>
+    <div class="content-grid">
+      {latestGuides.map((guide) => (
+        <article class="content-card">
+          <div class="card-meta">
+            <ConfidenceBadge value={guide.confidence} />
+            <span class="badge category">{guide.category}</span>
+          </div>
+          <h3><a href={`/guides/${guide.slug}/`}>{guide.title}</a></h3>
+          <p>{guide.deck}</p>
+          <div class="card-actions">
+            <strong class="meta-label">Updated</strong>
+            <p>{guide.updated} / {guide.status}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+    <div class="section-actions">
+      {latestUpdates.map((update) => (
+        <a class="button secondary" href="/updates/">{update.date}: {update.title}</a>
+      ))}
     </div>
   </section>
 
