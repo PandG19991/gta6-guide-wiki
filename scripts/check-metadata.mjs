@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 
 const pages = [
   { file: "dist/index.html" },
@@ -31,4 +31,25 @@ for (const { file, image, types: requiredTypes = [], article = false } of pages)
   if (!html.includes('property="og:image:width" content="1672"')) throw new Error(`${file}: missing og:image dimensions`);
   if (!html.includes('name="twitter:image:alt"')) throw new Error(`${file}: missing twitter:image:alt`);
   if (image && !html.includes(image)) throw new Error(`${file}: missing expected OG image ${image}`);
+}
+
+const guideDirs = readdirSync("dist/guides", { withFileTypes: true })
+  .filter((entry) => entry.isDirectory() && entry.name !== "category")
+  .map((entry) => entry.name);
+
+for (const slug of guideDirs) {
+  const file = `dist/guides/${slug}/index.html`;
+  const html = readFileSync(file, "utf8");
+  const json = html.match(/<script type="application\/ld\+json">(.*?)<\/script>/)?.[1];
+  if (!json) throw new Error(`${file}: missing JSON-LD`);
+
+  const schema = JSON.parse(json);
+  const types = schema.map((item) => item["@type"]);
+  for (const type of ["Article", "BreadcrumbList", "FAQPage"]) {
+    if (!types.includes(type)) throw new Error(`${file}: missing ${type} schema`);
+  }
+
+  const articleSchema = schema.find((item) => item["@type"] === "Article");
+  if (!articleSchema?.image) throw new Error(`${file}: missing Article image`);
+  if (articleSchema.inLanguage !== "en-US") throw new Error(`${file}: missing Article inLanguage`);
 }
