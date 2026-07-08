@@ -16,6 +16,21 @@ const { guide } = Astro.props;
 const relatedGuides = guides
   .filter((candidate) => candidate.slug !== guide.slug && candidate.category === guide.category)
   .slice(0, 3);
+const firstAnswer = guide.bullets[0];
+const verificationPlan = [
+  {
+    label: "Current proof",
+    value: `${guide.sourceIds.length} source${guide.sourceIds.length === 1 ? "" : "s"} / ${guide.confidence} confidence`
+  },
+  {
+    label: "Search phase",
+    value: `${guide.intent} / ${guide.status}`
+  },
+  {
+    label: "Update trigger",
+    value: guide.nextUpdate
+  }
+];
 const faqItems = [
   {
     question: `What is the short answer for ${guide.title}?`,
@@ -73,6 +88,27 @@ const schema = [
     <p class="page-intro">{guide.deck}</p>
   </header>
 
+  <section class="section-tight shell">
+    <div class="snapshot-grid" aria-label="Answer snapshot">
+      <article class="snapshot-card primary">
+        <strong class="meta-label">Short answer</strong>
+        <p>{firstAnswer}</p>
+      </article>
+      <article class="snapshot-card">
+        <strong class="meta-label">Confidence</strong>
+        <p><ConfidenceBadge value={guide.confidence} /></p>
+      </article>
+      <article class="snapshot-card">
+        <strong class="meta-label">Last updated</strong>
+        <p class="mono">{guide.updated}</p>
+      </article>
+      <article class="snapshot-card">
+        <strong class="meta-label">Source count</strong>
+        <p>{guide.sourceIds.length}</p>
+      </article>
+    </div>
+  </section>
+
   <section class="section-tight shell split">
     <article class="panel">
       <h2>Current Answer</h2>
@@ -106,6 +142,19 @@ const schema = [
           </p>
         );
       })}
+    </div>
+  </section>
+
+  <section class="section-tight shell">
+    <h2 class="page-title">Verification Plan</h2>
+    <div class="source-list">
+      {verificationPlan.map((item) => (
+        <p>
+          <strong>{item.label}</strong>
+          <br />
+          {item.value}
+        </p>
+      ))}
     </div>
   </section>
 
