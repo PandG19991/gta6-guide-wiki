@@ -7,6 +7,17 @@ import { guides } from "@data/guides";
 import { ledgerUpdates } from "@data/updates";
 import { contentClusters, competitorPatterns } from "@data/contentPlan";
 
+const heroGuideSlugs = [
+  "gta-6-release-date-countdown-preload",
+  "is-gta-6-coming-to-pc",
+  "gta-6-pre-order-standard-vs-ultimate",
+  "gta-6-map-leonida-regions-evidence-tracker"
+];
+
+const heroGuides = heroGuideSlugs
+  .map((slug) => guides.find((guide) => guide.slug === slug))
+  .filter((guide): guide is (typeof guides)[number] => Boolean(guide));
+
 const schema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -26,15 +37,34 @@ const schema = {
     <div class="hero-copy">
       <h1>GTA 6 Guide Hub</h1>
       <span class="coral-rule" aria-hidden="true"></span>
-      <p>Source-tracked launch prep for Leonida, Vice City, missions, vehicles, cheats, and editions.</p>
-      <div class="cta-row">
-        <a class="button" href="/release/">Start With Launch Prep</a>
-        <a class="button secondary" href="/sources/">Audit The Sources</a>
+      <p>Fast answers for release date, PC status, preload, preorder, map, characters, vehicles, missions, and cheats.</p>
+      <form class="hero-search" action="/guides/" method="get">
+        <input class="field" type="search" name="q" placeholder="Search PC, preload, map, cheats..." aria-label="Search GTA 6 guides" />
+        <button class="button" type="submit">Search Guides</button>
+      </form>
+      <nav class="hero-jump-row" aria-label="Popular guide categories">
+        <a href="/guides/category/release/">Release</a>
+        <a href="/guides/category/buying/">Buying</a>
+        <a href="/guides/category/map/">Map</a>
+        <a href="/guides/category/cheats/">Cheats</a>
+      </nav>
+    </div>
+    <aside class="hero-guide-panel" aria-label="Top GTA 6 guide paths">
+      <div class="hero-art">
+        <img src="/assets/hero-leonida-dossier.png" alt="Original illustrated map desk for the Leonida Ledger guide hub" />
       </div>
-    </div>
-    <div class="hero-media">
-      <img src="/assets/hero-leonida-dossier.png" alt="Original illustrated map desk for the Leonida Ledger guide hub" />
-    </div>
+      <div class="hero-panel-content">
+        <h2>Start Here</h2>
+        <div class="hero-quick-list">
+          {heroGuides.map((guide) => (
+            <a href={`/guides/${guide.slug}/`}>
+              <span>{guide.title.replace("GTA 6 ", "")}</span>
+              <small>{guide.confidence} / {guide.intent}</small>
+            </a>
+          ))}
+        </div>
+      </div>
+    </aside>
     <div class="facts-strip" aria-label="Current official GTA 6 facts">
       <div class="fact">
         <b>Release</b>
