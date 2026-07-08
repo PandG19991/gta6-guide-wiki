@@ -55,6 +55,8 @@ const schema = [
     "@type": "Article",
     headline: guide.title,
     description: guide.deck,
+    image: new URL(image, site.url).toString(),
+    inLanguage: "en-US",
     datePublished: guide.updated,
     dateModified: guide.updated,
     author: { "@type": "Organization", name: site.name },
