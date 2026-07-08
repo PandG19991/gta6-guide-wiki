@@ -150,7 +150,7 @@ export const guides: Guide[] = [
     status: "tracker",
     confidence: "observed",
     updated: "2026-07-08",
-    sourceIds: ["rockstar-media", "rockstar-vi"],
+    sourceIds: ["rockstar-media", "rockstar-vi", "rockstar-copyright"],
     bullets: [
       "Vehicle pages will separate officially named vehicles from trailer-observed vehicle classes.",
       "Launch-week updates will add handling notes, prices, spawn locations, storage, and upgrade paths after hands-on verification.",
@@ -1005,6 +1005,26 @@ export const guideEvidenceRows: Record<string, EvidenceRow[]> = {
       claim: "Leak boundary",
       status: "Policy",
       proof: "Rockstar's copyright guidance is the reason this site avoids leaked pre-release material and does not rehost official assets by default.",
+      sourceId: "rockstar-copyright"
+    }
+  ],
+  "gta-6-vehicles-confirmed-so-far": [
+    {
+      claim: "Official media basis",
+      status: "Observed",
+      proof: "Rockstar's official GTA 6 media pages are the current public basis for vehicle observations.",
+      sourceId: "rockstar-media"
+    },
+    {
+      claim: "Model-name restraint",
+      status: "Analysis",
+      proof: "The page tracks vehicle classes and launch-week fields without claiming model names, prices, spawns, or handling before official or tested proof exists.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Media use boundary",
+      status: "Policy",
+      proof: "Rockstar's copyright policy is why this site links to official media and uses original assets instead of rehosting official screenshots by default.",
       sourceId: "rockstar-copyright"
     }
   ],

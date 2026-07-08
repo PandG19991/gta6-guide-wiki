@@ -25,10 +25,10 @@ export const databaseSections: DatabaseSection[] = [
   },
   {
     title: "Vehicles",
-    count: 0,
+    count: 6,
     confidence: "observed",
-    fields: ["Vehicle", "Class", "Source", "Launch notes"],
-    records: []
+    fields: ["Category", "Status", "Source", "Launch notes"],
+    records: ["Street cars and traffic", "Motorcycles and bikes", "Boats and watercraft", "Aircraft", "Police and emergency vehicles", "Edition or bonus vehicles"]
   },
   {
     title: "Missions",
