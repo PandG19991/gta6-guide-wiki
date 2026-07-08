@@ -2,6 +2,7 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ConfidenceBadge from "@components/ConfidenceBadge.astro";
 import GuideCard from "@components/GuideCard.astro";
+import NewsGuideCard from "@components/NewsGuideCard.astro";
 import { confidenceLevels, site } from "@data/site";
 import { guides } from "@data/guides";
 import { ledgerUpdates } from "@data/updates";
@@ -93,20 +94,7 @@ const schema = {
       <p>Fresh source checks, high-intent guides, and launch prep pages for players who want the useful answer first.</p>
     </div>
     <div class="content-grid">
-      {latestGuides.map((guide) => (
-        <article class="content-card">
-          <div class="card-meta">
-            <ConfidenceBadge value={guide.confidence} />
-            <span class="badge category">{guide.category}</span>
-          </div>
-          <h3><a href={`/guides/${guide.slug}/`}>{guide.title}</a></h3>
-          <p>{guide.deck}</p>
-          <div class="card-actions">
-            <strong class="meta-label">Updated</strong>
-            <p>{guide.updated} / {guide.status}</p>
-          </div>
-        </article>
-      ))}
+      {latestGuides.map((guide) => <NewsGuideCard guide={guide} />)}
     </div>
     <div class="section-actions">
       {latestUpdates.map((update) => (

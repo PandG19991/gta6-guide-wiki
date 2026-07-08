@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ConfidenceBadge from "@components/ConfidenceBadge.astro";
+import NewsGuideCard from "@components/NewsGuideCard.astro";
 import { guides } from "@data/guides";
 import { ledgerUpdates } from "@data/updates";
 import { site } from "@data/site";
@@ -40,20 +41,7 @@ const schema = {
       <p>Start with the player-facing updates. Each card links to a guide page that can rank, refresh, and grow as official or tested details arrive.</p>
     </div>
     <div class="content-grid">
-      {recentGuides.slice(0, 6).map((guide) => (
-        <article class="content-card">
-          <div class="card-meta">
-            <ConfidenceBadge value={guide.confidence} />
-            <span class="badge category">{guide.category}</span>
-          </div>
-          <h3><a href={`/guides/${guide.slug}/`}>{guide.title}</a></h3>
-          <p>{guide.deck}</p>
-          <div class="card-actions">
-            <strong class="meta-label">Updated</strong>
-            <p>{guide.updated} / {guide.status}</p>
-          </div>
-        </article>
-      ))}
+      {recentGuides.slice(0, 6).map((guide) => <NewsGuideCard guide={guide} />)}
     </div>
   </section>
 
