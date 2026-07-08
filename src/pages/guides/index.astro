@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import GuideCard from "@components/GuideCard.astro";
-import { guides } from "@data/guides";
+import { guideCategoryMeta, guides } from "@data/guides";
 import { confidenceLevels } from "@data/site";
 ---
 
@@ -15,6 +15,11 @@ import { confidenceLevels } from "@data/site";
   </header>
 
   <section class="section-tight shell">
+    <nav class="category-strip" aria-label="Guide categories">
+      {guideCategoryMeta.map((meta) => (
+        <a href={`/guides/category/${meta.slug}/`}>{meta.category}</a>
+      ))}
+    </nav>
     <form class="toolbar" data-guide-filters>
       <input class="field" type="search" name="q" placeholder="Search guides, locations, vehicles, and more..." aria-label="Search guides" />
       <select class="field" name="intent" aria-label="Filter by search phase">

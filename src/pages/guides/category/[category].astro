@@ -1,0 +1,75 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import GuideCard from "@components/GuideCard.astro";
+import { guideCategoryMeta, guides } from "@data/guides";
+import { site } from "@data/site";
+
+export function getStaticPaths() {
+  return guideCategoryMeta.map((meta) => ({
+    params: { category: meta.slug },
+    props: {
+      meta,
+      categoryGuides: guides.filter((guide) => guide.category === meta.category)
+    }
+  }));
+}
+
+const { meta, categoryGuides } = Astro.props;
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: meta.title,
+    url: `${site.url}/guides/category/${meta.slug}/`,
+    description: meta.deck,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: categoryGuides.map((guide, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: guide.title,
+        url: `${site.url}/guides/${guide.slug}/`
+      }))
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "Guides", item: `${site.url}/guides/` },
+      { "@type": "ListItem", position: 3, name: meta.title, item: `${site.url}/guides/category/${meta.slug}/` }
+    ]
+  }
+];
+---
+
+<BaseLayout title={meta.title} description={meta.deck} schema={schema}>
+  <header class="page-header shell">
+    <div class="page-kicker">Guide category</div>
+    <h1 class="page-title">{meta.title}</h1>
+    <p class="page-intro">{meta.deck}</p>
+  </header>
+
+  <section class="section-tight shell split">
+    <div>
+      <h2 class="page-title">{categoryGuides.length} Pages</h2>
+      <p class="page-intro">
+        Category hubs keep related GTA 6 answers together so players can move from broad search intent into specific, source-tracked pages.
+      </p>
+    </div>
+    <aside class="panel">
+      <h2>Category Rule</h2>
+      <p>
+        Facts stay labeled by confidence. Launch-week pages stay framed as test plans until gameplay or official sources can verify the details.
+      </p>
+      <p><a href="/guides/">Back to all guides</a></p>
+    </aside>
+  </section>
+
+  <section class="section-tight shell">
+    <div class="guide-list">
+      {categoryGuides.map((guide) => <GuideCard guide={guide} />)}
+    </div>
+  </section>
+</BaseLayout>

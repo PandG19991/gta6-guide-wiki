@@ -401,6 +401,27 @@ select {
   margin-bottom: 16px;
 }
 
+.category-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.category-strip a {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line-strong);
+  padding: 0 12px;
+  background: rgba(255, 253, 248, 0.76);
+  font-weight: 900;
+}
+
+.category-strip a:hover {
+  border-color: var(--ink);
+}
+
 .field {
   min-height: 50px;
   width: 100%;

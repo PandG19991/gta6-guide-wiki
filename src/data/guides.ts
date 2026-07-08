@@ -519,3 +519,57 @@ export const plannedGuides = guides.filter((guide) => guide.status === "launch-w
 
 export const guideBySlug = Object.fromEntries(guides.map((guide) => [guide.slug, guide]));
 
+export const guideCategoryMeta = [
+  {
+    category: "Release",
+    slug: "release",
+    title: "GTA 6 Release Guides",
+    deck: "Release date, preload, platforms, PC status, and launch-readiness pages with official-source guardrails."
+  },
+  {
+    category: "Buying",
+    slug: "buying",
+    title: "GTA 6 Buying Guides",
+    deck: "Preorder, price, edition, bonus, physical-vs-digital, and purchase-timing guidance."
+  },
+  {
+    category: "Map",
+    slug: "map",
+    title: "GTA 6 Map and Location Guides",
+    deck: "Leonida, Vice City, official regions, trailer evidence, and launch-week map verification plans."
+  },
+  {
+    category: "Characters",
+    slug: "characters",
+    title: "GTA 6 Character Guides",
+    deck: "Official character profiles, relationship notes, and source-led cast trackers."
+  },
+  {
+    category: "Vehicles",
+    slug: "vehicles",
+    title: "GTA 6 Vehicle Guides",
+    deck: "Vehicle tracker pages that separate official or observed evidence from leak-driven list spam."
+  },
+  {
+    category: "Missions",
+    slug: "missions",
+    title: "GTA 6 Mission and Walkthrough Guides",
+    deck: "Spoiler-safe mission, beginner, police, money, and launch-week walkthrough planning."
+  },
+  {
+    category: "Cheats",
+    slug: "cheats",
+    title: "GTA 6 Cheat Guides",
+    deck: "No-fake-code cheat tracking, launch-week test plans, and policy-safe cheat coverage."
+  },
+  {
+    category: "SEO",
+    slug: "seo",
+    title: "GTA 6 Fan Site SEO Guides",
+    deck: "Domain, source, and fan-site policy choices for building a useful unofficial guide site."
+  }
+] as const satisfies Array<{ category: Guide["category"]; slug: string; title: string; deck: string }>;
+
+export const categoryMetaBySlug = Object.fromEntries(guideCategoryMeta.map((meta) => [meta.slug, meta]));
+export const categoryMetaByName = Object.fromEntries(guideCategoryMeta.map((meta) => [meta.category, meta]));
+
