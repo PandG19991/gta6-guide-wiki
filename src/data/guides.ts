@@ -23,6 +23,13 @@ export type Guide = {
   }>;
 };
 
+export type EvidenceRow = {
+  claim: string;
+  status: "Official" | "Observed" | "Policy" | "Analysis";
+  proof: string;
+  sourceId: string;
+};
+
 export const guides: Guide[] = [
   {
     slug: "gta-6-release-date-countdown-preload",
@@ -748,4 +755,219 @@ export const guideCategoryMeta = [
 
 export const categoryMetaBySlug = Object.fromEntries(guideCategoryMeta.map((meta) => [meta.slug, meta]));
 export const categoryMetaByName = Object.fromEntries(guideCategoryMeta.map((meta) => [meta.category, meta]));
+
+export const guideEvidenceRows: Record<string, EvidenceRow[]> = {
+  "gta-6-release-date-countdown-preload": [
+    {
+      claim: "Launch date",
+      status: "Official",
+      proof: "Rockstar and Take-Two list November 19, 2026 as the scheduled release date.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Launch platforms",
+      status: "Official",
+      proof: "The current platform copy lists PlayStation 5 and Xbox Series X|S.",
+      sourceId: "take-two-preorders"
+    },
+    {
+      claim: "Preload timing",
+      status: "Official",
+      proof: "The preorder announcement says digital preloading is scheduled to begin November 12, 2026.",
+      sourceId: "rockstar-preorders"
+    },
+    {
+      claim: "PC status",
+      status: "Official",
+      proof: "The current official launch platform copy does not list a PC release date.",
+      sourceId: "rockstar-vi"
+    }
+  ],
+  "gta-6-pre-order-standard-vs-ultimate": [
+    {
+      claim: "Standard Edition price",
+      status: "Official",
+      proof: "Take-Two's preorder announcement lists Standard Edition at $79.99.",
+      sourceId: "take-two-preorders"
+    },
+    {
+      claim: "Ultimate Edition price",
+      status: "Official",
+      proof: "Take-Two's preorder announcement lists Ultimate Edition at $99.99.",
+      sourceId: "take-two-preorders"
+    },
+    {
+      claim: "Preorder bonus window",
+      status: "Official",
+      proof: "The publisher copy ties the Vintage Vice City Pack to preorders and purchases before November 20, 2026.",
+      sourceId: "rockstar-preorders"
+    },
+    {
+      claim: "GTA+ digital benefit",
+      status: "Official",
+      proof: "The announcement describes one free month of GTA+ for digital preorders.",
+      sourceId: "take-two-preorders"
+    }
+  ],
+  "gta-6-price-standard-ultimate-explained": [
+    {
+      claim: "Base price",
+      status: "Official",
+      proof: "Standard Edition is listed at $79.99 in the publisher preorder announcement.",
+      sourceId: "take-two-preorders"
+    },
+    {
+      claim: "Higher edition price",
+      status: "Official",
+      proof: "Ultimate Edition is listed at $99.99 in the same announcement.",
+      sourceId: "take-two-preorders"
+    },
+    {
+      claim: "Value caution",
+      status: "Analysis",
+      proof: "The page recommends comparing final item lists and store terms before paying extra.",
+      sourceId: "rockstar-preorders"
+    }
+  ],
+  "is-gta-6-coming-to-pc": [
+    {
+      claim: "Current launch platforms",
+      status: "Official",
+      proof: "Rockstar's current GTA 6 page names PS5 and Xbox Series X|S for launch.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "PC date not announced",
+      status: "Official",
+      proof: "The official page and current preorder copy do not list a PC launch date.",
+      sourceId: "take-two-preorders"
+    },
+    {
+      claim: "Fake PC claim filter",
+      status: "Policy",
+      proof: "Unverified PC download, beta, or preorder claims are kept out unless they cite official sources.",
+      sourceId: "google-spam"
+    }
+  ],
+  "gta-6-platforms-ps5-xbox-series-x-s": [
+    {
+      claim: "PS5 support",
+      status: "Official",
+      proof: "PlayStation 5 is named in the current official platform list.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Xbox Series X|S support",
+      status: "Official",
+      proof: "Xbox Series X|S is named in the current official platform list.",
+      sourceId: "take-two-preorders"
+    },
+    {
+      claim: "Unsupported launch platforms",
+      status: "Official",
+      proof: "The current official launch copy does not list PS4, Xbox One, Nintendo, or PC.",
+      sourceId: "rockstar-vi"
+    }
+  ],
+  "gta-6-preload-download-size-prep": [
+    {
+      claim: "Digital preload date",
+      status: "Official",
+      proof: "The preorder announcement says digital preload begins November 12, 2026.",
+      sourceId: "rockstar-preorders"
+    },
+    {
+      claim: "Physical download code",
+      status: "Official",
+      proof: "Publisher copy describes the physical version as a box with a download code available for preload.",
+      sourceId: "take-two-preorders"
+    },
+    {
+      claim: "Download size",
+      status: "Analysis",
+      proof: "No final file size is treated as confirmed until official store metadata is visible.",
+      sourceId: "rockstar-preorders"
+    }
+  ],
+  "gta-6-gta-plus-preorder-benefit": [
+    {
+      claim: "Digital preorder benefit",
+      status: "Official",
+      proof: "The publisher announcement lists one free month of GTA+ for digital preorders.",
+      sourceId: "take-two-preorders"
+    },
+    {
+      claim: "Benefit scope",
+      status: "Official",
+      proof: "The current copy describes GTA+ around GTA Online and the GTA+ Games Library, not a final GTA 6 Online feature list.",
+      sourceId: "rockstar-preorders"
+    },
+    {
+      claim: "Subscription caution",
+      status: "Analysis",
+      proof: "Readers should check platform renewal and cancellation terms before redeeming a subscription benefit.",
+      sourceId: "rockstar-preorders"
+    }
+  ],
+  "gta-6-physical-vs-digital-preorder": [
+    {
+      claim: "Digital preload path",
+      status: "Official",
+      proof: "Digital preloading is scheduled for November 12, 2026.",
+      sourceId: "rockstar-preorders"
+    },
+    {
+      claim: "Physical format",
+      status: "Official",
+      proof: "The current publisher copy describes the physical version as containing a download code.",
+      sourceId: "take-two-preorders"
+    },
+    {
+      claim: "Retail timing risk",
+      status: "Analysis",
+      proof: "Physical access still depends on retailer delivery, pickup, and code redemption timing.",
+      sourceId: "take-two-preorders"
+    }
+  ],
+  "gta-6-vintage-vice-city-pack": [
+    {
+      claim: "Bonus name",
+      status: "Official",
+      proof: "Rockstar names the Vintage Vice City Pack as the current preorder bonus.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Bonus cutoff",
+      status: "Official",
+      proof: "Take-Two says preorders and purchases before November 20, 2026 include the pack.",
+      sourceId: "take-two-preorders"
+    },
+    {
+      claim: "Item-level restraint",
+      status: "Analysis",
+      proof: "The page does not claim a final item list beyond the official pack name and timing.",
+      sourceId: "rockstar-preorders"
+    }
+  ],
+  "gta-6-domain-strategy-fan-site-seo": [
+    {
+      claim: "Brand-first domain",
+      status: "Analysis",
+      proof: "Search terms belong in titles and content; the domain should avoid looking official or trademark-heavy.",
+      sourceId: "google-seo-starter"
+    },
+    {
+      claim: "Copyright boundary",
+      status: "Policy",
+      proof: "The site avoids official logos, leaked assets, and confusing Rockstar or Take-Two affiliation.",
+      sourceId: "rockstar-copyright"
+    },
+    {
+      claim: "Ad-safety boundary",
+      status: "Policy",
+      proof: "The strategy rejects scraped, thin, or misleading pages that only exist for ads.",
+      sourceId: "adsense-publisher"
+    }
+  ]
+};
 

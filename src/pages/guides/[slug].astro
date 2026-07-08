@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ConfidenceBadge from "@components/ConfidenceBadge.astro";
-import { categoryMetaByName, guides } from "@data/guides";
+import { categoryMetaByName, guideEvidenceRows, guides } from "@data/guides";
 import { sourceById } from "@data/sources";
 import { site } from "@data/site";
 
@@ -19,6 +19,7 @@ const relatedGuides = guides
   .slice(0, 3);
 const firstAnswer = guide.bullets[0];
 const decisionRows = guide.decisionRows ?? [];
+const evidenceRows = guideEvidenceRows[guide.slug] ?? [];
 const verificationPlan = [
   {
     label: "Current proof",
@@ -130,6 +131,35 @@ const schema = [
       </p>
     </aside>
   </section>
+
+  {evidenceRows.length > 0 && (
+    <section class="section-tight shell">
+      <h2 class="page-title">Evidence Table</h2>
+      <table class="source-table evidence-table">
+        <thead>
+          <tr>
+            <th>Claim</th>
+            <th>Status</th>
+            <th>Proof note</th>
+            <th>Primary source</th>
+          </tr>
+        </thead>
+        <tbody>
+          {evidenceRows.map((row) => {
+            const source = sourceById[row.sourceId];
+            return (
+              <tr>
+                <td><strong>{row.claim}</strong></td>
+                <td><span class={`badge ${row.status.toLowerCase()}`}>{row.status}</span></td>
+                <td>{row.proof}</td>
+                <td><a href={source.url} target="_blank" rel="nofollow noopener">{source.publisher}</a></td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </section>
+  )}
 
   {decisionRows.length > 0 && (
     <section class="section-tight shell">

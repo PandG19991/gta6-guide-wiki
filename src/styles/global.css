@@ -624,6 +624,11 @@ select {
   color: var(--gray);
 }
 
+.badge.policy {
+  background: rgba(123, 64, 140, 0.14);
+  color: #6f3f83;
+}
+
 .content-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.92fr) minmax(0, 1.03fr);
@@ -717,6 +722,18 @@ select {
 
 .decision-table td:first-child {
   min-width: 180px;
+}
+
+.evidence-table td {
+  line-height: 1.48;
+}
+
+.evidence-table td:first-child {
+  min-width: 170px;
+}
+
+.evidence-table td:nth-child(3) {
+  min-width: 280px;
 }
 
 .mono {
