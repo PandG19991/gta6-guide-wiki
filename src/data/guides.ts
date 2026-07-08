@@ -149,7 +149,7 @@ export const guides: Guide[] = [
     intent: "pre-launch",
     status: "tracker",
     confidence: "observed",
-    updated: "2026-07-08",
+    updated: "2026-07-09",
     sourceIds: ["rockstar-media", "rockstar-vi", "rockstar-copyright"],
     bullets: [
       "Vehicle pages will separate officially named vehicles from trailer-observed vehicle classes.",
