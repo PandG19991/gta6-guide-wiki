@@ -7,8 +7,9 @@
     "dev": "astro dev --host 127.0.0.1",
     "build": "astro check && astro build",
     "check:metadata": "node scripts/check-metadata.mjs",
+    "check:indexability": "node scripts/check-indexability.mjs",
     "preview": "astro preview --host 127.0.0.1",
-    "deploy": "npm run build && wrangler deploy"
+    "deploy": "npm run build && npm run check:metadata && npm run check:indexability && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
