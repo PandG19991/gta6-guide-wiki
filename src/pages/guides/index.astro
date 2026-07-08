@@ -2,10 +2,37 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import GuideCard from "@components/GuideCard.astro";
 import { guideCategoryMeta, guides } from "@data/guides";
-import { confidenceLevels } from "@data/site";
+import { confidenceLevels, site } from "@data/site";
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "GTA 6 Guides",
+    url: `${site.url}/guides/`,
+    description: "All Leonida Ledger GTA 6 guides, trackers, launch-week pages, and evergreen database plans.",
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: guides.map((guide, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: guide.title,
+        url: `${site.url}/guides/${guide.slug}/`
+      }))
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "Guides", item: `${site.url}/guides/` }
+    ]
+  }
+];
 ---
 
-<BaseLayout title="GTA 6 Guides" description="All Leonida Ledger GTA 6 guides, trackers, launch-week pages, and evergreen database plans.">
+<BaseLayout title="GTA 6 Guides" description="All Leonida Ledger GTA 6 guides, trackers, launch-week pages, and evergreen database plans." schema={schema}>
   <header class="page-header shell">
     <div class="page-kicker">Guide index</div>
     <h1 class="page-title">GTA 6 Guides</h1>
