@@ -11,6 +11,7 @@ const staticPages = [
   "/updates/",
   "/sources/",
   "/editorial-policy/",
+  "/testing-protocol/",
   "/domain-strategy/",
   "/privacy/",
   "/contact/"
