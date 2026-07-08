@@ -4,6 +4,7 @@ import { join, relative, sep } from "node:path";
 const dist = "dist";
 const sitemapPath = join(dist, "sitemap.xml");
 const robotsPath = join(dist, "robots.txt");
+const feedPath = join(dist, "feed.xml");
 
 const read = (file) => readFileSync(file, "utf8");
 const matchAll = (text, regex) => [...text.matchAll(regex)].map((match) => match[1]);
@@ -22,6 +23,10 @@ const locs = matchAll(sitemap, /<loc>(.*?)<\/loc>/g).map((loc) => new URL(loc));
 if (locs.length < 40) fail(`sitemap has too few URLs: ${locs.length}`);
 
 const origin = locs[0].origin;
+const feed = read(feedPath);
+const feedItems = (feed.match(/<item>/g) ?? []).length;
+if (!feed.includes("<rss version=\"2.0\">")) fail("feed.xml must be RSS 2.0");
+if (feedItems < 20) fail(`feed.xml has too few items: ${feedItems}`);
 for (const loc of locs) {
   if (loc.origin !== origin) fail(`mixed sitemap origin: ${loc.href}`);
   if (!loc.pathname.endsWith("/")) fail(`sitemap URL must be slash-normalized: ${loc.href}`);
@@ -68,6 +73,7 @@ for (const file of htmlFiles) {
   }
   if (!canonical) fail(`${label}: missing canonical`);
   if (!sitemapUrls.has(canonical)) fail(`${label}: canonical not listed in sitemap: ${canonical}`);
+  if (!html.includes(`rel="alternate" type="application/rss+xml"`)) fail(`${label}: missing RSS alternate link`);
   if (robotsMeta.toLowerCase().includes("noindex")) fail(`${label}: contains noindex`);
   if (h1Count !== 1) fail(`${label}: expected exactly one h1, found ${h1Count}`);
   if (ogUrl !== canonical) fail(`${label}: og:url must match canonical`);
