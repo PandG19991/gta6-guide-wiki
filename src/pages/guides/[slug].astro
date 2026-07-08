@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ConfidenceBadge from "@components/ConfidenceBadge.astro";
-import { guides } from "@data/guides";
+import { categoryMetaByName, guides } from "@data/guides";
 import { sourceById } from "@data/sources";
 import { site } from "@data/site";
 
@@ -13,6 +13,7 @@ export function getStaticPaths() {
 }
 
 const { guide } = Astro.props;
+const image = categoryMetaByName[guide.category].image;
 const relatedGuides = guides
   .filter((candidate) => candidate.slug !== guide.slug && candidate.category === guide.category)
   .slice(0, 3);
@@ -82,7 +83,7 @@ const schema = [
 ];
 ---
 
-<BaseLayout title={guide.title} description={guide.deck} schema={schema}>
+<BaseLayout title={guide.title} description={guide.deck} image={image} schema={schema}>
   <header class="page-header shell">
     <div class="page-kicker">{guide.category} / {guide.intent}</div>
     <h1 class="page-title">{guide.title}</h1>

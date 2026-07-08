@@ -692,51 +692,59 @@ export const guideCategoryMeta = [
     category: "Release",
     slug: "release",
     title: "GTA 6 Release Guides",
-    deck: "Release date, preload, platforms, PC status, and launch-readiness pages with official-source guardrails."
+    deck: "Release date, preload, platforms, PC status, and launch-readiness pages with official-source guardrails.",
+    image: "/assets/og-release.png"
   },
   {
     category: "Buying",
     slug: "buying",
     title: "GTA 6 Buying Guides",
-    deck: "Preorder, price, edition, bonus, physical-vs-digital, and purchase-timing guidance."
+    deck: "Preorder, price, edition, bonus, physical-vs-digital, and purchase-timing guidance.",
+    image: "/assets/og-buying.png"
   },
   {
     category: "Map",
     slug: "map",
     title: "GTA 6 Map and Location Guides",
-    deck: "Leonida, Vice City, official regions, trailer evidence, and launch-week map verification plans."
+    deck: "Leonida, Vice City, official regions, trailer evidence, and launch-week map verification plans.",
+    image: "/assets/og-map.png"
   },
   {
     category: "Characters",
     slug: "characters",
     title: "GTA 6 Character Guides",
-    deck: "Official character profiles, relationship notes, and source-led cast trackers."
+    deck: "Official character profiles, relationship notes, and source-led cast trackers.",
+    image: "/assets/og-characters.png"
   },
   {
     category: "Vehicles",
     slug: "vehicles",
     title: "GTA 6 Vehicle Guides",
-    deck: "Vehicle tracker pages that separate official or observed evidence from leak-driven list spam."
+    deck: "Vehicle tracker pages that separate official or observed evidence from leak-driven list spam.",
+    image: "/assets/og-vehicles.png"
   },
   {
     category: "Missions",
     slug: "missions",
     title: "GTA 6 Mission and Walkthrough Guides",
-    deck: "Spoiler-safe mission, beginner, police, money, and launch-week walkthrough planning."
+    deck: "Spoiler-safe mission, beginner, police, money, and launch-week walkthrough planning.",
+    image: "/assets/og-missions.png"
   },
   {
     category: "Cheats",
     slug: "cheats",
     title: "GTA 6 Cheat Guides",
-    deck: "No-fake-code cheat tracking, launch-week test plans, and policy-safe cheat coverage."
+    deck: "No-fake-code cheat tracking, launch-week test plans, and policy-safe cheat coverage.",
+    image: "/assets/og-cheats.png"
   },
   {
     category: "SEO",
     slug: "seo",
     title: "GTA 6 Fan Site SEO Guides",
-    deck: "Domain, source, and fan-site policy choices for building a useful unofficial guide site."
+    deck: "Domain, source, and fan-site policy choices for building a useful unofficial guide site.",
+    image: "/assets/og-seo.png"
   }
-] as const satisfies Array<{ category: Guide["category"]; slug: string; title: string; deck: string }>;
+] as const satisfies Array<{ category: Guide["category"]; slug: string; title: string; deck: string; image: string }>;
 
 export const categoryMetaBySlug = Object.fromEntries(guideCategoryMeta.map((meta) => [meta.slug, meta]));
 export const categoryMetaByName = Object.fromEntries(guideCategoryMeta.map((meta) => [meta.category, meta]));
