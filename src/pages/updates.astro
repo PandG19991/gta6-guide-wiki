@@ -1,0 +1,104 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ConfidenceBadge from "@components/ConfidenceBadge.astro";
+import { guides } from "@data/guides";
+import { ledgerUpdates } from "@data/updates";
+import { site } from "@data/site";
+
+const recentGuides = [...guides].sort((a, b) => b.updated.localeCompare(a.updated)).slice(0, 8);
+const launchQueue = guides.filter((guide) => guide.status === "launch-week").slice(0, 6);
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Leonida Ledger Updates",
+  url: `${site.url}/updates/`,
+  description: "Source-tracked update log and publishing queue for the Leonida Ledger GTA 6 guide hub.",
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: recentGuides.map((guide, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: guide.title,
+      url: `${site.url}/guides/${guide.slug}/`
+    }))
+  }
+};
+---
+
+<BaseLayout title="Updates" description="Source-tracked GTA 6 guide updates, recent page changes, and the Leonida Ledger publishing queue." schema={schema}>
+  <header class="page-header shell">
+    <div class="page-kicker">Living update log</div>
+    <h1 class="page-title">Updates</h1>
+    <p class="page-intro">
+      A public change log for factual updates, source reviews, guide refreshes, and launch-week publishing priorities.
+    </p>
+  </header>
+
+  <section class="section-tight shell">
+    <div class="section-heading">
+      <h2>Source Ledger</h2>
+      <p>Every meaningful factual change should leave a trail: date, confidence, source, and what changed.</p>
+    </div>
+    <table class="ledger-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Confidence</th>
+          <th>Change</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        {ledgerUpdates.map((update) => (
+          <tr>
+            <td class="mono">{update.date}<br />{update.time}</td>
+            <td><ConfidenceBadge value={update.confidence} /></td>
+            <td>{update.title}</td>
+            <td>{update.source}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section shell">
+    <div class="section-heading">
+      <h2>Recent Guides</h2>
+      <p>Current high-intent pages available for indexing, internal linking, and RSS subscribers.</p>
+    </div>
+    <div class="content-grid">
+      {recentGuides.map((guide) => (
+        <article class="content-card">
+          <div class="card-meta"><ConfidenceBadge value={guide.confidence} /></div>
+          <h3><a href={`/guides/${guide.slug}/`}>{guide.title}</a></h3>
+          <p>{guide.deck}</p>
+          <div class="card-actions">
+            <strong class="meta-label">Updated</strong>
+            <p>{guide.updated} / {guide.status}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-tight shell split">
+    <div>
+      <h2 class="page-title">Next Queue</h2>
+      <p class="page-intro">
+        These launch-week pages are intentionally live as stable URLs, but will not pretend to know unverified mechanics before release.
+      </p>
+    </div>
+    <div class="panel">
+      {launchQueue.map((guide) => (
+        <section>
+          <h3><a href={`/guides/${guide.slug}/`}>{guide.title}</a></h3>
+          <p>{guide.nextUpdate}</p>
+        </section>
+      ))}
+      <section>
+        <h3>Machine Feeds</h3>
+        <p><a href="/sitemap.xml">Sitemap</a> / <a href="/feed.xml">RSS feed</a></p>
+      </section>
+    </div>
+  </section>
+</BaseLayout>

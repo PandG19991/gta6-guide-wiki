@@ -534,6 +534,10 @@ select {
   padding-top: 24px;
 }
 
+.section-actions {
+  margin-top: 18px;
+}
+
 .ledger-table,
 .database-table,
 .source-table {

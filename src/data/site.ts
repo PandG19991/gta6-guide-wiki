@@ -14,6 +14,7 @@ export const navItems = [
   { label: "Map", href: "/map/" },
   { label: "Guides", href: "/guides/" },
   { label: "Database", href: "/database/" },
+  { label: "Updates", href: "/updates/" },
   { label: "Sources", href: "/sources/" }
 ];
 
