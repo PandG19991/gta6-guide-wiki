@@ -593,6 +593,45 @@ export const guides: Guide[] = [
     searchTerms: ["gta 6 real dimez", "real dimez gta 6", "gta 6 only raw records"]
   },
   {
+    slug: "how-to-avoid-gta-6-spoilers-before-launch",
+    title: "How to Avoid GTA 6 Spoilers Before Launch",
+    deck: "A practical spoiler-control guide for muting leaks, avoiding fake download bait, and staying on official GTA 6 information paths.",
+    category: "Missions",
+    intent: "pre-launch",
+    status: "live",
+    confidence: "analysis",
+    updated: "2026-07-08",
+    sourceIds: ["rockstar-vi", "google-spam", "adsense-publisher"],
+    bullets: [
+      "Use official Rockstar, Take-Two, platform store, and source-tracked guide pages for launch facts.",
+      "Mute terms around Lucia, Jason, endings, missions, map leaks, and final mission before launch week.",
+      "Avoid beta, download, generator, and leak pages that mix spoilers with malware bait or thin search spam.",
+      "This site keeps spoiler-heavy walkthrough details out of pre-launch hubs and labels launch-week pages clearly."
+    ],
+    nextUpdate: "Add platform-specific mute steps for YouTube, Reddit, TikTok, X, and search results if spoiler leaks become widespread.",
+    searchTerms: ["gta 6 spoilers", "avoid gta 6 spoilers", "gta 6 leaks"],
+    decisionRows: [
+      {
+        option: "Strict blackout",
+        bestFor: "Players who want story, mission, and map surprises preserved",
+        status: "Mute character, ending, mission, leak, and final-mission terms across feeds.",
+        caveat: "You may miss legitimate official trailers or preorder updates unless official sources are allowed."
+      },
+      {
+        option: "Official-only feed",
+        bestFor: "Players who want news without leak threads or unverified claims",
+        status: "Follow Rockstar, Take-Two, platform stores, and source-led guide pages.",
+        caveat: "Official trailers can still reveal setting, character, and feature details."
+      },
+      {
+        option: "Spoiler-safe guides",
+        bestFor: "Players who want launch prep without mission outcomes",
+        status: "Use pages that label speculation and keep walkthrough spoilers out of broad hubs.",
+        caveat: "Post-launch pages should still be checked for spoiler warnings before reading deeply."
+      }
+    ]
+  },
+  {
     slug: "gta-6-beginner-guide-launch-week",
     title: "GTA 6 Beginner Guide for Launch Week",
     deck: "A spoiler-safe beginner hub planned for first settings, saving, map reading, wanted levels, money, and vehicles.",
@@ -947,6 +986,26 @@ export const guideEvidenceRows: Record<string, EvidenceRow[]> = {
       status: "Analysis",
       proof: "The page does not claim a final item list beyond the official pack name and timing.",
       sourceId: "rockstar-preorders"
+    }
+  ],
+  "how-to-avoid-gta-6-spoilers-before-launch": [
+    {
+      claim: "Official-source path",
+      status: "Analysis",
+      proof: "Spoiler-safe launch prep should start with official Rockstar or publisher pages and source-tracked guide summaries.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Leak and bait risk",
+      status: "Policy",
+      proof: "Google's spam guidance warns against manipulative, low-value, or deceptive pages; GTA leak/download bait belongs outside this site's recommendations.",
+      sourceId: "google-spam"
+    },
+    {
+      claim: "Ad-safety boundary",
+      status: "Policy",
+      proof: "The site avoids thin, misleading, or copied spoiler content that would reduce user value and create publisher-policy risk.",
+      sourceId: "adsense-publisher"
     }
   ],
   "gta-6-domain-strategy-fan-site-seo": [

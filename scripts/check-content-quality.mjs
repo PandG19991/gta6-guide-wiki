@@ -11,6 +11,7 @@ const requiredEvidenceTables = [
   ["gta-6-gta-plus-preorder-benefit", 3],
   ["gta-6-physical-vs-digital-preorder", 3],
   ["gta-6-vintage-vice-city-pack", 3],
+  ["how-to-avoid-gta-6-spoilers-before-launch", 3],
   ["gta-6-domain-strategy-fan-site-seo", 3]
 ];
 
