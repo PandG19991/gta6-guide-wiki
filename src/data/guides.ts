@@ -449,7 +449,7 @@ export const guides: Guide[] = [
     status: "tracker",
     confidence: "observed",
     updated: "2026-07-08",
-    sourceIds: ["rockstar-vi", "rockstar-media"],
+    sourceIds: ["rockstar-vi", "rockstar-media", "rockstar-copyright"],
     bullets: [
       "Rockstar's official page identifies Trailer 2 as public media for GTA 6.",
       "Trailer observations on this site stay limited to visible, non-leaked official media.",
@@ -986,6 +986,26 @@ export const guideEvidenceRows: Record<string, EvidenceRow[]> = {
       status: "Analysis",
       proof: "The page does not claim a final item list beyond the official pack name and timing.",
       sourceId: "rockstar-preorders"
+    }
+  ],
+  "gta-6-trailer-2-breakdown-evidence": [
+    {
+      claim: "Official media basis",
+      status: "Official",
+      proof: "Rockstar lists Trailer 2 and the current public media set through its official GTA 6 pages.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Observation boundary",
+      status: "Analysis",
+      proof: "The page limits trailer notes to official media and does not convert frame observations into mission or story claims.",
+      sourceId: "rockstar-media"
+    },
+    {
+      claim: "Leak boundary",
+      status: "Policy",
+      proof: "Rockstar's copyright guidance is the reason this site avoids leaked pre-release material and does not rehost official assets by default.",
+      sourceId: "rockstar-copyright"
     }
   ],
   "how-to-avoid-gta-6-spoilers-before-launch": [
