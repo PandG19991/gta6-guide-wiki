@@ -15,6 +15,7 @@ const requiredEvidenceTables = [
   ["gta-6-trailer-2-breakdown-evidence", 3],
   ["gta-6-vehicles-confirmed-so-far", 3],
   ["gta-6-mission-list-walkthrough-hub", 3],
+  ["gta-6-cheats-codes-testing-tracker", 3],
   ["gta-6-vice-city-location-guide", 3],
   ["gta-6-leonida-keys-location-guide", 3],
   ["gta-6-grassrivers-location-guide", 3],

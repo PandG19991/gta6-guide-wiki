@@ -696,8 +696,8 @@ export const guides: Guide[] = [
     intent: "launch-week",
     status: "launch-week",
     confidence: "analysis",
-    updated: "2026-07-08",
-    sourceIds: ["google-spam", "adsense-publisher"],
+    updated: "2026-07-09",
+    sourceIds: ["rockstar-vi", "google-spam", "adsense-publisher"],
     bullets: [
       "No GTA 6 cheat codes are treated as confirmed on this site before release.",
       "Launch testing will record platform, input method, effect, limitations, and side effects.",
@@ -1065,6 +1065,26 @@ export const guideEvidenceRows: Record<string, EvidenceRow[]> = {
       claim: "Fake guide boundary",
       status: "Policy",
       proof: "Thin mission lists, copied walkthroughs, leak bait, and fake early-money routes are excluded to keep the guide useful and policy-safe.",
+      sourceId: "google-spam"
+    }
+  ],
+  "gta-6-cheats-codes-testing-tracker": [
+    {
+      claim: "Cheat code status",
+      status: "Analysis",
+      proof: "Current official GTA 6 pages do not publish a cheat-code list, so this tracker does not treat any code as confirmed before release.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Testing standard",
+      status: "Analysis",
+      proof: "Launch-week rows will require platform, input method, visible effect, limitations, side effects, and repeatability before a code is listed.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Fake-code boundary",
+      status: "Policy",
+      proof: "Unlimited-money generators, download bait, online-cheating instructions, and unverifiable code lists stay out of the site.",
       sourceId: "google-spam"
     }
   ],
