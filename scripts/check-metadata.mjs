@@ -5,6 +5,7 @@ const pages = [
   { file: "dist/guides/index.html", types: ["CollectionPage", "BreadcrumbList"] },
   { file: "dist/gta-6/database/index.html", types: ["CollectionPage", "BreadcrumbList", "ItemList"] },
   { file: "dist/gta-6/database/vehicles/index.html", types: ["CollectionPage", "BreadcrumbList", "ItemList"] },
+  { file: "dist/gta-6/database/characters/index.html", types: ["CollectionPage", "BreadcrumbList", "ItemList"] },
   { file: "dist/guides/is-gta-6-coming-to-pc/index.html", image: "/assets/og-release.png", article: true },
   { file: "dist/guides/category/map/index.html", image: "/assets/og-map.png" },
   { file: "dist/testing-protocol/index.html" }

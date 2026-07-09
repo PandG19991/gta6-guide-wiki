@@ -5,6 +5,7 @@ export const gta6RailItems = [
   { label: "Features", href: "/gta-6/features/" },
   { label: "Database", href: "/gta-6/database/" },
   { label: "Vehicles", href: "/gta-6/database/vehicles/" },
+  { label: "Characters", href: "/gta-6/database/characters/" },
   { label: "Release", href: "/release/" },
   { label: "Map", href: "/map/" },
   { label: "Guides", href: "/guides/" },
@@ -13,7 +14,7 @@ export const gta6RailItems = [
 
 export const gta6HubStats = [
   { label: "Guide pages", value: "27", detail: "FAQ and schema enhanced" },
-  { label: "Sitemap URLs", value: "50", detail: "clean canonical set" },
+  { label: "Sitemap URLs", value: "51", detail: "clean canonical set" },
   { label: "Evidence tables", value: "27", detail: "high-intent pages" },
   { label: "Policy stance", value: "No leaks", detail: "official or tested only" }
 ];
@@ -36,7 +37,7 @@ export const gta6DatabaseCards: Array<{
   },
   {
     title: "Characters",
-    href: "/guides/gta-6-characters-official-cast/",
+    href: "/gta-6/database/characters/",
     count: 8,
     confidence: "official",
     deck: "Jason, Lucia, and supporting official character profiles with source boundaries.",
@@ -200,5 +201,79 @@ export const vehicleDatabaseRows: Array<{
     sourceId: "take-two-preorders",
     page: "/guides/gta-6-vintage-vice-city-pack/",
     launchUse: "Edition benefit checks and item-level source ledger."
+  }
+];
+
+export const characterDatabaseRows: Array<{
+  name: string;
+  status: "Official";
+  proof: string;
+  sourceId: string;
+  page: string;
+  launchUse: string;
+}> = [
+  {
+    name: "Jason Duval",
+    status: "Official",
+    proof: "Rockstar profiles Jason as one of the central characters and links him to the Keys, local runners, and Lucia.",
+    sourceId: "rockstar-leonida",
+    page: "/guides/gta-6-jason-duval-character-guide/",
+    launchUse: "Relationship, mission availability, safehouse, and early-game role checks."
+  },
+  {
+    name: "Lucia Caminos",
+    status: "Official",
+    proof: "Rockstar profiles Lucia as a central character with prison, family, and Jason story framing.",
+    sourceId: "rockstar-leonida",
+    page: "/guides/gta-6-lucia-caminos-character-guide/",
+    launchUse: "Mission order, playable moments, relationship status, and spoiler-safe story notes."
+  },
+  {
+    name: "Cal Hampton",
+    status: "Official",
+    proof: "Rockstar identifies Cal as Jason's friend and a fellow associate of Brian.",
+    sourceId: "rockstar-leonida",
+    page: "/guides/gta-6-characters-official-cast/",
+    launchUse: "Contact unlocks, side activity, radio/comms references, and mission involvement."
+  },
+  {
+    name: "Boobie Ike",
+    status: "Official",
+    proof: "Rockstar describes Boobie as a Vice City figure tied to real estate, a club, a studio, and Only Raw Records.",
+    sourceId: "rockstar-leonida",
+    page: "/guides/gta-6-characters-official-cast/",
+    launchUse: "Business locations, music-scene missions, rewards, and faction ties."
+  },
+  {
+    name: "Dre'Quan Priest",
+    status: "Official",
+    proof: "Rockstar profiles Dre'Quan around Only Raw Records, Boobie's club, and the Vice City music scene.",
+    sourceId: "rockstar-leonida",
+    page: "/guides/gta-6-characters-official-cast/",
+    launchUse: "Label missions, music unlocks, contacts, and Real Dimez links."
+  },
+  {
+    name: "Real Dimez",
+    status: "Official",
+    proof: "Rockstar profiles Bae-Luxe and Roxy as Real Dimez and links them to DWNPLY and Only Raw Records.",
+    sourceId: "rockstar-leonida",
+    page: "/guides/gta-6-real-dimez-character-guide/",
+    launchUse: "Music-scene missions, radio references, social-media posts, and collectable ties."
+  },
+  {
+    name: "Raul Bautista",
+    status: "Official",
+    proof: "Rockstar profiles Raul as a seasoned bank robber looking for talent and bigger scores.",
+    sourceId: "rockstar-leonida",
+    page: "/guides/gta-6-characters-official-cast/",
+    launchUse: "Heist setup, crew role, reward path, and mission-spoiler boundaries."
+  },
+  {
+    name: "Brian Heder",
+    status: "Official",
+    proof: "Rockstar profiles Brian as a Keys drug runner connected to Jason and local work.",
+    sourceId: "rockstar-leonida",
+    page: "/guides/gta-6-characters-official-cast/",
+    launchUse: "Safehouse access, boat yard checks, contact unlocks, and early mission ties."
   }
 ];
