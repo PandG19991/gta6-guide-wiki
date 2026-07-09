@@ -30,6 +30,12 @@ const manifest = JSON.parse(read(manifestPath));
 if (!feed.includes("<rss version=\"2.0\">")) fail("feed.xml must be RSS 2.0");
 if (feedItems < 20) fail(`feed.xml has too few items: ${feedItems}`);
 if (!manifest.theme_color) fail("site.webmanifest must define theme_color");
+if (!Array.isArray(manifest.icons) || manifest.icons.length === 0) fail("site.webmanifest must define at least one icon");
+for (const icon of manifest.icons) {
+  if (!icon.src || !existsSync(join(dist, new URL(icon.src, origin).pathname))) {
+    fail(`site.webmanifest icon is missing: ${icon.src}`);
+  }
+}
 for (const loc of locs) {
   if (loc.origin !== origin) fail(`mixed sitemap origin: ${loc.href}`);
   if (!loc.pathname.endsWith("/")) fail(`sitemap URL must be slash-normalized: ${loc.href}`);
