@@ -59,6 +59,14 @@ const feedItems = (feed.match(/<item>/g) ?? []).length;
 if (!feed.includes("<rss version=\"2.0\">")) fail("feed.xml must be RSS 2.0");
 if (feedItems < 20) fail(`feed.xml has too few items: ${feedItems}`);
 
+const manifest = JSON.parse(fetchText(`${base}/site.webmanifest`));
+if (!manifest.theme_color) fail("site.webmanifest must define theme_color");
+if (!Array.isArray(manifest.icons) || manifest.icons.length === 0) fail("site.webmanifest must define at least one icon");
+for (const icon of manifest.icons) {
+  if (!icon.src) fail("site.webmanifest icon is missing src");
+  fetchText(new URL(icon.src, base).toString());
+}
+
 const sitemapSet = new Set(urls);
 for (const path of corePaths) {
   const url = `${base}${path}`;
@@ -79,6 +87,8 @@ for (const path of corePaths) {
   if (/<meta name="robots" content="[^"]*noindex/i.test(html)) fail(`${url}: contains noindex`);
   if (!html.includes('type="application/ld+json"')) fail(`${url}: missing JSON-LD`);
   if (!html.includes('rel="alternate" type="application/rss+xml"')) fail(`${url}: missing RSS alternate link`);
+  if (!html.includes('rel="manifest" href="/site.webmanifest"')) fail(`${url}: missing manifest link`);
+  if (!html.includes(`<meta name="theme-color" content="${manifest.theme_color}"`)) fail(`${url}: theme-color does not match manifest`);
 }
 
 console.log(`Live SEO check passed: ${urls.length} sitemap URLs at ${base}.`);
