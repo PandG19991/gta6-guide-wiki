@@ -5,6 +5,7 @@ const dist = "dist";
 const sitemapPath = join(dist, "sitemap.xml");
 const robotsPath = join(dist, "robots.txt");
 const feedPath = join(dist, "feed.xml");
+const manifestPath = join(dist, "site.webmanifest");
 
 const read = (file) => readFileSync(file, "utf8");
 const matchAll = (text, regex) => [...text.matchAll(regex)].map((match) => match[1]);
@@ -25,8 +26,10 @@ if (locs.length < 40) fail(`sitemap has too few URLs: ${locs.length}`);
 const origin = locs[0].origin;
 const feed = read(feedPath);
 const feedItems = (feed.match(/<item>/g) ?? []).length;
+const manifest = JSON.parse(read(manifestPath));
 if (!feed.includes("<rss version=\"2.0\">")) fail("feed.xml must be RSS 2.0");
 if (feedItems < 20) fail(`feed.xml has too few items: ${feedItems}`);
+if (!manifest.theme_color) fail("site.webmanifest must define theme_color");
 for (const loc of locs) {
   if (loc.origin !== origin) fail(`mixed sitemap origin: ${loc.href}`);
   if (!loc.pathname.endsWith("/")) fail(`sitemap URL must be slash-normalized: ${loc.href}`);
@@ -58,6 +61,7 @@ for (const file of htmlFiles) {
   const description = html.match(/<meta name="description" content="(.*?)"/)?.[1]?.trim();
   const canonical = html.match(/<link rel="canonical" href="(.*?)"/)?.[1];
   const robotsMeta = html.match(/<meta name="robots" content="(.*?)"/)?.[1] ?? "";
+  const themeColor = html.match(/<meta name="theme-color" content="(.*?)"/)?.[1];
   const ogUrl = html.match(/<meta property="og:url" content="(.*?)"/)?.[1];
   const ogImage = html.match(/<meta property="og:image" content="(.*?)"/)?.[1];
   const jsonLd = html.match(/<script type="application\/ld\+json">(.*?)<\/script>/)?.[1];
@@ -76,6 +80,7 @@ for (const file of htmlFiles) {
   const ownPath = `/${relative(dist, file).replaceAll("\\", "/").replace(/index\.html$/, "")}`;
   const ownUrl = new URL(ownPath === "/" ? "/" : ownPath, origin).toString();
   if (!html.includes(`rel="alternate" type="application/rss+xml"`)) fail(`${label}: missing RSS alternate link`);
+  if (themeColor !== manifest.theme_color) fail(`${label}: theme-color must match site.webmanifest`);
   if (robotsMeta.toLowerCase().includes("noindex")) {
     if (sitemapUrls.has(ownUrl)) fail(`${label}: sitemap URL contains noindex`);
     if (canonical === ownUrl) fail(`${label}: self-canonical page contains noindex`);
