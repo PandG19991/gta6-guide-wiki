@@ -9,6 +9,7 @@ interface Props {
   description?: string;
   canonical?: string;
   image?: string;
+  robots?: string;
   schema?: unknown;
 }
 
@@ -17,6 +18,7 @@ const {
   description = site.description,
   canonical = new URL(Astro.url.pathname, site.url).toString(),
   image = "/assets/hero-leonida-dossier.png",
+  robots = "index,follow,max-image-preview:large",
   schema
 } = Astro.props;
 
@@ -61,7 +63,7 @@ const jsonLd = [...siteSchema, ...pageSchema];
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" type="application/rss+xml" title={`${site.name} RSS`} href={new URL("/feed.xml", site.url).toString()} />
-    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta name="robots" content={robots} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={pageTitle} />

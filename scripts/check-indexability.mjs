@@ -73,8 +73,13 @@ for (const file of htmlFiles) {
   }
   if (!canonical) fail(`${label}: missing canonical`);
   if (!sitemapUrls.has(canonical)) fail(`${label}: canonical not listed in sitemap: ${canonical}`);
+  const ownPath = `/${relative(dist, file).replaceAll("\\", "/").replace(/index\.html$/, "")}`;
+  const ownUrl = new URL(ownPath === "/" ? "/" : ownPath, origin).toString();
   if (!html.includes(`rel="alternate" type="application/rss+xml"`)) fail(`${label}: missing RSS alternate link`);
-  if (robotsMeta.toLowerCase().includes("noindex")) fail(`${label}: contains noindex`);
+  if (robotsMeta.toLowerCase().includes("noindex")) {
+    if (sitemapUrls.has(ownUrl)) fail(`${label}: sitemap URL contains noindex`);
+    if (canonical === ownUrl) fail(`${label}: self-canonical page contains noindex`);
+  }
   if (h1Count !== 1) fail(`${label}: expected exactly one h1, found ${h1Count}`);
   if (ogUrl !== canonical) fail(`${label}: og:url must match canonical`);
   if (!ogImage?.startsWith(`${origin}/`)) fail(`${label}: og:image must be same-origin absolute URL`);
