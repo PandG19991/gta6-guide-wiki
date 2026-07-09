@@ -639,7 +639,7 @@ export const guides: Guide[] = [
     intent: "launch-week",
     status: "launch-week",
     confidence: "analysis",
-    updated: "2026-07-08",
+    updated: "2026-07-09",
     sourceIds: ["rockstar-vi", "google-spam"],
     bullets: [
       "A real beginner guide requires hands-on launch testing, so this page does not invent controls or systems.",
@@ -1125,6 +1125,26 @@ export const guideEvidenceRows: Record<string, EvidenceRow[]> = {
       claim: "Exploit boundary",
       status: "Policy",
       proof: "Exploit chains, online-cheating instructions, and unverified police-escape claims stay out of the guide until tested and policy-safe.",
+      sourceId: "google-spam"
+    }
+  ],
+  "gta-6-beginner-guide-launch-week": [
+    {
+      claim: "Beginner systems status",
+      status: "Analysis",
+      proof: "Current official GTA 6 pages do not publish final controls, settings, saving, map, or first-hour systems, so this guide does not invent those steps before release.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Testing standard",
+      status: "Analysis",
+      proof: "Launch-week rows will require platform, setting path, input method, repeatable result, spoiler level, and whether the step affects progression.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Thin-content boundary",
+      status: "Policy",
+      proof: "Generic tips, copied walkthroughs, leak bait, and untested first-hour advice stay out until they answer a real player question.",
       sourceId: "google-spam"
     }
   ],

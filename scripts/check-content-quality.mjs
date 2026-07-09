@@ -18,6 +18,7 @@ const requiredEvidenceTables = [
   ["gta-6-cheats-codes-testing-tracker", 3],
   ["gta-6-money-fast-early-no-exploits", 3],
   ["gta-6-wanted-level-police-escape-guide", 3],
+  ["gta-6-beginner-guide-launch-week", 3],
   ["gta-6-vice-city-location-guide", 3],
   ["gta-6-leonida-keys-location-guide", 3],
   ["gta-6-grassrivers-location-guide", 3],
