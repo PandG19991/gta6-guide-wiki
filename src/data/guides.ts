@@ -677,7 +677,7 @@ export const guides: Guide[] = [
     intent: "launch-week",
     status: "launch-week",
     confidence: "analysis",
-    updated: "2026-07-08",
+    updated: "2026-07-09",
     sourceIds: ["adsense-publisher", "google-spam", "rockstar-vi"],
     bullets: [
       "No GTA 6 money method is confirmed here before launch testing.",
@@ -1085,6 +1085,26 @@ export const guideEvidenceRows: Record<string, EvidenceRow[]> = {
       claim: "Fake-code boundary",
       status: "Policy",
       proof: "Unlimited-money generators, download bait, online-cheating instructions, and unverifiable code lists stay out of the site.",
+      sourceId: "google-spam"
+    }
+  ],
+  "gta-6-money-fast-early-no-exploits": [
+    {
+      claim: "Money method status",
+      status: "Analysis",
+      proof: "Current official GTA 6 pages do not publish early-game payout routes, so this guide does not list money methods before release testing.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Testing standard",
+      status: "Analysis",
+      proof: "Launch-week rows will require platform, prerequisite, payout, repeatability, risk, time cost, and progression impact before a method is recommended.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Exploit boundary",
+      status: "Policy",
+      proof: "Unlimited-money generators, malware bait, online-cheating instructions, and unverifiable exploit claims stay out of the site.",
       sourceId: "google-spam"
     }
   ],
