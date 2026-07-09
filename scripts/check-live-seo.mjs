@@ -45,6 +45,37 @@ const fetchText = (url) => {
   }
 };
 
+const fetchHeaders = (url) => {
+  try {
+    return execFileSync(process.platform === "win32" ? "curl.exe" : "curl", [
+      "--fail",
+      "--silent",
+      "--show-error",
+      "--location",
+      "--head",
+      "--max-time",
+      "30",
+      url
+    ], { encoding: "utf8", maxBuffer: 1024 * 1024 }).toLowerCase();
+  } catch (error) {
+    fail(`${url}: curl headers failed (${error.status ?? "unknown"})`);
+  }
+};
+
+const homepageHeaders = fetchHeaders(`${base}/`);
+for (const header of [
+  "strict-transport-security:",
+  "content-security-policy:",
+  "x-content-type-options: nosniff",
+  "x-frame-options: deny",
+  "referrer-policy: strict-origin-when-cross-origin",
+  "permissions-policy:"
+]) {
+  if (!homepageHeaders.includes(header)) fail(`homepage missing live security header: ${header}`);
+}
+if (!homepageHeaders.includes("frame-ancestors 'none'")) fail("live CSP must deny framing");
+if (!homepageHeaders.includes("object-src 'none'")) fail("live CSP must deny plugins");
+
 const robots = fetchText(`${base}/robots.txt`);
 if (!robots.includes("Allow: /")) fail("robots.txt must allow crawling");
 if (robots.includes("Disallow: /")) fail("robots.txt blocks the whole site");
