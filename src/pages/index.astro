@@ -6,7 +6,7 @@ import NewsGuideCard from "@components/NewsGuideCard.astro";
 import { confidenceLevels, site } from "@data/site";
 import { guides } from "@data/guides";
 import { ledgerUpdates } from "@data/updates";
-import { contentClusters, competitorPatterns } from "@data/contentPlan";
+import { contentClusters } from "@data/contentPlan";
 
 const heroGuideSlugs = [
   "gta-6-release-date-countdown-preload",
@@ -202,20 +202,17 @@ const schema = {
 
   <section class="section-tight shell split">
     <div>
-      <h2 class="page-title">Not A Stiff Wiki</h2>
+      <h2 class="page-title">Built For Useful Answers</h2>
       <p class="page-intro">
-        We borrow the useful parts of big guide sites: hubs, databases, citations, maps, and launch checklists.
-        We avoid the low-value parts: scraped summaries, unverified leak lists, fake walkthroughs, and pages with no actionable answer.
+        Each page starts with a short answer, source confidence, and the next verification step.
+        Unverified leaks, copied summaries, fake cheats, and empty item pages stay out of the guide.
       </p>
     </div>
     <div class="panel">
-      {competitorPatterns.map((pattern) => (
-        <section>
-          <h3>{pattern.site}</h3>
-          <p><strong>Pattern:</strong> {pattern.copy}</p>
-          <p><strong>Adaptation:</strong> {pattern.adaptation}</p>
-        </section>
-      ))}
+      <h3>What Gets Published</h3>
+      <p>Official facts, clearly labeled trailer observations, buyer guidance, and launch-week test plans with stable update triggers.</p>
+      <h3>What Waits</h3>
+      <p>Walkthrough steps, money routes, cheat codes, map markers, and item records wait for official confirmation or hands-on testing.</p>
     </div>
   </section>
 

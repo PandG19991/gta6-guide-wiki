@@ -29,19 +29,5 @@ export const databaseSections: DatabaseSection[] = [
     confidence: "observed",
     fields: ["Category", "Status", "Source", "Launch notes"],
     records: ["Street cars and traffic", "Motorcycles and bikes", "Boats and watercraft", "Aircraft", "Police and emergency vehicles", "Edition or bonus vehicles"]
-  },
-  {
-    title: "Missions",
-    count: 0,
-    confidence: "analysis",
-    fields: ["Mission", "Chapter", "Reward", "Spoiler level"],
-    records: []
-  },
-  {
-    title: "Cheats",
-    count: 0,
-    confidence: "analysis",
-    fields: ["Code", "Platform", "Effect", "Test status"],
-    records: []
   }
 ];

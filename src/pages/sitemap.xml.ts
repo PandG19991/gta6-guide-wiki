@@ -19,7 +19,6 @@ const staticPages = [
   "/sources/",
   "/editorial-policy/",
   "/testing-protocol/",
-  "/domain-strategy/",
   "/privacy/",
   "/contact/"
 ];

@@ -49,36 +49,3 @@ export const contentClusters = [
   }
 ];
 
-export const competitorPatterns = [
-  {
-    site: "GTA BOOM",
-    copy: "Vertical GTA focus with guides, cheats, news, tools, and countdown-style utility pages.",
-    adaptation: "Build utilities and launch trackers around guide pages instead of only publishing articles."
-  },
-  {
-    site: "GTA Base",
-    copy: "Structured database pages for vehicles, characters, and feature hubs.",
-    adaptation: "Use database schemas as internal-link engines, but keep pages concise and evidence-labeled."
-  },
-  {
-    site: "GTA Wiki / Fandom",
-    copy: "Dense entity relationships and citations across people, places, vehicles, and missions.",
-    adaptation: "Keep the relationship graph, lose the dry encyclopedia tone."
-  },
-  {
-    site: "GamesRadar / IGN-style hubs",
-    copy: "Living explainers for high-volume searches like platforms, PC status, map, and preorder details.",
-    adaptation: "Maintain a release hub that answers fast questions before users bounce."
-  },
-  {
-    site: "Map Genie / GTALens",
-    copy: "Filterable maps and completion trackers drive repeat visits.",
-    adaptation: "Plan an interactive map after launch using only official or self-verified markers."
-  },
-  {
-    site: "PowerPyx",
-    copy: "Short, tested, collectible and trophy-first guides.",
-    adaptation: "Post-launch guides should be practical, numbered, and tested before expansion."
-  }
-];
-

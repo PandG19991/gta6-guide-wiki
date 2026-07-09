@@ -12,7 +12,7 @@ export const ledgerUpdates: LedgerUpdate[] = [
     time: "04:58 ET",
     confidence: "official",
     title: "Site source ledger refreshed against Rockstar and Take-Two launch/preorder pages.",
-    source: "Internal review"
+    source: "Editorial desk"
   },
   {
     date: "2026-06-25",
@@ -27,13 +27,6 @@ export const ledgerUpdates: LedgerUpdate[] = [
     confidence: "official",
     title: "Take-Two confirmed $79.99 Standard Edition, $99.99 Ultimate Edition, and November 12 preload.",
     source: "Take-Two"
-  },
-  {
-    date: "2026-07-08",
-    time: "05:02 ET",
-    confidence: "analysis",
-    title: "Domain guidance favors brand-first names over exact-match trademark-heavy domains.",
-    source: "Editorial policy"
   }
 ];
 

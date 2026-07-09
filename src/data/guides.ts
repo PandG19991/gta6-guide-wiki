@@ -6,7 +6,7 @@ export type Guide = {
   slug: string;
   title: string;
   deck: string;
-  category: "Release" | "Map" | "Characters" | "Vehicles" | "Missions" | "Cheats" | "Buying" | "SEO";
+  category: "Release" | "Map" | "Characters" | "Vehicles" | "Missions" | "Cheats" | "Buying";
   intent: "pre-launch" | "launch-week" | "evergreen";
   status: GuideStatus;
   confidence: ConfidenceKey;
@@ -706,25 +706,6 @@ export const guides: Guide[] = [
     ],
     nextUpdate: "Add a test matrix on launch day and publish only repeatable results.",
     searchTerms: ["gta 6 cheats", "gta 6 cheats ps5", "gta 6 cheats xbox"]
-  },
-  {
-    slug: "gta-6-domain-strategy-fan-site-seo",
-    title: "Domain Strategy for a GTA 6 Fan Guide",
-    deck: "Domain ideas that capture search intent without implying official Rockstar or Take-Two affiliation.",
-    category: "SEO",
-    intent: "pre-launch",
-    status: "live",
-    confidence: "analysis",
-    updated: "2026-07-08",
-    sourceIds: ["google-seo-starter", "google-spam", "adsense-publisher", "rockstar-copyright"],
-    bullets: [
-      "Use a brand-first domain rather than an exact trademark-heavy domain.",
-      "Keep GTA 6 in page titles and body copy where it is descriptive and useful.",
-      "Avoid official-looking language, logos, store/preorder wording, and confusing visual identity.",
-      "Recommended short list: leonidaledger.com, openworldfieldguide.com, launchgameguide.com, vicecityfieldguide.com."
-    ],
-    nextUpdate: "Check availability and choose a brandable domain before connecting a custom Cloudflare domain.",
-    searchTerms: ["gta 6 guide domain", "gta 6 wiki seo", "gta 6 fan site"]
   }
 ];
 
@@ -782,13 +763,6 @@ export const guideCategoryMeta = [
     title: "GTA 6 Cheat Guides",
     deck: "No-fake-code cheat tracking, launch-week test plans, and policy-safe cheat coverage.",
     image: "/assets/og-cheats.png"
-  },
-  {
-    category: "SEO",
-    slug: "seo",
-    title: "GTA 6 Fan Site SEO Guides",
-    deck: "Domain, source, and fan-site policy choices for building a useful unofficial guide site.",
-    image: "/assets/og-seo.png"
   }
 ] as const satisfies Array<{ category: Guide["category"]; slug: string; title: string; deck: string; image: string }>;
 
@@ -1325,26 +1299,6 @@ export const guideEvidenceRows: Record<string, EvidenceRow[]> = {
       claim: "Ad-safety boundary",
       status: "Policy",
       proof: "The site avoids thin, misleading, or copied spoiler content that would reduce user value and create publisher-policy risk.",
-      sourceId: "adsense-publisher"
-    }
-  ],
-  "gta-6-domain-strategy-fan-site-seo": [
-    {
-      claim: "Brand-first domain",
-      status: "Analysis",
-      proof: "Search terms belong in titles and content; the domain should avoid looking official or trademark-heavy.",
-      sourceId: "google-seo-starter"
-    },
-    {
-      claim: "Copyright boundary",
-      status: "Policy",
-      proof: "The site avoids official logos, leaked assets, and confusing Rockstar or Take-Two affiliation.",
-      sourceId: "rockstar-copyright"
-    },
-    {
-      claim: "Ad-safety boundary",
-      status: "Policy",
-      proof: "The strategy rejects scraped, thin, or misleading pages that only exist for ads.",
       sourceId: "adsense-publisher"
     }
   ]

@@ -15,9 +15,9 @@ export const gta6RailItems = [
 ];
 
 export const gta6HubStats = [
-  { label: "Guide pages", value: "27", detail: "FAQ and schema enhanced" },
-  { label: "Sitemap URLs", value: "53", detail: "clean canonical set" },
-  { label: "Evidence tables", value: "27", detail: "high-intent pages" },
+  { label: "Guide pages", value: "26", detail: "FAQ and schema enhanced" },
+  { label: "Sitemap URLs", value: "51", detail: "clean canonical set" },
+  { label: "Evidence tables", value: "26", detail: "high-intent pages" },
   { label: "Policy stance", value: "No leaks", detail: "official or tested only" }
 ];
 
@@ -60,22 +60,6 @@ export const gta6DatabaseCards: Array<{
     confidence: "official",
     deck: "Standard Edition, Ultimate Edition, preorder bonuses, GTA+ benefit, and preload records.",
     nextUpdate: "Refresh when storefront pages expose stable edition details."
-  },
-  {
-    title: "Cheats",
-    href: "/guides/gta-6-cheats-codes-testing-tracker/",
-    count: 0,
-    confidence: "analysis",
-    deck: "A no-fake-code launch tracker for platform-specific cheat testing.",
-    nextUpdate: "Publish only official or repeatably tested codes after release."
-  },
-  {
-    title: "Missions",
-    href: "/guides/gta-6-mission-list-walkthrough-hub/",
-    count: 0,
-    confidence: "analysis",
-    deck: "A spoiler-safe mission hub waiting for hands-on walkthrough verification.",
-    nextUpdate: "Open mission rows after launch testing, not rumor threads."
   }
 ];
 
