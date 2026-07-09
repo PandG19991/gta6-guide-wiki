@@ -7,6 +7,7 @@ export const gta6RailItems = [
   { label: "Vehicles", href: "/gta-6/database/vehicles/" },
   { label: "Characters", href: "/gta-6/database/characters/" },
   { label: "Locations", href: "/gta-6/database/locations/" },
+  { label: "Editions", href: "/gta-6/database/editions/" },
   { label: "Release", href: "/release/" },
   { label: "Map", href: "/map/" },
   { label: "Guides", href: "/guides/" },
@@ -15,7 +16,7 @@ export const gta6RailItems = [
 
 export const gta6HubStats = [
   { label: "Guide pages", value: "27", detail: "FAQ and schema enhanced" },
-  { label: "Sitemap URLs", value: "52", detail: "clean canonical set" },
+  { label: "Sitemap URLs", value: "53", detail: "clean canonical set" },
   { label: "Evidence tables", value: "27", detail: "high-intent pages" },
   { label: "Policy stance", value: "No leaks", detail: "official or tested only" }
 ];
@@ -54,10 +55,10 @@ export const gta6DatabaseCards: Array<{
   },
   {
     title: "Editions",
-    href: "/guides/gta-6-pre-order-standard-vs-ultimate/",
-    count: 2,
+    href: "/gta-6/database/editions/",
+    count: 6,
     confidence: "official",
-    deck: "Standard and Ultimate Edition buyer guidance with price and preorder-bonus evidence.",
+    deck: "Standard Edition, Ultimate Edition, preorder bonuses, GTA+ benefit, and preload records.",
     nextUpdate: "Refresh when storefront pages expose stable edition details."
   },
   {
@@ -334,5 +335,63 @@ export const locationDatabaseRows: Array<{
     sourceId: "rockstar-leonida",
     page: "/guides/gta-6-map-leonida-regions-evidence-tracker/",
     launchUse: "Terrain routes, viewpoints, off-road paths, wildlife, and activity marker checks."
+  }
+];
+
+export const editionDatabaseRows: Array<{
+  name: string;
+  status: "Official";
+  proof: string;
+  sourceId: string;
+  page: string;
+  launchUse: string;
+}> = [
+  {
+    name: "Standard Edition",
+    status: "Official",
+    proof: "Take-Two's preorder announcement lists Standard Edition at $79.99.",
+    sourceId: "take-two-preorders",
+    page: "/guides/gta-6-pre-order-standard-vs-ultimate/",
+    launchUse: "Base-game buyer comparison, platform store terms, refund checks, and regional price updates."
+  },
+  {
+    name: "Ultimate Edition",
+    status: "Official",
+    proof: "Take-Two's preorder announcement lists Ultimate Edition at $99.99.",
+    sourceId: "take-two-preorders",
+    page: "/guides/gta-6-price-standard-ultimate-explained/",
+    launchUse: "Benefit comparison, upsell value checks, storefront inclusions, and final item-list updates."
+  },
+  {
+    name: "Vintage Vice City Pack",
+    status: "Official",
+    proof: "Publisher copy ties the Vintage Vice City Pack to preorders and purchases before November 20, 2026.",
+    sourceId: "rockstar-preorders",
+    page: "/guides/gta-6-vintage-vice-city-pack/",
+    launchUse: "Bonus eligibility, cutoff date checks, item contents, and platform-specific redemption notes."
+  },
+  {
+    name: "Digital preorder GTA+ month",
+    status: "Official",
+    proof: "The publisher announcement describes one free month of GTA+ for digital preorders.",
+    sourceId: "take-two-preorders",
+    page: "/guides/gta-6-gta-plus-preorder-benefit/",
+    launchUse: "Subscription eligibility, account requirements, cancellation timing, and redemption checks."
+  },
+  {
+    name: "Digital preload",
+    status: "Official",
+    proof: "Rockstar's preorder announcement says digital preloading is scheduled to begin November 12, 2026.",
+    sourceId: "rockstar-preorders",
+    page: "/guides/gta-6-preload-download-size-prep/",
+    launchUse: "Console storage, version number, regional timing, download size, and account access checks."
+  },
+  {
+    name: "Physical download-code preload",
+    status: "Official",
+    proof: "Publisher copy describes the physical version as a box with a download code available for preload.",
+    sourceId: "take-two-preorders",
+    page: "/guides/gta-6-physical-vs-digital-preorder/",
+    launchUse: "Retailer timing, code redemption, gift-buying friction, preload eligibility, and refund caveats."
   }
 ];

@@ -10,6 +10,7 @@ const staticPages = [
   "/gta-6/database/vehicles/",
   "/gta-6/database/characters/",
   "/gta-6/database/locations/",
+  "/gta-6/database/editions/",
   "/release/",
   "/map/",
   "/guides/",
