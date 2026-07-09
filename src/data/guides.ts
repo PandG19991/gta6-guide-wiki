@@ -658,7 +658,7 @@ export const guides: Guide[] = [
     intent: "launch-week",
     status: "launch-week",
     confidence: "analysis",
-    updated: "2026-07-08",
+    updated: "2026-07-09",
     sourceIds: ["rockstar-vi", "google-spam"],
     bullets: [
       "No wanted-level mechanics are treated as final until tested in the released game.",
@@ -1105,6 +1105,26 @@ export const guideEvidenceRows: Record<string, EvidenceRow[]> = {
       claim: "Exploit boundary",
       status: "Policy",
       proof: "Unlimited-money generators, malware bait, online-cheating instructions, and unverifiable exploit claims stay out of the site.",
+      sourceId: "google-spam"
+    }
+  ],
+  "gta-6-wanted-level-police-escape-guide": [
+    {
+      claim: "Wanted-system status",
+      status: "Analysis",
+      proof: "Current official GTA 6 pages do not publish final wanted-level rules, so this guide does not claim star counts, police AI, or escape routes before release testing.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Testing standard",
+      status: "Analysis",
+      proof: "Launch-week rows will require platform, wanted level, trigger, line-of-sight behavior, vehicle changes, safe-location result, and repeatability.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Exploit boundary",
+      status: "Policy",
+      proof: "Exploit chains, online-cheating instructions, and unverified police-escape claims stay out of the guide until tested and policy-safe.",
       sourceId: "google-spam"
     }
   ],
