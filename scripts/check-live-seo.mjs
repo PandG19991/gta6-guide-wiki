@@ -76,6 +76,16 @@ for (const header of [
 if (!homepageHeaders.includes("frame-ancestors 'none'")) fail("live CSP must deny framing");
 if (!homepageHeaders.includes("object-src 'none'")) fail("live CSP must deny plugins");
 
+for (const [path, contentType] of [
+  ["/robots.txt", "content-type: text/plain"],
+  ["/sitemap.xml", "content-type: application/xml"],
+  ["/feed.xml", "content-type: application/xml"],
+  ["/site.webmanifest", "content-type: application/manifest+json"],
+  ["/.well-known/security.txt", "content-type: text/plain"]
+]) {
+  if (!fetchHeaders(`${base}${path}`).includes(contentType)) fail(`${path} missing live ${contentType}`);
+}
+
 const securityTxt = fetchText(`${base}/.well-known/security.txt`);
 if (!securityTxt.includes(`Contact: ${base}/contact/`)) fail("security.txt contact URL does not match site.url");
 if (!securityTxt.includes(`Policy: ${base}/editorial-policy/`)) fail("security.txt policy URL does not match site.url");
