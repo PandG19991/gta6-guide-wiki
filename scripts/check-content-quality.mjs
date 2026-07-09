@@ -39,7 +39,8 @@ const requiredBuiltPages = [
   ["dist/gta-6/database/vehicles/index.html", ["GTA 6 Vehicle Database", "Why no model spam?", "Launch checklist"]],
   ["dist/gta-6/database/characters/index.html", ["GTA 6 Character Database", "What stays out?", "Launch checklist"]],
   ["dist/gta-6/database/locations/index.html", ["GTA 6 Location Database", "What stays out?", "Launch checklist"]],
-  ["dist/gta-6/database/editions/index.html", ["GTA 6 Edition Database", "What stays out?", "Launch checklist"]]
+  ["dist/gta-6/database/editions/index.html", ["GTA 6 Edition Database", "What stays out?", "Launch checklist"]],
+  ["dist/about/index.html", ["About Leonida Ledger", "What We Publish", "What We Do Not Publish", "How Updates Work"]]
 ];
 
 for (const [file, requiredText] of requiredBuiltPages) {
