@@ -22,18 +22,18 @@ export const contentClusters = [
       "GTA 6 Beginner Guide",
       "Best GTA 6 Settings for PS5 and Xbox",
       "How to Save, Change Outfits, and Use Safehouses",
-      "How to Make Money Fast Early",
+      "Early Money Testing Tracker",
       "Best Early Vehicles",
       "Best Early Weapons",
-      "Wanted Level and Police Escape Guide",
-      "Cheats: Confirmed Codes and Testing Tracker"
+      "Wanted Level and Police Escape Test Plan",
+      "Cheats Testing Tracker"
     ]
   },
   {
     phase: "Evergreen",
     purpose: "Build high-return durable assets that earn revisits: map, checklists, database pages, and 100% completion.",
     pages: [
-      "Mission List and Walkthrough Hub",
+      "Mission List Testing Hub",
       "100% Completion Checklist",
       "Interactive Map",
       "All Vehicles Database",

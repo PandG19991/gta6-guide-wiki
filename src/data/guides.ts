@@ -162,8 +162,8 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-mission-list-walkthrough-hub",
-    title: "GTA 6 Mission List and Walkthrough Hub",
-    deck: "A launch-week mission index designed for walkthroughs, rewards, replay notes, and spoiler-safe navigation.",
+    title: "GTA 6 Mission List Testing Hub",
+    deck: "A launch-week mission index plan for walkthroughs, rewards, replay notes, and spoiler-safe navigation.",
     category: "Missions",
     intent: "launch-week",
     status: "launch-week",
@@ -652,7 +652,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-wanted-level-police-escape-guide",
-    title: "GTA 6 Wanted Level and Police Escape Guide",
+    title: "GTA 6 Wanted Level and Police Escape Test Plan",
     deck: "A launch-week test plan for wanted levels, escape routes, hiding, vehicles, and repeatable police behavior.",
     category: "Missions",
     intent: "launch-week",
@@ -671,8 +671,8 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-money-fast-early-no-exploits",
-    title: "GTA 6 Money Fast Early: No Exploits",
-    deck: "A future early-money guide that will avoid fake unlimited-money claims and separate story, side activity, and online advice.",
+    title: "GTA 6 Early Money Testing Tracker: No Exploits",
+    deck: "A future early-money tracker that will avoid fake unlimited-money claims and separate story, side activity, and online advice.",
     category: "Missions",
     intent: "launch-week",
     status: "launch-week",
