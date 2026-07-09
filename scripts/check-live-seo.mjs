@@ -76,6 +76,13 @@ for (const header of [
 if (!homepageHeaders.includes("frame-ancestors 'none'")) fail("live CSP must deny framing");
 if (!homepageHeaders.includes("object-src 'none'")) fail("live CSP must deny plugins");
 
+const securityTxt = fetchText(`${base}/.well-known/security.txt`);
+if (!securityTxt.includes(`Contact: ${base}/contact/`)) fail("security.txt contact URL does not match site.url");
+if (!securityTxt.includes(`Policy: ${base}/editorial-policy/`)) fail("security.txt policy URL does not match site.url");
+const securityExpires = securityTxt.match(/^Expires:\s*(.+)$/m)?.[1];
+if (!securityExpires || Number.isNaN(Date.parse(securityExpires))) fail("security.txt Expires is missing or invalid");
+if (Date.parse(securityExpires) <= Date.now()) fail("security.txt Expires is not in the future");
+
 const robots = fetchText(`${base}/robots.txt`);
 if (!robots.includes("Allow: /")) fail("robots.txt must allow crawling");
 if (robots.includes("Disallow: /")) fail("robots.txt blocks the whole site");
