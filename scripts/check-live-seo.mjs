@@ -14,6 +14,7 @@ const corePaths = [
   "/gta-6/database/",
   "/gta-6/database/vehicles/",
   "/gta-6/database/characters/",
+  "/gta-6/database/locations/",
   "/guides/",
   "/release/",
   "/guides/is-gta-6-coming-to-pc/",

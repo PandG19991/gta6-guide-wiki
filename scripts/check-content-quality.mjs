@@ -35,9 +35,10 @@ const failures = [];
 const requiredBuiltPages = [
   ["dist/gta-6/index.html", ["GTA 6 Database Hub", "Database Surface", "Confirmed Features"]],
   ["dist/gta-6/features/index.html", ["GTA 6 Features Confirmed So Far", "Release Information", "Vehicles and Driving"]],
-  ["dist/gta-6/database/index.html", ["GTA 6 Database", "Vehicles", "Characters", "Update trigger"]],
+  ["dist/gta-6/database/index.html", ["GTA 6 Database", "Vehicles", "Characters", "Locations", "Update trigger"]],
   ["dist/gta-6/database/vehicles/index.html", ["GTA 6 Vehicle Database", "Why no model spam?", "Launch checklist"]],
-  ["dist/gta-6/database/characters/index.html", ["GTA 6 Character Database", "What stays out?", "Launch checklist"]]
+  ["dist/gta-6/database/characters/index.html", ["GTA 6 Character Database", "What stays out?", "Launch checklist"]],
+  ["dist/gta-6/database/locations/index.html", ["GTA 6 Location Database", "What stays out?", "Launch checklist"]]
 ];
 
 for (const [file, requiredText] of requiredBuiltPages) {
@@ -93,6 +94,14 @@ if (existsSync(characterPage)) {
   const rowCount = (html.match(/<tr>/g) ?? []).length - 1;
   if (rowCount < 8) failures.push(`${characterPage}: expected at least 8 character rows, found ${rowCount}`);
   if (!html.includes('rel="nofollow noopener"')) failures.push(`${characterPage}: source links should be nofollow noopener`);
+}
+
+const locationPage = "dist/gta-6/database/locations/index.html";
+if (existsSync(locationPage)) {
+  const html = readFileSync(locationPage, "utf8");
+  const rowCount = (html.match(/<tr>/g) ?? []).length - 1;
+  if (rowCount < 6) failures.push(`${locationPage}: expected at least 6 location rows, found ${rowCount}`);
+  if (!html.includes('rel="nofollow noopener"')) failures.push(`${locationPage}: source links should be nofollow noopener`);
 }
 
 if (failures.length) {

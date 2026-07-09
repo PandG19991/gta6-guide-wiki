@@ -6,6 +6,7 @@ export const gta6RailItems = [
   { label: "Database", href: "/gta-6/database/" },
   { label: "Vehicles", href: "/gta-6/database/vehicles/" },
   { label: "Characters", href: "/gta-6/database/characters/" },
+  { label: "Locations", href: "/gta-6/database/locations/" },
   { label: "Release", href: "/release/" },
   { label: "Map", href: "/map/" },
   { label: "Guides", href: "/guides/" },
@@ -14,7 +15,7 @@ export const gta6RailItems = [
 
 export const gta6HubStats = [
   { label: "Guide pages", value: "27", detail: "FAQ and schema enhanced" },
-  { label: "Sitemap URLs", value: "51", detail: "clean canonical set" },
+  { label: "Sitemap URLs", value: "52", detail: "clean canonical set" },
   { label: "Evidence tables", value: "27", detail: "high-intent pages" },
   { label: "Policy stance", value: "No leaks", detail: "official or tested only" }
 ];
@@ -45,7 +46,7 @@ export const gta6DatabaseCards: Array<{
   },
   {
     title: "Locations",
-    href: "/guides/gta-6-map-leonida-regions-evidence-tracker/",
+    href: "/gta-6/database/locations/",
     count: 6,
     confidence: "official",
     deck: "Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia, and Mount Kalaga.",
@@ -275,5 +276,63 @@ export const characterDatabaseRows: Array<{
     sourceId: "rockstar-leonida",
     page: "/guides/gta-6-characters-official-cast/",
     launchUse: "Safehouse access, boat yard checks, contact unlocks, and early mission ties."
+  }
+];
+
+export const locationDatabaseRows: Array<{
+  name: string;
+  status: "Official";
+  proof: string;
+  sourceId: string;
+  page: string;
+  launchUse: string;
+}> = [
+  {
+    name: "Vice City",
+    status: "Official",
+    proof: "Rockstar presents Vice City as a major Leonida destination and the clearest urban anchor for the setting.",
+    sourceId: "rockstar-leonida",
+    page: "/guides/gta-6-vice-city-location-guide/",
+    launchUse: "Neighborhood names, storefronts, safehouses, collectibles, routes, and activity density."
+  },
+  {
+    name: "Leonida Keys",
+    status: "Official",
+    proof: "Rockstar lists the Keys as an official Leonida destination with island and water-route relevance.",
+    sourceId: "rockstar-leonida",
+    page: "/guides/gta-6-leonida-keys-location-guide/",
+    launchUse: "Boat access, bridge routes, water missions, wildlife checks, and side activity markers."
+  },
+  {
+    name: "Grassrivers",
+    status: "Official",
+    proof: "Rockstar lists Grassrivers as an official destination, supporting wetland and wildlife tracking after launch.",
+    sourceId: "rockstar-leonida",
+    page: "/guides/gta-6-grassrivers-location-guide/",
+    launchUse: "Wildlife, swamp paths, vehicle access, event triggers, and map-marker verification."
+  },
+  {
+    name: "Port Gellhorn",
+    status: "Official",
+    proof: "Rockstar lists Port Gellhorn as an official Leonida destination with coastal-town tracking potential.",
+    sourceId: "rockstar-leonida",
+    page: "/guides/gta-6-port-gellhorn-location-guide/",
+    launchUse: "Road access, shops, docks, mission starts, and regional collectible checks."
+  },
+  {
+    name: "Ambrosia",
+    status: "Official",
+    proof: "Rockstar lists Ambrosia as an official Leonida destination; this site does not add leaked boundaries or activity claims.",
+    sourceId: "rockstar-leonida",
+    page: "/guides/gta-6-map-leonida-regions-evidence-tracker/",
+    launchUse: "Region boundary, access route, services, mission hooks, and repeatable map evidence."
+  },
+  {
+    name: "Mount Kalaga",
+    status: "Official",
+    proof: "Rockstar lists Mount Kalaga as an official Leonida destination; terrain and activity details wait for testing.",
+    sourceId: "rockstar-leonida",
+    page: "/guides/gta-6-map-leonida-regions-evidence-tracker/",
+    launchUse: "Terrain routes, viewpoints, off-road paths, wildlife, and activity marker checks."
   }
 ];
