@@ -111,7 +111,7 @@ export const guides: Guide[] = [
     intent: "pre-launch",
     status: "tracker",
     confidence: "observed",
-    updated: "2026-07-08",
+    updated: "2026-07-09",
     sourceIds: ["rockstar-vi", "rockstar-leonida", "rockstar-media"],
     bullets: [
       "Rockstar describes Leonida as the state that includes Vice City and surrounding regions.",
@@ -846,6 +846,26 @@ export const guideEvidenceRows: Record<string, EvidenceRow[]> = {
       status: "Official",
       proof: "The announcement describes one free month of GTA+ for digital preorders.",
       sourceId: "take-two-preorders"
+    }
+  ],
+  "gta-6-map-leonida-regions-evidence-tracker": [
+    {
+      claim: "Official setting",
+      status: "Official",
+      proof: "Rockstar frames Leonida as the state that includes Vice City and surrounding destinations.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Named destinations",
+      status: "Official",
+      proof: "The official Leonida page lists Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia, and Mount Kalaga as current destination names.",
+      sourceId: "rockstar-leonida"
+    },
+    {
+      claim: "Map boundary restraint",
+      status: "Analysis",
+      proof: "This tracker does not claim full map borders, coordinates, collectibles, or activity density before official or launch-tested proof exists.",
+      sourceId: "rockstar-media"
     }
   ],
   "gta-6-price-standard-ultimate-explained": [

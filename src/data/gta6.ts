@@ -14,7 +14,7 @@ export const gta6RailItems = [
 export const gta6HubStats = [
   { label: "Guide pages", value: "27", detail: "FAQ and schema enhanced" },
   { label: "Sitemap URLs", value: "50", detail: "clean canonical set" },
-  { label: "Evidence tables", value: "21", detail: "high-intent pages" },
+  { label: "Evidence tables", value: "22", detail: "high-intent pages" },
   { label: "Policy stance", value: "No leaks", detail: "official or tested only" }
 ];
 

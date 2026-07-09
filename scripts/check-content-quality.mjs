@@ -4,6 +4,7 @@ import { join } from "node:path";
 const requiredEvidenceTables = [
   ["gta-6-release-date-countdown-preload", 4],
   ["gta-6-pre-order-standard-vs-ultimate", 4],
+  ["gta-6-map-leonida-regions-evidence-tracker", 3],
   ["gta-6-price-standard-ultimate-explained", 3],
   ["is-gta-6-coming-to-pc", 3],
   ["gta-6-platforms-ps5-xbox-series-x-s", 3],
