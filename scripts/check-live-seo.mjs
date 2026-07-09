@@ -121,6 +121,15 @@ for (const path of corePaths) {
   if (!sitemapSet.has(url)) fail(`core URL missing from sitemap: ${url}`);
 }
 
+for (const [path, canonicalPath] of [["/database/", "/gta-6/database/"]]) {
+  const url = `${base}${path}`;
+  const canonical = `${base}${canonicalPath}`;
+  if (sitemapSet.has(url)) fail(`legacy URL must stay out of sitemap: ${url}`);
+  const html = fetchText(url);
+  if (!html.includes(`<link rel="canonical" href="${canonical}"`)) fail(`${url}: missing legacy canonical`);
+  if (!/<meta name="robots" content="[^"]*noindex/i.test(html)) fail(`${url}: missing noindex`);
+}
+
 for (const url of urls) {
   const parsed = new URL(url);
   if (parsed.origin !== base) fail(`sitemap URL has wrong origin: ${url}`);
