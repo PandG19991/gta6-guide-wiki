@@ -168,8 +168,8 @@ export const guides: Guide[] = [
     intent: "launch-week",
     status: "launch-week",
     confidence: "analysis",
-    updated: "2026-07-08",
-    sourceIds: ["rockstar-vi"],
+    updated: "2026-07-09",
+    sourceIds: ["rockstar-vi", "google-spam", "adsense-publisher"],
     bullets: [
       "The mission list is not published before release because no complete official mission order exists.",
       "The launch-week format will support spoiler-safe summaries, objectives, fail states, rewards, and replay tips.",
@@ -1046,6 +1046,26 @@ export const guideEvidenceRows: Record<string, EvidenceRow[]> = {
       status: "Policy",
       proof: "Rockstar's copyright policy is why this site links to official media and uses original assets instead of rehosting official screenshots by default.",
       sourceId: "rockstar-copyright"
+    }
+  ],
+  "gta-6-mission-list-walkthrough-hub": [
+    {
+      claim: "Mission list status",
+      status: "Analysis",
+      proof: "The current official GTA 6 pages do not publish a complete mission order, so this hub does not invent one before release.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Walkthrough proof path",
+      status: "Analysis",
+      proof: "Mission pages will open only after hands-on testing can record objectives, fail states, rewards, replay notes, and spoiler level.",
+      sourceId: "rockstar-vi"
+    },
+    {
+      claim: "Fake guide boundary",
+      status: "Policy",
+      proof: "Thin mission lists, copied walkthroughs, leak bait, and fake early-money routes are excluded to keep the guide useful and policy-safe.",
+      sourceId: "google-spam"
     }
   ],
   "gta-6-vice-city-location-guide": [
