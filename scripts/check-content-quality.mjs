@@ -41,6 +41,10 @@ const requiredBuiltPages = [
   ["dist/gta-6/database/editions/index.html", ["GTA 6 Edition Database", "What stays out?", "Launch checklist"]],
   ["dist/about/index.html", ["About Leonida Ledger", "What We Publish", "What We Do Not Publish", "How Updates Work"]]
 ];
+const requiredStaticFiles = [
+  ["dist/.well-known/security.txt", ["Contact:", "Expires:", "Preferred-Languages:", "Policy:"]],
+  ["dist/_headers", ["Strict-Transport-Security", "Content-Security-Policy", "X-Content-Type-Options", "X-Frame-Options", "Permissions-Policy"]]
+];
 
 for (const [file, requiredText] of requiredBuiltPages) {
   if (!existsSync(file)) {
@@ -53,6 +57,20 @@ for (const [file, requiredText] of requiredBuiltPages) {
     if (!html.includes(text)) failures.push(`${file}: missing required text ${text}`);
   }
   if (html.includes(">undefined<")) failures.push(`${file}: contains undefined output`);
+}
+
+for (const [file, requiredText] of requiredStaticFiles) {
+  if (!existsSync(file)) {
+    failures.push(`${file}: missing static safety file`);
+    continue;
+  }
+  const text = readFileSync(file, "utf8");
+  for (const required of requiredText) {
+    if (!text.includes(required)) failures.push(`${file}: missing required text ${required}`);
+  }
+  const expires = text.match(/^Expires:\s*(.+)$/m)?.[1];
+  if (expires && Number.isNaN(Date.parse(expires))) failures.push(`${file}: Expires is not a valid date`);
+  if (expires && Date.parse(expires) <= Date.now()) failures.push(`${file}: Expires is not in the future`);
 }
 
 for (const [slug, minRows] of requiredEvidenceTables) {
