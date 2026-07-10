@@ -2,6 +2,7 @@
 import Gta6Rail from "@components/Gta6Rail.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ConfidenceBadge from "@components/ConfidenceBadge.astro";
+import GuideMedia from "@components/GuideMedia.astro";
 import { gta6DatabaseCards } from "@data/gta6";
 import { site } from "@data/site";
 
@@ -56,6 +57,7 @@ const schema = [
     <div class="database-category-grid">
       {gta6DatabaseCards.map((section) => (
         <article class="database-category-card">
+          <GuideMedia id={section.mediaId} />
           <div class="card-meta">
             <ConfidenceBadge value={section.confidence} />
           </div>

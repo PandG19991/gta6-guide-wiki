@@ -1,3 +1,4 @@
+import type { MediaId } from "./media";
 import type { ConfidenceKey } from "./site";
 
 export type GuideStatus = "live" | "tracker" | "launch-week" | "planned";
@@ -24,9 +25,8 @@ type GuideBase = {
   }>;
 };
 
-export type Guide =
-  | (GuideBase & { publication: Exclude<GuidePublication, "redirect">; redirectTo?: never })
-  | (GuideBase & { publication: "redirect"; redirectTo: string });
+export type PublicGuide = GuideBase & { publication: "public"; primaryMediaId: MediaId; redirectTo?: never };
+export type Guide = PublicGuide | (GuideBase & { publication: "withdrawn"; redirectTo?: never }) | (GuideBase & { publication: "redirect"; redirectTo: string });
 
 export type EvidenceRow = {
   claim: string;
@@ -39,6 +39,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-release-date-countdown-preload",
     publication: "public",
+    primaryMediaId: "cover-art",
     title: "GTA 6 Release Date, Countdown, and Preload Times",
     deck: "The source-tracked launch timing page: release date, supported console platforms, digital preload, and what is still unconfirmed.",
     category: "Release",
@@ -73,6 +74,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-pre-order-standard-vs-ultimate",
     publication: "public",
+    primaryMediaId: "vintage-pack",
     title: "GTA 6 Pre-Order Guide: Standard vs Ultimate Edition",
     deck: "A plain-English comparison of prices, preorder bonuses, digital preload, and what each edition currently includes.",
     category: "Buying",
@@ -113,6 +115,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-map-leonida-regions-evidence-tracker",
     publication: "public",
+    primaryMediaId: "vice-city",
     title: "GTA 6 Map: Leonida Regions and Evidence Tracker",
     deck: "A Leonida map hub that separates official location names from trailer observations and community theories.",
     category: "Map",
@@ -133,6 +136,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-characters-official-cast",
     publication: "public",
+    primaryMediaId: "jason-lucia",
     title: "GTA 6 Characters: Jason, Lucia, and Official Cast Tracker",
     deck: "Confirmed character pages with short bios, relationship notes, and source confidence labels.",
     category: "Characters",
@@ -153,6 +157,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-vehicles-confirmed-so-far",
     publication: "public",
+    primaryMediaId: "grotti-cheetah",
     title: "GTA 6 Vehicles Confirmed So Far",
     deck: "A conservative vehicle tracker that starts with officially shown or named vehicles and avoids leak-driven list spam.",
     category: "Vehicles",
@@ -193,6 +198,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-price-standard-ultimate-explained",
     publication: "public",
+    primaryMediaId: "vintage-pack",
     title: "GTA 6 Price Explained: Standard, Ultimate, and Value Check",
     deck: "A buyer-focused breakdown of the confirmed US prices, preorder bonus timing, and who should wait before spending more.",
     category: "Buying",
@@ -233,6 +239,7 @@ export const guides: Guide[] = [
   {
     slug: "is-gta-6-coming-to-pc",
     publication: "public",
+    primaryMediaId: "cover-art",
     title: "Is GTA 6 Coming to PC?",
     deck: "The current PC status page: what has been announced, what has not, and how to avoid fake PC preorder claims.",
     category: "Release",
@@ -267,6 +274,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-platforms-ps5-xbox-series-x-s",
     publication: "public",
+    primaryMediaId: "cover-art",
     title: "GTA 6 Platforms: PS5 and Xbox Series X|S",
     deck: "A simple platform guide for launch support, what is confirmed, and what remains unannounced.",
     category: "Release",
@@ -307,6 +315,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-preload-download-size-prep",
     publication: "public",
+    primaryMediaId: "cover-art",
     title: "GTA 6 Preload and Download Prep",
     deck: "A practical preload checklist for console players, separating confirmed dates from unknown file-size details.",
     category: "Release",
@@ -347,6 +356,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-gta-plus-preorder-benefit",
     publication: "public",
+    primaryMediaId: "vintage-pack",
     title: "GTA 6 GTA+ Preorder Benefit Explained",
     deck: "What the current digital preorder GTA+ benefit says, who it helps, and what not to assume about GTA 6 Online.",
     category: "Buying",
@@ -387,6 +397,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-physical-vs-digital-preorder",
     publication: "public",
+    primaryMediaId: "vintage-pack",
     title: "GTA 6 Physical vs Digital Preorder",
     deck: "A console buyer guide for preload timing, download-code boxes, collector habits, and refund friction.",
     category: "Buying",
@@ -427,6 +438,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-vintage-vice-city-pack",
     publication: "public",
+    primaryMediaId: "vintage-pack",
     title: "GTA 6 Vintage Vice City Pack",
     deck: "A focused tracker for the confirmed preorder bonus and the cutoff date currently attached to it.",
     category: "Buying",
@@ -461,6 +473,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-trailer-2-breakdown-evidence",
     publication: "public",
+    primaryMediaId: "vice-city",
     title: "GTA 6 Trailer 2 Breakdown: Evidence Only",
     deck: "A spoiler-safe trailer notes page for officially published material, without leak claims or frame-by-frame overreach.",
     category: "Map",
@@ -481,6 +494,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-vice-city-location-guide",
     publication: "public",
+    primaryMediaId: "vice-city",
     title: "GTA 6 Vice City Location Guide",
     deck: "The Vice City guide for Rockstar's official description and current Leonida map context.",
     category: "Map",
@@ -501,6 +515,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-leonida-keys-location-guide",
     publication: "public",
+    primaryMediaId: "leonida-keys",
     title: "GTA 6 Leonida Keys Location Guide",
     deck: "An official-source overview of the Leonida Keys region and its currently confirmed character ties.",
     category: "Map",
@@ -521,6 +536,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-grassrivers-location-guide",
     publication: "public",
+    primaryMediaId: "grassrivers",
     title: "GTA 6 Grassrivers Location Guide",
     deck: "An official-source overview of Grassrivers and its currently confirmed wetland setting.",
     category: "Map",
@@ -541,6 +557,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-port-gellhorn-location-guide",
     publication: "public",
+    primaryMediaId: "port-gellhorn",
     title: "GTA 6 Port Gellhorn Location Guide",
     deck: "An official-source overview of Port Gellhorn and its currently confirmed coastal setting.",
     category: "Map",
@@ -561,6 +578,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-jason-duval-character-guide",
     publication: "public",
+    primaryMediaId: "jason-duval",
     title: "GTA 6 Jason Duval Character Guide",
     deck: "A compact Jason guide using official bio details while leaving mission, actor, and ending speculation out.",
     category: "Characters",
@@ -581,6 +599,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-lucia-caminos-character-guide",
     publication: "public",
+    primaryMediaId: "lucia-caminos",
     title: "GTA 6 Lucia Caminos Character Guide",
     deck: "An official-source Lucia guide covering her background and connection to Jason.",
     category: "Characters",
@@ -601,6 +620,7 @@ export const guides: Guide[] = [
   {
     slug: "gta-6-real-dimez-character-guide",
     publication: "public",
+    primaryMediaId: "real-dimez",
     title: "GTA 6 Real Dimez Character Guide",
     deck: "A short official tracker for Real Dimez, Only Raw Records, and music-scene story threads.",
     category: "Characters",
@@ -621,6 +641,7 @@ export const guides: Guide[] = [
   {
     slug: "how-to-avoid-gta-6-spoilers-before-launch",
     publication: "public",
+    primaryMediaId: "cover-art",
     title: "How to Avoid GTA 6 Spoilers Before Launch",
     deck: "A practical spoiler-control guide for muting leaks, avoiding fake download bait, and staying on official GTA 6 information paths.",
     category: "Missions",
@@ -740,7 +761,7 @@ export const guides: Guide[] = [
   }
 ];
 
-export const publicGuides = guides.filter((guide) => guide.publication === "public");
+export const publicGuides = guides.filter((guide): guide is PublicGuide => guide.publication === "public");
 export const liveGuides = guides.filter((guide) => guide.status === "live" || guide.status === "tracker");
 export const plannedGuides = guides.filter((guide) => guide.status === "launch-week" || guide.status === "planned");
 

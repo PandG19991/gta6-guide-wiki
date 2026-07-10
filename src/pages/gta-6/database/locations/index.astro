@@ -1,6 +1,7 @@
 ---
 import Gta6Rail from "@components/Gta6Rail.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
+import GuideMedia from "@components/GuideMedia.astro";
 import { locationDatabaseRows } from "@data/gta6";
 import { sourceById } from "@data/sources";
 import { site } from "@data/site";
@@ -68,7 +69,7 @@ const schema = [
           const source = sourceById[row.sourceId];
           return (
             <tr>
-              <td data-label="Location"><strong><a href={row.page}>{row.name}</a></strong></td>
+              <td data-label="Location"><GuideMedia id={row.mediaId} /><strong><a href={row.page}>{row.name}</a></strong></td>
               <td data-label="Status"><span class="badge official">{row.status}</span></td>
               <td data-label="What is confirmed">{row.proof}</td>
               <td data-label="Source"><a href={source.url} target="_blank" rel="nofollow noopener">{source.publisher}</a></td>

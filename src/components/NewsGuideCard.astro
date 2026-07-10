@@ -1,17 +1,17 @@
 ---
-import { categoryMetaByName, type Guide } from "@data/guides";
+import GuideMedia from "./GuideMedia.astro";
+import type { PublicGuide } from "@data/guides";
 
 interface Props {
-  guide: Guide;
+  guide: PublicGuide;
 }
 
 const { guide } = Astro.props;
-const category = categoryMetaByName[guide.category];
 ---
 
 <article class="content-card news-guide-card">
   <a class="news-card-media" href={`/guides/${guide.slug}/`} aria-label={guide.title}>
-    <img src={category.image} alt={`${guide.category} GTA 6 guide artwork`} width="1672" height="941" loading="lazy" decoding="async" />
+    <GuideMedia id={guide.primaryMediaId} />
   </a>
   <div class="card-meta">
     <span class="badge category">{guide.category}</span>
