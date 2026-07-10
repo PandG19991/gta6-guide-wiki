@@ -114,7 +114,7 @@ export const guides: Guide[] = [
     slug: "gta-6-map-leonida-regions-evidence-tracker",
     publication: "public",
     title: "GTA 6 Map: Leonida Regions and Evidence Tracker",
-    deck: "A pre-launch map hub that separates official location names from trailer-observed details and community theories.",
+    deck: "A Leonida map hub that separates official location names from trailer observations and community theories.",
     category: "Map",
     intent: "pre-launch",
     status: "tracker",
@@ -125,9 +125,9 @@ export const guides: Guide[] = [
       "Rockstar describes Leonida as the state that includes Vice City and surrounding regions.",
       "Official destination names currently include Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia, and Mount Kalaga.",
       "This page does not publish leaked map claims as fact.",
-      "The interactive map layer is planned for launch week and will start with official or self-verified markers only."
+      "Exact map markers are not confirmed in current official material."
     ],
-    nextUpdate: "Convert official destinations into a filterable map shell and add evidence cards per region.",
+    nextUpdate: "Current official destination and map information is summarized above.",
     searchTerms: ["gta 6 map", "gta 6 leonida", "gta 6 vice city map"]
   },
   {
@@ -147,7 +147,7 @@ export const guides: Guide[] = [
       "Character relationship notes are paraphrased from official pages, not copied wholesale.",
       "Voice actor, mission, and faction details remain unknown unless explicitly sourced."
     ],
-    nextUpdate: "Split each confirmed person into database pages when more official or self-tested details exist.",
+    nextUpdate: "Current official character profiles and relationships are summarized above.",
     searchTerms: ["gta 6 characters", "gta 6 lucia", "gta 6 jason"]
   },
   {
@@ -162,10 +162,10 @@ export const guides: Guide[] = [
     updated: "2026-07-09",
     sourceIds: ["rockstar-media", "rockstar-vi", "rockstar-copyright"],
     bullets: [
-      "Vehicle pages will separate officially named vehicles from trailer-observed vehicle classes.",
-      "Launch-week updates will add handling notes, prices, spawn locations, storage, and upgrade paths after hands-on verification.",
-      "Image-heavy vehicle pages will use original thumbnails or licensed screenshots only.",
-      "Unverified leak lists stay out of the main database."
+      "Official GTA 6 media shows street cars, motorcycles, watercraft, aircraft, and police or emergency vehicles.",
+      "Rockstar has not published a complete named vehicle list or confirmed prices, spawn locations, storage rules, or upgrade details.",
+      "The vehicle database groups only categories supported by official material and links to the relevant Rockstar pages.",
+      "Unverified leak lists are not treated as confirmed."
     ],
     nextUpdate: "Create schema for vehicle class, acquisition, price, storage, and proof source.",
     searchTerms: ["gta 6 cars", "gta 6 vehicles", "gta 6 cars list"]
@@ -482,7 +482,7 @@ export const guides: Guide[] = [
     slug: "gta-6-vice-city-location-guide",
     publication: "public",
     title: "GTA 6 Vice City Location Guide",
-    deck: "The Vice City hub for official description, map context, and future neighborhood-by-neighborhood guides.",
+    deck: "The Vice City guide for Rockstar's official description and current Leonida map context.",
     category: "Map",
     intent: "pre-launch",
     status: "tracker",
@@ -492,17 +492,17 @@ export const guides: Guide[] = [
     bullets: [
       "Rockstar presents Vice City as a central setting inside Leonida.",
       "Official copy frames the story around Jason and Lucia in and beyond Vice City.",
-      "Neighborhood, shop, collectible, and activity pages wait for official or tested location data.",
-      "This page is the future internal-link hub for Vice City guides."
+      "Rockstar has not published confirmed neighborhood, shop, collectible, or activity lists for Vice City.",
+      "Use the Leonida map guide for links to the other officially named destinations."
     ],
-    nextUpdate: "Add official destination notes and launch-week tested markers as soon as they can be verified.",
+    nextUpdate: "Current official Vice City and Leonida details are summarized above.",
     searchTerms: ["gta 6 vice city", "gta 6 vice city map", "gta 6 locations"]
   },
   {
     slug: "gta-6-leonida-keys-location-guide",
     publication: "public",
     title: "GTA 6 Leonida Keys Location Guide",
-    deck: "A conservative Leonida Keys tracker for official region mentions, character ties, and future map markers.",
+    deck: "An official-source overview of the Leonida Keys region and its currently confirmed character ties.",
     category: "Map",
     intent: "pre-launch",
     status: "tracker",
@@ -512,17 +512,17 @@ export const guides: Guide[] = [
     bullets: [
       "Leonida Keys is an official destination name on Rockstar's Leonida page.",
       "Jason's official bio ties him to the Keys and local drug runners.",
-      "Activity, property, and vehicle-spawn claims remain unconfirmed before launch.",
-      "This page will collect verified Keys markers once gameplay can be tested."
+      "Activity, property, and vehicle-spawn claims are not confirmed in current official material.",
+      "The current guide covers the official region name and Jason's confirmed connection to the Keys."
     ],
-    nextUpdate: "Add region evidence cards and tested markers after launch, starting with official names only.",
+    nextUpdate: "Current official Leonida Keys and Jason details are summarized above.",
     searchTerms: ["gta 6 leonida keys", "gta 6 keys", "gta 6 map locations"]
   },
   {
     slug: "gta-6-grassrivers-location-guide",
     publication: "public",
     title: "GTA 6 Grassrivers Location Guide",
-    deck: "A pre-launch region page for Grassrivers that keeps official naming separate from biome speculation.",
+    deck: "An official-source overview of Grassrivers and its currently confirmed wetland setting.",
     category: "Map",
     intent: "pre-launch",
     status: "tracker",
@@ -532,17 +532,17 @@ export const guides: Guide[] = [
     bullets: [
       "Grassrivers is listed as an official destination on Rockstar's Leonida page.",
       "The current site treats the name as confirmed, not the full map boundary.",
-      "Collectibles, wildlife, route, and activity claims wait for hands-on verification.",
-      "Future map markers will show confidence labels beside every point."
+      "Rockstar has not published collectible, wildlife, route, or activity details for Grassrivers.",
+      "Exact boundaries and map markers are not confirmed in current official material."
     ],
-    nextUpdate: "Add verified route, activity, and collectible data only after official or launch-week testing supports it.",
+    nextUpdate: "Current official Grassrivers details are summarized above.",
     searchTerms: ["gta 6 grassrivers", "gta 6 grass rivers", "gta 6 leonida map"]
   },
   {
     slug: "gta-6-port-gellhorn-location-guide",
     publication: "public",
     title: "GTA 6 Port Gellhorn Location Guide",
-    deck: "The Port Gellhorn tracker for official destination status and future tested mission, vehicle, and activity notes.",
+    deck: "An official-source overview of Port Gellhorn and its currently confirmed coastal setting.",
     category: "Map",
     intent: "pre-launch",
     status: "tracker",
@@ -551,11 +551,11 @@ export const guides: Guide[] = [
     sourceIds: ["rockstar-leonida"],
     bullets: [
       "Port Gellhorn appears as an official destination name on Rockstar's Leonida page.",
-      "This page does not infer a full city layout, economy, or mission chain before launch.",
-      "Future sections will separate missions, vehicles, activities, and collectibles by proof type.",
+      "Rockstar has not published a confirmed city layout, economy, mission chain, or activity list for Port Gellhorn.",
+      "Rockstar identifies Port Gellhorn as a coastal destination in Leonida.",
       "Rumor-map claims are excluded from the current answer."
     ],
-    nextUpdate: "Add official destination copy and launch-week tested markers once reliable evidence exists.",
+    nextUpdate: "Current official Port Gellhorn details are summarized above.",
     searchTerms: ["gta 6 port gellhorn", "port gellhorn gta 6", "gta 6 locations"]
   },
   {
@@ -575,14 +575,14 @@ export const guides: Guide[] = [
       "His relationship with Lucia is central to the official story setup.",
       "Voice actor, full mission arc, and ending details are not confirmed on this site."
     ],
-    nextUpdate: "Add relationship, mission, and gameplay sections only from official material or verified gameplay.",
+    nextUpdate: "Current official Jason details are summarized above.",
     searchTerms: ["gta 6 jason", "jason duval gta 6", "gta 6 protagonist"]
   },
   {
     slug: "gta-6-lucia-caminos-character-guide",
     publication: "public",
     title: "GTA 6 Lucia Caminos Character Guide",
-    deck: "A source-led Lucia page for official background, Jason ties, and future mission/walkthrough links.",
+    deck: "An official-source Lucia guide covering her background and connection to Jason.",
     category: "Characters",
     intent: "pre-launch",
     status: "tracker",
@@ -595,7 +595,7 @@ export const guides: Guide[] = [
       "Her partnership with Jason is part of the current official story framing.",
       "Gameplay abilities, mission order, and endings remain unconfirmed."
     ],
-    nextUpdate: "Add verified mission links and spoiler-safe story sections after launch.",
+    nextUpdate: "Current official Lucia details are summarized above.",
     searchTerms: ["gta 6 lucia", "lucia caminos gta 6", "gta 6 female protagonist"]
   },
   {
@@ -615,7 +615,7 @@ export const guides: Guide[] = [
       "This page tracks confirmed ties without turning music-scene hints into mission claims.",
       "Song lists, radio appearances, and mission roles remain unconfirmed until sourced."
     ],
-    nextUpdate: "Add official media references, character links, and launch-week mission ties when verified.",
+    nextUpdate: "Current official Real Dimez details are summarized above.",
     searchTerms: ["gta 6 real dimez", "real dimez gta 6", "gta 6 only raw records"]
   },
   {
@@ -633,7 +633,7 @@ export const guides: Guide[] = [
       "Use official Rockstar, Take-Two, platform store, and source-tracked guide pages for launch facts.",
       "Mute terms around Lucia, Jason, endings, missions, map leaks, and final mission before launch week.",
       "Avoid beta, download, generator, and leak pages that mix spoilers with malware bait or thin search spam.",
-      "This site keeps spoiler-heavy walkthrough details out of pre-launch hubs and labels launch-week pages clearly."
+      "Use spoiler-safe release pages and avoid walkthroughs until you are ready for story details."
     ],
     nextUpdate: "Add platform-specific mute steps for YouTube, Reddit, TikTok, X, and search results if spoiler leaks become widespread.",
     searchTerms: ["gta 6 spoilers", "avoid gta 6 spoilers", "gta 6 leaks"],
@@ -751,7 +751,7 @@ export const guideCategoryMeta = [
     category: "Release",
     slug: "release",
     title: "GTA 6 Release Guides",
-    deck: "Release date, preload, platforms, PC status, and launch-readiness pages with official-source guardrails.",
+    deck: "Release date, preload, platforms, PC status, and launch-preparation guidance.",
     image: "/assets/og-release.png"
   },
   {
@@ -765,35 +765,35 @@ export const guideCategoryMeta = [
     category: "Map",
     slug: "map",
     title: "GTA 6 Map and Location Guides",
-    deck: "Leonida, Vice City, official regions, trailer evidence, and launch-week map verification plans.",
+    deck: "Leonida, Vice City, official regions, trailer details, and spoiler-safe location guides.",
     image: "/assets/og-map.png"
   },
   {
     category: "Characters",
     slug: "characters",
     title: "GTA 6 Character Guides",
-    deck: "Official character profiles, relationship notes, and source-led cast trackers.",
+    deck: "Official character profiles and relationship details confirmed by Rockstar.",
     image: "/assets/og-characters.png"
   },
   {
     category: "Vehicles",
     slug: "vehicles",
     title: "GTA 6 Vehicle Guides",
-    deck: "Vehicle tracker pages that separate official or observed evidence from leak-driven list spam.",
+    deck: "Current vehicle classes shown in official GTA 6 material.",
     image: "/assets/og-vehicles.png"
   },
   {
     category: "Missions",
     slug: "missions",
     title: "GTA 6 Mission and Walkthrough Guides",
-    deck: "Spoiler-safe mission, beginner, police, money, and launch-week walkthrough planning.",
+    deck: "Spoiler-control and current mission-related preparation guides.",
     image: "/assets/og-missions.png"
   },
   {
     category: "Cheats",
     slug: "cheats",
     title: "GTA 6 Cheat Guides",
-    deck: "No-fake-code cheat tracking, launch-week test plans, and policy-safe cheat coverage.",
+    deck: "Current GTA 6 cheat-code status and guidance for avoiding fake codes and generators.",
     image: "/assets/og-cheats.png"
   }
 ] as const satisfies Array<{ category: Guide["category"]; slug: string; title: string; deck: string; image: string }>;

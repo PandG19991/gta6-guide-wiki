@@ -10,7 +10,7 @@ const schema = [
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: "GTA 6 Database",
-    description: "Structured GTA 6 database categories for vehicles, characters, locations, editions, and evidence status.",
+    description: "Browse GTA 6 vehicles, characters, locations, and editions from one database hub.",
     url: `${site.url}/gta-6/database/`
   },
   {
@@ -39,14 +39,14 @@ const schema = [
 
 <BaseLayout
   title="GTA 6 Database"
-  description="Structured GTA 6 database hub for vehicles, characters, locations, editions, and source confidence."
+  description="Browse GTA 6 vehicles, characters, locations, and editions from one database hub."
   schema={schema}
 >
   <header class="page-header shell">
     <div class="page-kicker">Database</div>
     <h1 class="page-title">GTA 6 Database</h1>
     <p class="page-intro">
-      A database surface built for guide depth, not thin item spam. Categories open into detail pages only when official or tested proof exists.
+      Choose a category to browse the GTA 6 information currently available for players.
     </p>
   </header>
 
@@ -58,11 +58,9 @@ const schema = [
         <article class="database-category-card">
           <div class="card-meta">
             <ConfidenceBadge value={section.confidence} />
-            <span class="badge unconfirmed">{section.count} records</span>
           </div>
           <h2><a href={section.href}>{section.title}</a></h2>
           <p>{section.deck}</p>
-          <p><strong>Update trigger:</strong> {section.nextUpdate}</p>
         </article>
       ))}
     </div>

@@ -51,22 +51,6 @@ const schema = [
     <p class="page-intro">{meta.deck}</p>
   </header>
 
-  <section class="section-tight shell split">
-    <div>
-      <h2 class="page-title">{categoryGuides.length} Pages</h2>
-      <p class="page-intro">
-        Category hubs keep related GTA 6 answers together so players can move from broad search intent into specific, source-tracked pages.
-      </p>
-    </div>
-    <aside class="panel">
-      <h2>Category Rule</h2>
-      <p>
-        Facts stay labeled by confidence. Launch-week pages stay framed as test plans until gameplay or official sources can verify the details.
-      </p>
-      <p><a href="/guides/">Back to all guides</a></p>
-    </aside>
-  </section>
-
   <section class="section-tight shell">
     <div class="guide-list">
       {categoryGuides.map((guide) => <GuideCard guide={guide} />)}

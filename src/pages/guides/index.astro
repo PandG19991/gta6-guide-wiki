@@ -2,7 +2,7 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import GuideCard from "@components/GuideCard.astro";
 import { publicGuideCategoryMeta, publicGuides } from "@data/guides";
-import { confidenceLevels, site } from "@data/site";
+import { site } from "@data/site";
 
 const schema = [
   {
@@ -10,7 +10,7 @@ const schema = [
     "@type": "CollectionPage",
     name: "GTA 6 Guides",
     url: `${site.url}/guides/`,
-    description: "All Leonida Ledger GTA 6 guides, trackers, launch-week pages, and evergreen database plans.",
+    description: "Browse GTA 6 release, buying, map, character, vehicle, mission, and launch-preparation guides.",
     mainEntity: {
       "@type": "ItemList",
       itemListElement: publicGuides.map((guide, index) => ({
@@ -32,12 +32,12 @@ const schema = [
 ];
 ---
 
-<BaseLayout title="GTA 6 Guides" description="All Leonida Ledger GTA 6 guides, trackers, launch-week pages, and evergreen database plans." schema={schema}>
+<BaseLayout title="GTA 6 Guides" description="Browse GTA 6 release, buying, map, character, vehicle, mission, and launch-preparation guides." schema={schema}>
   <header class="page-header shell">
     <div class="page-kicker">Guide index</div>
     <h1 class="page-title">GTA 6 Guides</h1>
     <p class="page-intro">
-      Search-intent pages grouped by what players need now and what will become tested launch-week walkthroughs later.
+      Browse current GTA 6 answers by topic, from release and buying decisions to maps, characters, and vehicles.
     </p>
   </header>
 
@@ -49,15 +49,9 @@ const schema = [
     </nav>
     <form class="toolbar" data-guide-filters>
       <input class="field" type="search" name="q" placeholder="Search guides, locations, vehicles, and more..." aria-label="Search guides" />
-      <select class="field" name="intent" aria-label="Filter by search phase">
-        <option value="all">Topic: All</option>
-        <option value="pre-launch">Pre-launch</option>
-        <option value="launch-week">Launch week</option>
-        <option value="evergreen">Evergreen</option>
-      </select>
-      <select class="field" name="confidence" aria-label="Filter by confidence">
-        <option value="all">Confidence: Any</option>
-        {confidenceLevels.map((level) => <option value={level.key}>{level.label}</option>)}
+      <select class="field" name="category" aria-label="Filter by guide topic">
+        <option value="all">All topics</option>
+        {publicGuideCategoryMeta.map((meta) => <option value={meta.category}>{meta.category}</option>)}
       </select>
     </form>
     <div class="guide-list">
@@ -72,15 +66,13 @@ const schema = [
       if (!form) return;
       const data = new FormData(form as HTMLFormElement);
       const query = String(data.get("q") || "").trim().toLowerCase();
-      const intent = String(data.get("intent") || "all");
-      const confidence = String(data.get("confidence") || "all");
+      const category = String(data.get("category") || "all");
       cards.forEach((card) => {
         const el = card as HTMLElement;
         const text = el.getAttribute("data-search") || "";
         const matchesQuery = !query || text.includes(query);
-        const matchesIntent = intent === "all" || el.getAttribute("data-intent") === intent;
-        const matchesConfidence = confidence === "all" || el.getAttribute("data-confidence") === confidence;
-        el.hidden = !(matchesQuery && matchesIntent && matchesConfidence);
+        const matchesCategory = category === "all" || el.getAttribute("data-category") === category;
+        el.hidden = !(matchesQuery && matchesCategory);
       });
     };
     const params = new URLSearchParams(window.location.search);

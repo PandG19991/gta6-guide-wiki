@@ -1,45 +1,129 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-const requiredEvidenceTables = [
-  ["gta-6-release-date-countdown-preload", 4],
-  ["gta-6-pre-order-standard-vs-ultimate", 4],
-  ["gta-6-map-leonida-regions-evidence-tracker", 3],
-  ["gta-6-price-standard-ultimate-explained", 3],
-  ["is-gta-6-coming-to-pc", 3],
-  ["gta-6-platforms-ps5-xbox-series-x-s", 3],
-  ["gta-6-preload-download-size-prep", 3],
-  ["gta-6-gta-plus-preorder-benefit", 3],
-  ["gta-6-physical-vs-digital-preorder", 3],
-  ["gta-6-vintage-vice-city-pack", 3],
-  ["gta-6-trailer-2-breakdown-evidence", 3],
-  ["gta-6-vehicles-confirmed-so-far", 3],
-  ["gta-6-vice-city-location-guide", 3],
-  ["gta-6-leonida-keys-location-guide", 3],
-  ["gta-6-grassrivers-location-guide", 3],
-  ["gta-6-port-gellhorn-location-guide", 3],
-  ["gta-6-characters-official-cast", 3],
-  ["gta-6-jason-duval-character-guide", 3],
-  ["gta-6-lucia-caminos-character-guide", 3],
-  ["gta-6-real-dimez-character-guide", 3],
-  ["how-to-avoid-gta-6-spoilers-before-launch", 3]
-];
-
 const failures = [];
-const htmlFiles = (dir) =>
-  readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    const path = join(dir, entry.name);
-    return entry.isDirectory() ? htmlFiles(path) : path.endsWith(".html") ? [path] : [];
-  });
+const prohibitedPublicCopy = [
+  "Search Terms Covered",
+  "Page Status",
+  "Verification Plan",
+  "Content Engine",
+  "Next Queue",
+  "Machine Feeds",
+  "Sitemap URLs",
+  "Evidence Table",
+  "built for search traffic",
+  "SEO sludge",
+  "Site source ledger refreshed",
+  "Publishing Priorities",
+  "Publication Queue",
+  "Launch Queue",
+  "Source Ledger",
+  "Ledger Updates",
+  "Testing Protocol",
+  "Site Mode",
+  "Category Rule",
+  "Update trigger",
+  "test plans",
+  "broad search intent",
+  "Search-intent pages",
+  "Filter by search phase",
+  "Launch checklist",
+  "what must be tested",
+  "Launch use",
+  "Why no model spam?",
+  "What stays out?",
+  "for search users",
+  "source-led table",
+  "launch-week fields",
+  "launch-week buyer checks",
+  "verification needs",
+  "verification targets",
+  "testing targets",
+  "repeatable launch tests",
+  "hands-on verification",
+  "thumbnail licensing",
+  "original thumbnails",
+  "licensed screenshots",
+  "plan testing",
+  "repeatable wanted-level tests",
+  "remain launch-week questions",
+  "before official item lists are stable",
+  "Future map markers",
+  "matches player search paths",
+  "Product Plan",
+  "roadmap",
+  "launch testing",
+  "launch-week testing",
+  "will be tested",
+  "test after launch",
+  "verify after launch",
+  "verification workflow",
+  "editorial methodology",
+  "editorial workflow",
+  "next work",
+  "next pass",
+  "future update",
+  "planned layer",
+  "planned guide",
+  "future thumbnail",
+  "licensing",
+  "record count",
+  "database count",
+  "coverage target",
+  "content target",
+  "search intent",
+  "search phase",
+  "status tracker",
+  "publishing",
+  "non-leak version",
+  "launch-week unknowns",
+  "launch-week vehicle notes",
+  "individual vehicle pages open",
+  "interactive map layer is planned",
+  "interactive marker layer will only use",
+  "map hub before launch",
+  "future interactive map markers",
+  "future neighborhood-by-neighborhood guides",
+  "wait for official or tested location data",
+  "future internal-link hub",
+  "will collect verified Keys markers",
+  "future tested mission",
+  "Future sections will separate",
+  "future mission/walkthrough links",
+  "launch-week walkthrough planning",
+  "launch-week test plans",
+  "A pre-launch map hub",
+  "A pre-launch region page",
+  "tracking after launch",
+  "tracking potential",
+  "wait for testing",
+  "feature cluster carries",
+  "Database Surface",
+  "until individual pages have enough proof",
+  "View all feature evidence",
+  "launch-week guides",
+  "labels launch-week pages clearly",
+  "official-source guardrails",
+  "source-led cast trackers",
+  "tracker pages that separate",
+  "proof-labeled vehicle-category tracker",
+  "launch-week walkthroughs",
+  "map-marker verification",
+  "Split each confirmed person into database pages",
+  "What Gets Published",
+  "What Waits",
+  "How Updates Work",
+  "testing templates"
+];
 const requiredBuiltPages = [
-  ["dist/gta-6/index.html", ["GTA 6 Database Hub", "Database Surface", "Confirmed Features"]],
+  ["dist/gta-6/index.html", ["GTA 6 Database Hub", "Browse the Database", "Confirmed Features"]],
   ["dist/gta-6/features/index.html", ["GTA 6 Features Confirmed So Far", "Release Information", "Vehicles and Driving"]],
-  ["dist/gta-6/database/index.html", ["GTA 6 Database", "Vehicles", "Characters", "Locations", "Editions", "Update trigger"]],
-  ["dist/gta-6/database/vehicles/index.html", ["GTA 6 Vehicle Database", "Why no model spam?", "Launch checklist"]],
-  ["dist/gta-6/database/characters/index.html", ["GTA 6 Character Database", "What stays out?", "Launch checklist"]],
-  ["dist/gta-6/database/locations/index.html", ["GTA 6 Location Database", "What stays out?", "Launch checklist"]],
-  ["dist/gta-6/database/editions/index.html", ["GTA 6 Edition Database", "What stays out?", "Launch checklist"]],
-  ["dist/about/index.html", ["About Leonida Ledger", "What We Publish", "What We Do Not Publish", "How Updates Work"]]
+  ["dist/gta-6/database/index.html", ["GTA 6 Database", "Vehicles", "Characters", "Locations", "Editions"]],
+  ["dist/gta-6/database/vehicles/index.html", ["GTA 6 Vehicle Database", "What is confirmed", "What this means for players"]],
+  ["dist/gta-6/database/characters/index.html", ["GTA 6 Character Database", "What is confirmed", "What this means for players"]],
+  ["dist/gta-6/database/locations/index.html", ["GTA 6 Location Database", "What is confirmed", "What this means for players"]],
+  ["dist/gta-6/database/editions/index.html", ["GTA 6 Edition Database", "What is confirmed", "What this means for players"]],
+  ["dist/about/index.html", ["About Leonida Ledger", "Independent Guide", "Corrections And Contact", "Privacy"]]
 ];
 const requiredStaticFiles = [
   ["dist/.well-known/security.txt", ["Contact:", "Expires:", "Preferred-Languages:", "Policy:"]],
@@ -59,9 +143,34 @@ for (const [file, requiredText] of requiredBuiltPages) {
   if (html.includes(">undefined<")) failures.push(`${file}: contains undefined output`);
 }
 
-for (const file of htmlFiles("dist")) {
-  if (readFileSync(file, "utf8").includes("Site source ledger refreshed")) {
-    failures.push(`${file}: contains internal update record`);
+const sitemap = readFileSync("dist/sitemap.xml", "utf8");
+const indexablePaths = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => new URL(match[1]).pathname);
+for (const pathname of indexablePaths) {
+  const file = pathname === "/" ? "dist/index.html" : join("dist", pathname, "index.html");
+  if (!existsSync(file)) {
+    failures.push(`${file}: missing indexable page`);
+  }
+}
+
+const htmlFiles = (dir) =>
+  readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(dir, entry.name);
+    return entry.isDirectory() ? htmlFiles(path) : path.endsWith(".html") ? [path] : [];
+  });
+const publicHtmlFiles = htmlFiles("dist").filter((file) => file !== join("dist", "404.html"));
+for (const file of publicHtmlFiles) {
+  const html = readFileSync(file, "utf8").toLowerCase();
+  for (const label of prohibitedPublicCopy) {
+    if (html.includes(label.toLowerCase())) failures.push(`${file}: contains internal public copy ${label}`);
+  }
+  if (/class="meta-label">updated<\/strong>\s*<p>[^<]*\/\s*(?:live|tracker)\s*<\/p>/i.test(html)) {
+    failures.push(`${file}: news card exposes internal page status`);
+  }
+  if (/<span class="badge unconfirmed">\d+\s+records<\/span>/i.test(html)) {
+    failures.push(`${file}: exposes a vanity database record count`);
+  }
+  if (/<strong>next:<\/strong>/i.test(html)) {
+    failures.push(`${file}: exposes database next-work copy`);
   }
 }
 
@@ -77,32 +186,6 @@ for (const [file, requiredText] of requiredStaticFiles) {
   const expires = text.match(/^Expires:\s*(.+)$/m)?.[1];
   if (expires && Number.isNaN(Date.parse(expires))) failures.push(`${file}: Expires is not a valid date`);
   if (expires && Date.parse(expires) <= Date.now()) failures.push(`${file}: Expires is not in the future`);
-}
-
-for (const [slug, minRows] of requiredEvidenceTables) {
-  const file = join("dist", "guides", slug, "index.html");
-  if (!existsSync(file)) {
-    failures.push(`${slug}: missing built page`);
-    continue;
-  }
-
-  const html = readFileSync(file, "utf8");
-  const start = html.indexOf(">Evidence Table<");
-  if (start === -1) {
-    failures.push(`${slug}: missing Evidence Table`);
-    continue;
-  }
-
-  const end = html.indexOf("</section>", start);
-  const tableHtml = html.slice(start, end === -1 ? undefined : end);
-  for (const header of ["Claim", "Status", "Proof note", "Primary source"]) {
-    if (!tableHtml.includes(header)) failures.push(`${slug}: missing Evidence Table header ${header}`);
-  }
-
-  const rowCount = (tableHtml.match(/<tr>/g) ?? []).length - 1;
-  if (rowCount < minRows) failures.push(`${slug}: expected at least ${minRows} evidence rows, found ${rowCount}`);
-  if (tableHtml.includes(">undefined<")) failures.push(`${slug}: contains undefined table output`);
-  if (!tableHtml.includes('rel="nofollow noopener"')) failures.push(`${slug}: source links should be nofollow noopener`);
 }
 
 const vehiclePage = "dist/gta-6/database/vehicles/index.html";
@@ -143,4 +226,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Content quality check passed: ${requiredEvidenceTables.length} evidence tables and ${requiredBuiltPages.length} P0 pages.`);
+console.log(`Content quality check passed: ${publicHtmlFiles.length} built public pages and ${requiredBuiltPages.length} P0 pages.`);

@@ -40,14 +40,14 @@ const schema = [
 
 <BaseLayout
   title="GTA 6 Edition Database"
-  description="Official GTA 6 editions and preorder database with proof notes, source links, and launch-week verification targets."
+  description="Official GTA 6 editions and preorder details, with confirmation notes, official links, and current buyer guides."
   schema={schema}
 >
   <header class="page-header shell">
     <div class="page-kicker">Editions database</div>
     <h1 class="page-title">GTA 6 Edition Database</h1>
     <p class="page-intro">
-      Official edition, preorder, bonus, GTA+, and preload records in one source-led table for launch-week buyer checks.
+      Compare officially announced editions, prices, preorder benefits, and preload details before choosing a version.
     </p>
   </header>
 
@@ -59,8 +59,7 @@ const schema = [
         <tr>
           <th>Record</th>
           <th>Status</th>
-          <th>Proof note</th>
-          <th>Launch use</th>
+          <th>What is confirmed</th>
           <th>Source</th>
         </tr>
       </thead>
@@ -71,8 +70,7 @@ const schema = [
             <tr>
               <td data-label="Record"><strong><a href={row.page}>{row.name}</a></strong></td>
               <td data-label="Status"><span class="badge official">{row.status}</span></td>
-              <td data-label="Proof note">{row.proof}</td>
-              <td data-label="Launch use">{row.launchUse}</td>
+              <td data-label="What is confirmed">{row.proof}</td>
               <td data-label="Source"><a href={source.url} target="_blank" rel="nofollow noopener">{source.publisher}</a></td>
             </tr>
           );
@@ -83,18 +81,14 @@ const schema = [
 
   <section class="section-tight shell split">
     <article class="panel">
-      <h2>What stays out?</h2>
+      <h2>What is confirmed</h2>
       <p>
-        Unlisted regional prices, retailer-only claims, fake PC preorder pages, bonus item rumors, and refund advice without store terms stay out until official storefronts support them.
+        Publisher announcements cover Standard and Ultimate pricing, preorder timing, the Vintage Vice City Pack, a digital GTA+ benefit, and preload timing.
       </p>
     </article>
     <article class="panel">
-      <h2>Launch checklist</h2>
-      <ul>
-        <li>Record storefront URL, region, platform, price, bonus eligibility, and preload status.</li>
-        <li>Separate publisher announcements from final PlayStation and Xbox store terms.</li>
-        <li>Link each update to a source, date, region, and repeatable proof note.</li>
-      </ul>
+      <h2>What this means for players</h2>
+      <p>Use the <a href="/guides/gta-6-pre-order-standard-vs-ultimate/">preorder comparison</a> to choose between editions and check current bonus details.</p>
     </article>
   </section>
 </BaseLayout>

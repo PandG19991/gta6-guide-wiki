@@ -1,5 +1,4 @@
 ---
-import ConfidenceBadge from "./ConfidenceBadge.astro";
 import { categoryMetaByName, type Guide } from "@data/guides";
 
 interface Props {
@@ -15,13 +14,12 @@ const category = categoryMetaByName[guide.category];
     <img src={category.image} alt={`${guide.category} GTA 6 guide artwork`} width="1672" height="941" loading="lazy" decoding="async" />
   </a>
   <div class="card-meta">
-    <ConfidenceBadge value={guide.confidence} />
     <span class="badge category">{guide.category}</span>
   </div>
   <h3><a href={`/guides/${guide.slug}/`}>{guide.title}</a></h3>
   <p>{guide.deck}</p>
   <div class="card-actions">
     <strong class="meta-label">Updated</strong>
-    <p>{guide.updated} / {guide.status}</p>
+    <p>{guide.updated}</p>
   </div>
 </article>

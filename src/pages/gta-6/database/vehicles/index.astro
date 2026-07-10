@@ -10,7 +10,7 @@ const schema = [
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: "GTA 6 Vehicle Database",
-    description: "A source-labeled GTA 6 vehicle category database that tracks observed classes and launch-week verification needs.",
+    description: "GTA 6 vehicle categories shown in official material, with current confirmation notes and links to player guides.",
     url: `${site.url}/gta-6/database/vehicles/`
   },
   {
@@ -40,14 +40,14 @@ const schema = [
 
 <BaseLayout
   title="GTA 6 Vehicle Database"
-  description="GTA 6 vehicle database with proof-labeled categories, source notes, and launch-week testing targets without unverified model spam."
+  description="GTA 6 vehicle categories shown in official material, with confirmation notes, official links, and current player guides."
   schema={schema}
 >
   <header class="page-header shell">
     <div class="page-kicker">Vehicles database</div>
     <h1 class="page-title">GTA 6 Vehicle Database</h1>
     <p class="page-intro">
-      A conservative vehicle list for search users: vehicle categories we can responsibly track now, and exactly what must be tested at launch.
+      Browse vehicle classes shown in official GTA 6 material, with direct links to current vehicle guides.
     </p>
   </header>
 
@@ -59,8 +59,7 @@ const schema = [
         <tr>
           <th>Category</th>
           <th>Status</th>
-          <th>Proof note</th>
-          <th>Launch use</th>
+          <th>What is confirmed</th>
           <th>Source</th>
         </tr>
       </thead>
@@ -71,8 +70,7 @@ const schema = [
             <tr>
               <td data-label="Category"><strong><a href={row.page}>{row.category}</a></strong></td>
               <td data-label="Status"><span class={`badge ${row.status.toLowerCase()}`}>{row.status}</span></td>
-              <td data-label="Proof note">{row.proof}</td>
-              <td data-label="Launch use">{row.launchUse}</td>
+              <td data-label="What is confirmed">{row.proof}</td>
               <td data-label="Source"><a href={source.url} target="_blank" rel="nofollow noopener">{source.publisher}</a></td>
             </tr>
           );
@@ -83,18 +81,14 @@ const schema = [
 
   <section class="section-tight shell split">
     <article class="panel">
-      <h2>Why no model spam?</h2>
+      <h2>What is confirmed</h2>
       <p>
-        Older database sites can publish broad vehicle lists before launch. This site waits for official names or repeatable launch tests before opening model pages.
+        Official media shows street cars, motorcycles, watercraft, aircraft, and emergency vehicles. Exact model names remain limited to what Rockstar identifies clearly.
       </p>
     </article>
     <article class="panel">
-      <h2>Launch checklist</h2>
-      <ul>
-        <li>Record class, handling, storage, and acquisition path.</li>
-        <li>Separate story mode, online, preorder, and mission-locked vehicles.</li>
-        <li>Attach source, platform, date, and repeatability to every claim.</li>
-      </ul>
+      <h2>What this means for players</h2>
+      <p>Use the <a href="/guides/gta-6-vehicles-confirmed-so-far/">confirmed vehicles guide</a> for the current list and official media links.</p>
     </article>
   </section>
 </BaseLayout>

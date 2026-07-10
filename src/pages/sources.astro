@@ -1,41 +1,54 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { sources } from "@data/sources";
+
+const gta6SourceIds = new Set(["rockstar-vi", "rockstar-preorders", "take-two-preorders", "rockstar-leonida", "rockstar-media"]);
+const gta6Sources = sources.filter((source) => gta6SourceIds.has(source.id));
 ---
 
-<BaseLayout title="Sources and Evidence Ledger" description="The official and policy sources behind Leonida Ledger's GTA 6 guide pages.">
+<BaseLayout title="GTA 6 Sources And Corrections" description="Official GTA 6 sources used by Leonida Ledger, plus source priorities and correction contact details.">
   <header class="page-header shell">
-    <div class="page-kicker">Trust layer</div>
-    <h1 class="page-title">Sources and Evidence Ledger</h1>
+    <div class="page-kicker">Sources and corrections</div>
+    <h1 class="page-title">GTA 6 Sources</h1>
     <p class="page-intro">
       Every important factual claim starts here. Official publisher and platform sources outrank media summaries, community theories, and rumors.
     </p>
   </header>
 
   <section class="section-tight shell">
+    <div class="section-heading">
+      <h2>Official Sources First</h2>
+      <p>Rockstar Games and Take-Two announcements come first, followed by official platform stores when a detail varies by console or region.</p>
+    </div>
     <table class="source-table">
       <thead>
         <tr>
-          <th>Priority</th>
           <th>Source</th>
           <th>Use</th>
-          <th>Accessed</th>
         </tr>
       </thead>
       <tbody>
-        {sources.map((source) => (
+        {gta6Sources.map((source) => (
           <tr>
-            <td class="mono">{source.priority}</td>
             <td>
               <a href={source.url} target="_blank" rel="nofollow noopener"><strong>{source.title}</strong></a>
               <br />{source.publisher}
             </td>
             <td>{source.notes}</td>
-            <td class="mono">{source.accessed}</td>
           </tr>
         ))}
       </tbody>
     </table>
+  </section>
+
+  <section class="section-tight shell">
+    <div class="panel">
+      <h2>Corrections</h2>
+      <p>
+        If an official page changes or a guide cites the wrong detail, send the page URL and supporting official link through the
+        <a href="/contact/"> contact page</a>. See the <a href="/editorial-policy/">Editorial Policy</a> for rumor and copyright boundaries.
+      </p>
+    </div>
   </section>
 </BaseLayout>
 

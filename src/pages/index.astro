@@ -1,12 +1,10 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import ConfidenceBadge from "@components/ConfidenceBadge.astro";
 import GuideCard from "@components/GuideCard.astro";
 import NewsGuideCard from "@components/NewsGuideCard.astro";
-import { confidenceLevels, site } from "@data/site";
+import { site } from "@data/site";
 import { publicGuideCategoryMeta, publicGuides } from "@data/guides";
 import { publicLedgerUpdates } from "@data/updates";
-import { contentClusters } from "@data/contentPlan";
 
 const heroGuideSlugs = [
   "gta-6-release-date-countdown-preload",
@@ -61,7 +59,7 @@ const schema = {
           {heroGuides.map((guide) => (
             <a href={`/guides/${guide.slug}/`}>
               <span>{guide.title.replace("GTA 6 ", "")}</span>
-              <small>{guide.confidence} / {guide.intent}</small>
+              <small>{guide.category}</small>
             </a>
           ))}
         </div>
@@ -81,8 +79,8 @@ const schema = {
         <span>Nov 12, 2026</span>
       </div>
       <div class="fact">
-        <b>Site Mode</b>
-        <span>Evidence-first</span>
+        <b>Starting Price</b>
+        <span>$79.99</span>
       </div>
     </div>
   </section>
@@ -90,7 +88,7 @@ const schema = {
   <section class="section-tight shell">
     <div class="section-heading">
       <h2>Latest GTA 6 News And Guides</h2>
-      <p>Fresh source checks, high-intent guides, and launch prep pages for players who want the useful answer first.</p>
+      <p>Official announcements, buying decisions, and practical launch guides for GTA 6 players.</p>
     </div>
     <div class="content-grid">
       {latestGuides.map((guide) => <NewsGuideCard guide={guide} />)}
@@ -105,113 +103,14 @@ const schema = {
   <section class="section shell" id="launch-prep">
     <div class="section-heading">
       <h2>Guide Board</h2>
-      <p>
-        Built for the searches people are already making: release date, map, wiki, guide, cheats,
-        missions, cars, preorder, weapons, and locations. Unknowns stay marked unknown until official or tested.
-      </p>
+      <p>Browse release, buying, map, character, vehicle, mission, and launch-preparation guides.</p>
     </div>
 
-    <div class="guide-board">
-      <aside class="confidence-rail" aria-label="Confidence labels">
-        {confidenceLevels.map((level) => (
-          <div class="confidence-item">
-            <span class="confidence-dot" style={`background: var(--${level.tone});`}>{level.label.slice(0, 1)}</span>
-            <div>
-              <h3>{level.label}</h3>
-              <p>{level.description}</p>
-            </div>
-          </div>
-        ))}
-      </aside>
-      <div>
-        <form class="toolbar" data-guide-filters>
-          <input class="field" type="search" name="q" placeholder="Search guides, locations, vehicles, and more..." aria-label="Search guides" />
-          <select class="field" name="intent" aria-label="Filter by search phase">
-            <option value="all">Topic: All</option>
-            <option value="pre-launch">Pre-launch</option>
-            <option value="launch-week">Launch week</option>
-            <option value="evergreen">Evergreen</option>
-          </select>
-          <select class="field" name="confidence" aria-label="Filter by confidence">
-            <option value="all">Confidence: Any</option>
-            {confidenceLevels.map((level) => <option value={level.key}>{level.label}</option>)}
-          </select>
-        </form>
-        <div class="guide-list" data-guide-list>
-          {publicGuides.map((guide) => <GuideCard guide={guide} />)}
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section-tight shell">
-    <div class="section-heading">
-      <h2>Ledger Updates</h2>
-      <p>Every factual change gets a timestamp, confidence label, and source trail. This keeps the site useful before launch without inventing post-launch details.</p>
-    </div>
-    <table class="ledger-table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Confidence</th>
-          <th>Change</th>
-          <th>Source</th>
-        </tr>
-      </thead>
-      <tbody>
-        {publicLedgerUpdates.map((update) => (
-          <tr>
-            <td class="mono">{update.date}<br />{update.time}</td>
-            <td><ConfidenceBadge value={update.confidence} /></td>
-            <td>{update.title}</td>
-            <td>{update.source}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-    <div class="section-actions">
-      <a class="button secondary" href="/updates/">View All Updates</a>
-    </div>
-  </section>
-
-  <section class="section shell">
-    <div class="section-heading">
-      <h2>Content Engine</h2>
-      <p>
-        The site is planned as a living guide product. Pre-launch pages answer official questions,
-        launch-week pages convert into tested walkthroughs, and evergreen pages become repeat-visit databases.
-      </p>
-    </div>
-    <div class="content-grid">
-      {contentClusters.map((cluster) => (
-        <article class="content-card">
-          <div class="card-meta">
-            <span class="badge analysis">{cluster.phase}</span>
-          </div>
-          <h3>{cluster.phase}</h3>
-          <p>{cluster.purpose}</p>
-          <div class="card-actions">
-            <strong class="meta-label">First pages</strong>
-            <p>{cluster.pages.slice(0, 4).join(" / ")}</p>
-          </div>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <section class="section-tight shell split">
-    <div>
-      <h2 class="page-title">Built For Useful Answers</h2>
-      <p class="page-intro">
-        Each page starts with a short answer, source confidence, and the next verification step.
-        Unverified leaks, copied summaries, fake cheats, and empty item pages stay out of the guide.
-      </p>
-    </div>
-    <div class="panel">
-      <h3>What Gets Published</h3>
-      <p>Official facts, clearly labeled trailer observations, buyer guidance, and launch-week test plans with stable update triggers.</p>
-      <h3>What Waits</h3>
-      <p>Walkthrough steps, money routes, cheat codes, map markers, and item records wait for official confirmation or hands-on testing.</p>
+    <form class="toolbar" data-guide-filters>
+      <input class="field" type="search" name="q" placeholder="Search guides, locations, vehicles, and more..." aria-label="Search guides" />
+    </form>
+    <div class="guide-list" data-guide-list>
+      {publicGuides.map((guide) => <GuideCard guide={guide} />)}
     </div>
   </section>
 
@@ -222,15 +121,10 @@ const schema = {
       if (!form) return;
       const data = new FormData(form as HTMLFormElement);
       const query = String(data.get("q") || "").trim().toLowerCase();
-      const intent = String(data.get("intent") || "all");
-      const confidence = String(data.get("confidence") || "all");
       cards.forEach((card) => {
         const el = card as HTMLElement;
         const text = el.getAttribute("data-search") || "";
-        const matchesQuery = !query || text.includes(query);
-        const matchesIntent = intent === "all" || el.getAttribute("data-intent") === intent;
-        const matchesConfidence = confidence === "all" || el.getAttribute("data-confidence") === confidence;
-        el.hidden = !(matchesQuery && matchesIntent && matchesConfidence);
+        el.hidden = Boolean(query) && !text.includes(query);
       });
     };
     form?.addEventListener("input", applyFilters);

@@ -2,7 +2,7 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ConfidenceBadge from "@components/ConfidenceBadge.astro";
 import Gta6Rail from "@components/Gta6Rail.astro";
-import { categoryMetaByName, guideEvidenceRows, publicGuides } from "@data/guides";
+import { categoryMetaByName, publicGuides } from "@data/guides";
 import { sourceById } from "@data/sources";
 import { site } from "@data/site";
 
@@ -20,33 +20,20 @@ const relatedGuides = publicGuides
   .slice(0, 3);
 const firstAnswer = guide.bullets[0];
 const decisionRows = guide.decisionRows ?? [];
-const evidenceRows = guideEvidenceRows[guide.slug] ?? [];
-const verificationPlan = [
-  {
-    label: "Current proof",
-    value: `${guide.sourceIds.length} source${guide.sourceIds.length === 1 ? "" : "s"} / ${guide.confidence} confidence`
-  },
-  {
-    label: "Search phase",
-    value: `${guide.intent} / ${guide.status}`
-  },
-  {
-    label: "Update trigger",
-    value: guide.nextUpdate
-  }
-];
+const playerSourceIds = new Set(["rockstar-vi", "rockstar-preorders", "take-two-preorders", "rockstar-leonida", "rockstar-media"]);
+const guideSources = guide.sourceIds.map((id) => sourceById[id]).filter((source) => source && playerSourceIds.has(source.id));
 const faqItems = [
   {
     question: `What is the short answer for ${guide.title}?`,
     answer: guide.bullets[0]
   },
   {
-    question: `How reliable is this ${guide.category.toLowerCase()} page?`,
-    answer: `This page is marked ${guide.confidence}. It does not treat rumors, leaks, or untested launch-week details as confirmed facts.`
+    question: `What else should players know about ${guide.title}?`,
+    answer: guide.bullets[1] ?? guide.bullets[0]
   },
   {
-    question: `When will this ${guide.category.toLowerCase()} guide be updated?`,
-    answer: guide.nextUpdate
+    question: `What should players check before acting on this ${guide.category.toLowerCase()} guide?`,
+    answer: guide.bullets[2] ?? guide.bullets.at(-1) ?? guide.bullets[0]
   }
 ];
 const schema = [
@@ -89,7 +76,7 @@ const schema = [
 
 <BaseLayout title={guide.title} description={guide.deck} image={image} schema={schema}>
   <header class="page-header shell">
-    <div class="page-kicker">{guide.category} / {guide.intent}</div>
+    <div class="page-kicker">{guide.category}</div>
     <h1 class="page-title">{guide.title}</h1>
     <p class="page-intro">{guide.deck}</p>
   </header>
@@ -110,10 +97,6 @@ const schema = [
         <strong class="meta-label">Last updated</strong>
         <p class="mono">{guide.updated}</p>
       </article>
-      <article class="snapshot-card">
-        <strong class="meta-label">Source count</strong>
-        <p>{guide.sourceIds.length}</p>
-      </article>
     </div>
   </section>
 
@@ -128,54 +111,14 @@ const schema = [
     </section>
   )}
 
-  <section class="section-tight shell split">
+  <section class="section-tight shell">
     <article class="panel">
-      <h2>Current Answer</h2>
-      <p><ConfidenceBadge value={guide.confidence} /> <span class="mono">Updated {guide.updated}</span></p>
+      <h2>What To Know</h2>
       <ul>
         {guide.bullets.map((bullet) => <li>{bullet}</li>)}
       </ul>
-      <h3>Next Update</h3>
-      <p>{guide.nextUpdate}</p>
     </article>
-    <aside class="panel">
-      <h2>Search Terms Covered</h2>
-      <p>{guide.searchTerms.join(" / ")}</p>
-      <h3>Page Status</h3>
-      <p>
-        This page is marked <strong>{guide.status}</strong>. If a fact is not official or tested, it is not written as confirmed.
-      </p>
-    </aside>
   </section>
-
-  {evidenceRows.length > 0 && (
-    <section class="section-tight shell">
-      <h2 class="page-title">Evidence Table</h2>
-      <table class="source-table evidence-table">
-        <thead>
-          <tr>
-            <th>Claim</th>
-            <th>Status</th>
-            <th>Proof note</th>
-            <th>Primary source</th>
-          </tr>
-        </thead>
-        <tbody>
-          {evidenceRows.map((row) => {
-            const source = sourceById[row.sourceId];
-            return (
-              <tr>
-                <td><strong>{row.claim}</strong></td>
-                <td><span class={`badge ${row.status.toLowerCase()}`}>{row.status}</span></td>
-                <td>{row.proof}</td>
-                <td><a href={source.url} target="_blank" rel="nofollow noopener">{source.publisher}</a></td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </section>
-  )}
 
   {decisionRows.length > 0 && (
     <section class="section-tight shell">
@@ -204,29 +147,12 @@ const schema = [
   )}
 
   <section class="section-tight shell">
-    <h2 class="page-title">Source Ledger</h2>
+    <h2 class="page-title">Sources</h2>
     <div class="source-list">
-      {guide.sourceIds.map((id) => {
-        const source = sourceById[id];
-        return (
-          <p>
-            <a href={source.url} target="_blank" rel="nofollow noopener">{source.title}</a>
-            <br />
-            {source.publisher}. Accessed {source.accessed}. {source.notes}
-          </p>
-        );
-      })}
-    </div>
-  </section>
-
-  <section class="section-tight shell">
-    <h2 class="page-title">Verification Plan</h2>
-    <div class="source-list">
-      {verificationPlan.map((item) => (
+      {guideSources.map((source) => (
         <p>
-          <strong>{item.label}</strong>
-          <br />
-          {item.value}
+          <a href={source.url} target="_blank" rel="nofollow noopener">{source.title}</a>
+          <br />{source.publisher}. Accessed {source.accessed}.
         </p>
       ))}
     </div>

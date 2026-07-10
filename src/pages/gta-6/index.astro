@@ -10,7 +10,7 @@ const schema = [
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: "GTA 6 Hub",
-    description: "A source-labeled GTA 6 hub for confirmed release facts, features, database rows, and launch-week testing.",
+    description: "GTA 6 release facts, confirmed features, vehicles, characters, locations, and editions in one hub.",
     url: `${site.url}/gta-6/`
   },
   {
@@ -26,7 +26,7 @@ const schema = [
 
 <BaseLayout
   title="GTA 6 Database Hub"
-  description="A clean GTA 6 hub for confirmed features, release facts, database categories, vehicle tracking, and source-labeled launch guides."
+  description="GTA 6 release facts, confirmed features, vehicles, characters, locations, and editions in one hub."
   schema={schema}
 >
   <header class="page-header shell hub-header">
@@ -34,7 +34,7 @@ const schema = [
       <div class="page-kicker">GTA 6 hub</div>
       <h1 class="page-title">GTA 6 Database Hub</h1>
       <p class="page-intro">
-        A source-labeled entry point for release facts, confirmed features, database categories, vehicle tracking, and launch-week guides.
+        Start with the confirmed release details, then browse features, vehicles, characters, locations, and editions.
       </p>
     </div>
     <div class="hub-actions">
@@ -60,7 +60,7 @@ const schema = [
   <section class="section-tight shell">
     <div class="section-heading">
       <h2>Confirmed Features</h2>
-      <p>Large legacy databases can move faster on breadth. This guide stays smaller but stricter: every feature cluster carries a confidence label and a source path.</p>
+      <p>See confirmed release, setting, character, and vehicle information with links to detailed guides.</p>
     </div>
     <div class="feature-grid">
       {gta6FeatureSections.slice(0, 4).map((section) => (
@@ -72,25 +72,23 @@ const schema = [
       ))}
     </div>
     <div class="section-actions">
-      <a class="button secondary" href="/gta-6/features/">View all feature evidence</a>
+      <a class="button secondary" href="/gta-6/features/">View all confirmed features</a>
     </div>
   </section>
 
   <section class="section-tight shell">
     <div class="section-heading">
-      <h2>Database Surface</h2>
-      <p>Vehicles, characters, locations, editions, cheats, and missions stay as structured categories until individual pages have enough proof.</p>
+      <h2>Browse the Database</h2>
+      <p>Open the current vehicle, character, location, and edition collections.</p>
     </div>
     <div class="content-grid">
       {gta6DatabaseCards.map((card) => (
         <article class="content-card">
           <div class="card-meta">
             <ConfidenceBadge value={card.confidence} />
-            <span class="badge unconfirmed">{card.count} records</span>
           </div>
           <h3><a href={card.href}>{card.title}</a></h3>
           <p>{card.deck}</p>
-          <p><strong>Next:</strong> {card.nextUpdate}</p>
         </article>
       ))}
     </div>

@@ -2,7 +2,7 @@ export const site = {
   name: "Leonida Ledger",
   shortName: "Leonida Ledger",
   description:
-    "An unofficial, source-tracked GTA 6 guide hub for release prep, Leonida map intel, vehicles, missions, cheats, and launch-week walkthroughs.",
+    "An unofficial GTA 6 guide hub for release details, Leonida locations, vehicles, characters, editions, and player guides.",
   url: "https://leonida-ledger.pandg1991.workers.dev",
   author: "Leonida Ledger editorial desk",
   locale: "en_US",
@@ -15,8 +15,7 @@ export const navItems = [
   { label: "Map", href: "/map/" },
   { label: "Guides", href: "/guides/" },
   { label: "Database", href: "/gta-6/database/" },
-  { label: "Updates", href: "/updates/" },
-  { label: "Sources", href: "/sources/" }
+  { label: "Updates", href: "/updates/" }
 ];
 
 export const confidenceLevels = [

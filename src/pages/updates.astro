@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import ConfidenceBadge from "@components/ConfidenceBadge.astro";
 import NewsGuideCard from "@components/NewsGuideCard.astro";
 import { publicGuides } from "@data/guides";
 import { publicLedgerUpdates } from "@data/updates";
@@ -37,7 +36,7 @@ const schema = {
   <section class="section-tight news-section shell">
     <div class="section-heading">
       <h2>Latest GTA 6 News And Guides</h2>
-      <p>Start with player-facing updates. Each card links to a guide page that refreshes as official or tested details arrive.</p>
+      <p>Open the latest release, buying, map, character, and vehicle guides.</p>
     </div>
     <div class="content-grid">
       {recentGuides.slice(0, 6).map((guide) => <NewsGuideCard guide={guide} />)}
@@ -46,23 +45,21 @@ const schema = {
 
   <section class="section-tight shell">
     <div class="section-heading">
-      <h2>Source Ledger</h2>
-      <p>Every meaningful factual change still leaves a trail: date, confidence, source, and what changed.</p>
+      <h2>Official Announcements</h2>
+      <p>Key GTA 6 release and preorder news from Rockstar Games and Take-Two Interactive.</p>
     </div>
-    <table class="ledger-table">
+    <table class="source-table">
       <thead>
         <tr>
           <th>Date</th>
-          <th>Confidence</th>
-          <th>Change</th>
-          <th>Source</th>
+          <th>Announcement</th>
+          <th>From</th>
         </tr>
       </thead>
       <tbody>
         {publicLedgerUpdates.map((update) => (
           <tr>
-            <td class="mono">{update.date}<br />{update.time}</td>
-            <td><ConfidenceBadge value={update.confidence} /></td>
+            <td class="mono">{update.date}</td>
             <td>{update.title}</td>
             <td>{update.source}</td>
           </tr>

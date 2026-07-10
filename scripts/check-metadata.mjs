@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 
 const pages = [
   { file: "dist/index.html" },
@@ -10,9 +10,12 @@ const pages = [
   { file: "dist/gta-6/database/editions/index.html", types: ["CollectionPage", "BreadcrumbList", "ItemList"] },
   { file: "dist/release/index.html", types: ["BreadcrumbList"], image: "/assets/og-release.png", article: true },
   { file: "dist/guides/is-gta-6-coming-to-pc/index.html", image: "/assets/og-release.png", article: true },
-  { file: "dist/guides/category/map/index.html", image: "/assets/og-map.png" },
-  { file: "dist/testing-protocol/index.html" }
+  { file: "dist/guides/category/map/index.html", image: "/assets/og-map.png" }
 ];
+
+if (existsSync("dist/testing-protocol/index.html")) {
+  throw new Error("dist/testing-protocol/index.html: removed route must not be built");
+}
 
 for (const { file, image, types: requiredTypes = [], article = false } of pages) {
   const html = readFileSync(file, "utf8");

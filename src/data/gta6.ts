@@ -11,55 +11,45 @@ export const gta6RailItems = [
   { label: "Release", href: "/release/" },
   { label: "Map", href: "/map/" },
   { label: "Guides", href: "/guides/" },
-  { label: "Sources", href: "/sources/" }
+  { label: "Updates", href: "/updates/" }
 ];
 
 export const gta6HubStats = [
-  { label: "Guide pages", value: "26", detail: "FAQ and schema enhanced" },
-  { label: "Sitemap URLs", value: "51", detail: "clean canonical set" },
-  { label: "Evidence tables", value: "26", detail: "high-intent pages" },
-  { label: "Policy stance", value: "No leaks", detail: "official or tested only" }
+  { label: "Release", value: "Nov 19", detail: "2026" },
+  { label: "Platforms", value: "PS5 / Xbox", detail: "Series X|S" },
+  { label: "Setting", value: "Leonida", detail: "including Vice City" },
+  { label: "Preload", value: "Nov 12", detail: "digital editions" }
 ];
 
 export const gta6DatabaseCards: Array<{
   title: string;
   href: string;
-  count: number;
   confidence: ConfidenceKey;
   deck: string;
-  nextUpdate: string;
 }> = [
   {
     title: "Vehicles",
     href: "/gta-6/database/vehicles/",
-    count: 6,
     confidence: "observed",
-    deck: "A proof-labeled vehicle-category tracker that avoids unverified model-name spam before launch.",
-    nextUpdate: "Add individual vehicle pages only after official naming or repeatable launch testing."
+    deck: "Browse vehicle classes shown in official GTA 6 material."
   },
   {
     title: "Characters",
     href: "/gta-6/database/characters/",
-    count: 8,
     confidence: "official",
-    deck: "Jason, Lucia, and supporting official character profiles with source boundaries.",
-    nextUpdate: "Split official character pages when more verified story or mission data exists."
+    deck: "Browse Jason, Lucia, and other characters profiled by Rockstar."
   },
   {
     title: "Locations",
     href: "/gta-6/database/locations/",
-    count: 6,
     confidence: "official",
-    deck: "Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia, and Mount Kalaga.",
-    nextUpdate: "Add tested markers after release; no leaked map coordinates."
+    deck: "Browse Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia, and Mount Kalaga."
   },
   {
     title: "Editions",
     href: "/gta-6/database/editions/",
-    count: 6,
     confidence: "official",
-    deck: "Standard Edition, Ultimate Edition, preorder bonuses, GTA+ benefit, and preload records.",
-    nextUpdate: "Refresh when storefront pages expose stable edition details."
+    deck: "Compare Standard and Ultimate Editions, preorder bonuses, GTA+ benefits, and preload details."
   }
 ];
 
@@ -81,7 +71,7 @@ export const gta6FeatureSections = [
     points: [
       "Leonida is the official state setting.",
       "Official destination names include Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia, and Mount Kalaga.",
-      "This site keeps leaked map claims out of the confirmed layer."
+      "Leaked map claims are not part of the confirmed location list."
     ],
     sourceId: "rockstar-leonida",
     href: "/guides/gta-6-map-leonida-regions-evidence-tracker/"
@@ -101,9 +91,9 @@ export const gta6FeatureSections = [
     title: "Vehicles and Driving",
     confidence: "observed" as const,
     points: [
-      "Vehicles are visible in official media, but this site avoids model-name claims without strong evidence.",
-      "Launch-week vehicle notes will track class, acquisition, storage, upgrade path, and source.",
-      "Official or tested proof is required before individual vehicle pages open."
+      "Official media shows cars, motorcycles, boats, aircraft, and police or emergency vehicles.",
+      "Rockstar has not published a complete named vehicle list.",
+      "Use the vehicle database for the currently confirmed categories and official media links."
     ],
     sourceId: "rockstar-media",
     href: "/gta-6/database/vehicles/"
@@ -114,21 +104,21 @@ export const gta6FeatureSections = [
     points: [
       "Standard Edition and Ultimate Edition pricing is tracked from publisher announcements.",
       "The Vintage Vice City Pack is the named preorder bonus currently shown.",
-      "Storefront terms, regional prices, and final item lists still need platform checks."
+      "Regional taxes, refund terms, and final item lists can vary, so check the PlayStation or Xbox store before buying."
     ],
     sourceId: "take-two-preorders",
     href: "/guides/gta-6-pre-order-standard-vs-ultimate/"
   },
   {
-    title: "Cheats, Missions, and Launch Testing",
+    title: "Cheats and Missions",
     confidence: "analysis" as const,
     points: [
       "No cheat codes, mission order, or early-money methods are treated as confirmed before release.",
-      "The testing protocol records platform, prerequisites, side effects, and repeatability.",
-      "Exploit, fake generator, and online-cheating content stays excluded."
+      "Avoid fake generators, invented code lists, and claims that cannot be checked against the game or an official announcement.",
+      "Use the missions category for current spoiler-safe preparation guides."
     ],
-    sourceId: "google-spam",
-    href: "/testing-protocol/"
+    sourceId: "rockstar-vi",
+    href: "/guides/category/missions/"
   }
 ];
 
@@ -138,7 +128,6 @@ export const vehicleDatabaseRows: Array<{
   proof: string;
   sourceId: string;
   page: string;
-  launchUse: string;
 }> = [
   {
     category: "Street cars and traffic",
@@ -146,15 +135,13 @@ export const vehicleDatabaseRows: Array<{
     proof: "Official media shows regular road traffic and player-facing vehicle use, but this site does not treat specific model names as confirmed without stronger proof.",
     sourceId: "rockstar-media",
     page: "/guides/gta-6-vehicles-confirmed-so-far/",
-    launchUse: "Class, handling, storage, purchase path, and spawn notes."
   },
   {
     category: "Motorcycles and bikes",
     status: "Observed",
-    proof: "Two-wheel vehicle use appears in official media; individual model names wait for official naming or hands-on verification.",
+    proof: "Official media shows two-wheel vehicles, but Rockstar has not published a complete named motorcycle or bicycle list.",
     sourceId: "rockstar-media",
     page: "/guides/gta-6-vehicles-confirmed-so-far/",
-    launchUse: "Handling, stunt use, rider risk, storage, and upgrade tests."
   },
   {
     category: "Boats and watercraft",
@@ -162,31 +149,27 @@ export const vehicleDatabaseRows: Array<{
     proof: "Leonida's coastal setting and official media support watercraft tracking, but the final list remains unconfirmed.",
     sourceId: "rockstar-vi",
     page: "/guides/gta-6-map-leonida-regions-evidence-tracker/",
-    launchUse: "Dock access, water routes, mission restrictions, and purchase notes."
   },
   {
     category: "Aircraft",
     status: "Observed",
-    proof: "Official media includes aerial vehicle moments; exact pilotable list and acquisition remain launch-week questions.",
+    proof: "Official media shows aircraft, but Rockstar has not confirmed which aircraft are player-controlled or how they are acquired.",
     sourceId: "rockstar-media",
     page: "/guides/gta-6-trailer-2-breakdown-evidence/",
-    launchUse: "Pilotability, storage, map access, mission locks, and controls."
   },
   {
     category: "Police and emergency vehicles",
     status: "Observed",
-    proof: "Law-enforcement response is visible enough to plan testing, but detailed vehicle behavior waits for repeatable wanted-level tests.",
+    proof: "Official media shows police and emergency vehicles, but it does not confirm pursuit rules, roadblocks, or escape mechanics.",
     sourceId: "rockstar-media",
     page: "/guides/gta-6-vehicles-confirmed-so-far/",
-    launchUse: "Wanted-level behavior, pursuit strength, roadblocks, and escape routes."
   },
   {
     category: "Edition or bonus vehicles",
     status: "Analysis",
-    proof: "Publisher preorder copy confirms edition and bonus framing, but this page does not invent vehicle rewards before official item lists are stable.",
+    proof: "Publisher preorder copy confirms edition and bonus framing, but no specific bonus vehicle is confirmed in the current item details.",
     sourceId: "take-two-preorders",
     page: "/guides/gta-6-vintage-vice-city-pack/",
-    launchUse: "Edition benefit checks and item-level source ledger."
   }
 ];
 
@@ -196,7 +179,6 @@ export const characterDatabaseRows: Array<{
   proof: string;
   sourceId: string;
   page: string;
-  launchUse: string;
 }> = [
   {
     name: "Jason Duval",
@@ -204,7 +186,6 @@ export const characterDatabaseRows: Array<{
     proof: "Rockstar profiles Jason as one of the central characters and links him to the Keys, local runners, and Lucia.",
     sourceId: "rockstar-leonida",
     page: "/guides/gta-6-jason-duval-character-guide/",
-    launchUse: "Relationship, mission availability, safehouse, and early-game role checks."
   },
   {
     name: "Lucia Caminos",
@@ -212,7 +193,6 @@ export const characterDatabaseRows: Array<{
     proof: "Rockstar profiles Lucia as a central character with prison, family, and Jason story framing.",
     sourceId: "rockstar-leonida",
     page: "/guides/gta-6-lucia-caminos-character-guide/",
-    launchUse: "Mission order, playable moments, relationship status, and spoiler-safe story notes."
   },
   {
     name: "Cal Hampton",
@@ -220,7 +200,6 @@ export const characterDatabaseRows: Array<{
     proof: "Rockstar identifies Cal as Jason's friend and a fellow associate of Brian.",
     sourceId: "rockstar-leonida",
     page: "/guides/gta-6-characters-official-cast/",
-    launchUse: "Contact unlocks, side activity, radio/comms references, and mission involvement."
   },
   {
     name: "Boobie Ike",
@@ -228,7 +207,6 @@ export const characterDatabaseRows: Array<{
     proof: "Rockstar describes Boobie as a Vice City figure tied to real estate, a club, a studio, and Only Raw Records.",
     sourceId: "rockstar-leonida",
     page: "/guides/gta-6-characters-official-cast/",
-    launchUse: "Business locations, music-scene missions, rewards, and faction ties."
   },
   {
     name: "Dre'Quan Priest",
@@ -236,7 +214,6 @@ export const characterDatabaseRows: Array<{
     proof: "Rockstar profiles Dre'Quan around Only Raw Records, Boobie's club, and the Vice City music scene.",
     sourceId: "rockstar-leonida",
     page: "/guides/gta-6-characters-official-cast/",
-    launchUse: "Label missions, music unlocks, contacts, and Real Dimez links."
   },
   {
     name: "Real Dimez",
@@ -244,7 +221,6 @@ export const characterDatabaseRows: Array<{
     proof: "Rockstar profiles Bae-Luxe and Roxy as Real Dimez and links them to DWNPLY and Only Raw Records.",
     sourceId: "rockstar-leonida",
     page: "/guides/gta-6-real-dimez-character-guide/",
-    launchUse: "Music-scene missions, radio references, social-media posts, and collectable ties."
   },
   {
     name: "Raul Bautista",
@@ -252,7 +228,6 @@ export const characterDatabaseRows: Array<{
     proof: "Rockstar profiles Raul as a seasoned bank robber looking for talent and bigger scores.",
     sourceId: "rockstar-leonida",
     page: "/guides/gta-6-characters-official-cast/",
-    launchUse: "Heist setup, crew role, reward path, and mission-spoiler boundaries."
   },
   {
     name: "Brian Heder",
@@ -260,7 +235,6 @@ export const characterDatabaseRows: Array<{
     proof: "Rockstar profiles Brian as a Keys drug runner connected to Jason and local work.",
     sourceId: "rockstar-leonida",
     page: "/guides/gta-6-characters-official-cast/",
-    launchUse: "Safehouse access, boat yard checks, contact unlocks, and early mission ties."
   }
 ];
 
@@ -270,7 +244,6 @@ export const locationDatabaseRows: Array<{
   proof: string;
   sourceId: string;
   page: string;
-  launchUse: string;
 }> = [
   {
     name: "Vice City",
@@ -278,7 +251,6 @@ export const locationDatabaseRows: Array<{
     proof: "Rockstar presents Vice City as a major Leonida destination and the clearest urban anchor for the setting.",
     sourceId: "rockstar-leonida",
     page: "/guides/gta-6-vice-city-location-guide/",
-    launchUse: "Neighborhood names, storefronts, safehouses, collectibles, routes, and activity density."
   },
   {
     name: "Leonida Keys",
@@ -286,39 +258,34 @@ export const locationDatabaseRows: Array<{
     proof: "Rockstar lists the Keys as an official Leonida destination with island and water-route relevance.",
     sourceId: "rockstar-leonida",
     page: "/guides/gta-6-leonida-keys-location-guide/",
-    launchUse: "Boat access, bridge routes, water missions, wildlife checks, and side activity markers."
   },
   {
     name: "Grassrivers",
     status: "Official",
-    proof: "Rockstar lists Grassrivers as an official destination, supporting wetland and wildlife tracking after launch.",
+    proof: "Rockstar lists Grassrivers as an official destination and describes its wetland setting.",
     sourceId: "rockstar-leonida",
     page: "/guides/gta-6-grassrivers-location-guide/",
-    launchUse: "Wildlife, swamp paths, vehicle access, event triggers, and map-marker verification."
   },
   {
     name: "Port Gellhorn",
     status: "Official",
-    proof: "Rockstar lists Port Gellhorn as an official Leonida destination with coastal-town tracking potential.",
+    proof: "Rockstar lists Port Gellhorn as an official Leonida destination and describes its coastal setting.",
     sourceId: "rockstar-leonida",
     page: "/guides/gta-6-port-gellhorn-location-guide/",
-    launchUse: "Road access, shops, docks, mission starts, and regional collectible checks."
   },
   {
     name: "Ambrosia",
     status: "Official",
-    proof: "Rockstar lists Ambrosia as an official Leonida destination; this site does not add leaked boundaries or activity claims.",
+    proof: "Rockstar lists Ambrosia as an official Leonida destination; exact boundaries and activities are not confirmed.",
     sourceId: "rockstar-leonida",
     page: "/guides/gta-6-map-leonida-regions-evidence-tracker/",
-    launchUse: "Region boundary, access route, services, mission hooks, and repeatable map evidence."
   },
   {
     name: "Mount Kalaga",
     status: "Official",
-    proof: "Rockstar lists Mount Kalaga as an official Leonida destination; terrain and activity details wait for testing.",
+    proof: "Rockstar lists Mount Kalaga as an official Leonida destination; exact terrain routes and activities are not confirmed.",
     sourceId: "rockstar-leonida",
     page: "/guides/gta-6-map-leonida-regions-evidence-tracker/",
-    launchUse: "Terrain routes, viewpoints, off-road paths, wildlife, and activity marker checks."
   }
 ];
 
@@ -328,7 +295,6 @@ export const editionDatabaseRows: Array<{
   proof: string;
   sourceId: string;
   page: string;
-  launchUse: string;
 }> = [
   {
     name: "Standard Edition",
@@ -336,7 +302,6 @@ export const editionDatabaseRows: Array<{
     proof: "Take-Two's preorder announcement lists Standard Edition at $79.99.",
     sourceId: "take-two-preorders",
     page: "/guides/gta-6-pre-order-standard-vs-ultimate/",
-    launchUse: "Base-game buyer comparison, platform store terms, refund checks, and regional price updates."
   },
   {
     name: "Ultimate Edition",
@@ -344,7 +309,6 @@ export const editionDatabaseRows: Array<{
     proof: "Take-Two's preorder announcement lists Ultimate Edition at $99.99.",
     sourceId: "take-two-preorders",
     page: "/guides/gta-6-price-standard-ultimate-explained/",
-    launchUse: "Benefit comparison, upsell value checks, storefront inclusions, and final item-list updates."
   },
   {
     name: "Vintage Vice City Pack",
@@ -352,7 +316,6 @@ export const editionDatabaseRows: Array<{
     proof: "Publisher copy ties the Vintage Vice City Pack to preorders and purchases before November 20, 2026.",
     sourceId: "rockstar-preorders",
     page: "/guides/gta-6-vintage-vice-city-pack/",
-    launchUse: "Bonus eligibility, cutoff date checks, item contents, and platform-specific redemption notes."
   },
   {
     name: "Digital preorder GTA+ month",
@@ -360,7 +323,6 @@ export const editionDatabaseRows: Array<{
     proof: "The publisher announcement describes one free month of GTA+ for digital preorders.",
     sourceId: "take-two-preorders",
     page: "/guides/gta-6-gta-plus-preorder-benefit/",
-    launchUse: "Subscription eligibility, account requirements, cancellation timing, and redemption checks."
   },
   {
     name: "Digital preload",
@@ -368,7 +330,6 @@ export const editionDatabaseRows: Array<{
     proof: "Rockstar's preorder announcement says digital preloading is scheduled to begin November 12, 2026.",
     sourceId: "rockstar-preorders",
     page: "/guides/gta-6-preload-download-size-prep/",
-    launchUse: "Console storage, version number, regional timing, download size, and account access checks."
   },
   {
     name: "Physical download-code preload",
@@ -376,6 +337,5 @@ export const editionDatabaseRows: Array<{
     proof: "Publisher copy describes the physical version as a box with a download code available for preload.",
     sourceId: "take-two-preorders",
     page: "/guides/gta-6-physical-vs-digital-preorder/",
-    launchUse: "Retailer timing, code redemption, gift-buying friction, preload eligibility, and refund caveats."
   }
 ];

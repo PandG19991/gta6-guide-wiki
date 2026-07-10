@@ -10,7 +10,7 @@ const schema = [
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: "GTA 6 Character Database",
-    description: "A source-labeled GTA 6 character database for official cast profiles and launch-week verification needs.",
+    description: "Official GTA 6 character profiles with current confirmation notes and links to player guides.",
     url: `${site.url}/gta-6/database/characters/`
   },
   {
@@ -40,14 +40,14 @@ const schema = [
 
 <BaseLayout
   title="GTA 6 Character Database"
-  description="Official GTA 6 character database with proof notes, source links, and launch-week verification targets without voice actor or ending speculation."
+  description="Official GTA 6 character profiles with confirmation notes, official links, and current player guides."
   schema={schema}
 >
   <header class="page-header shell">
     <div class="page-kicker">Characters database</div>
     <h1 class="page-title">GTA 6 Character Database</h1>
     <p class="page-intro">
-      Officially profiled GTA 6 characters in one source-led table, with launch-week fields reserved for verified story and mission updates.
+      Browse GTA 6 characters profiled by Rockstar, with direct links to current character guides.
     </p>
   </header>
 
@@ -59,8 +59,7 @@ const schema = [
         <tr>
           <th>Character</th>
           <th>Status</th>
-          <th>Proof note</th>
-          <th>Launch use</th>
+          <th>What is confirmed</th>
           <th>Source</th>
         </tr>
       </thead>
@@ -71,8 +70,7 @@ const schema = [
             <tr>
               <td data-label="Character"><strong><a href={row.page}>{row.name}</a></strong></td>
               <td data-label="Status"><span class="badge official">{row.status}</span></td>
-              <td data-label="Proof note">{row.proof}</td>
-              <td data-label="Launch use">{row.launchUse}</td>
+              <td data-label="What is confirmed">{row.proof}</td>
               <td data-label="Source"><a href={source.url} target="_blank" rel="nofollow noopener">{source.publisher}</a></td>
             </tr>
           );
@@ -83,18 +81,14 @@ const schema = [
 
   <section class="section-tight shell split">
     <article class="panel">
-      <h2>What stays out?</h2>
+      <h2>What is confirmed</h2>
       <p>
-        Voice actor claims, full relationship arcs, endings, mission order, and ability claims stay out until official copy or repeatable launch testing supports them.
+        Rockstar profiles Jason Duval, Lucia Caminos, and the supporting characters listed above on its official Leonida page.
       </p>
     </article>
     <article class="panel">
-      <h2>Launch checklist</h2>
-      <ul>
-        <li>Record first appearance, mission tie, spoiler level, and playable status.</li>
-        <li>Separate official profile copy from player-tested story details.</li>
-        <li>Link each update to a source, platform, date, and repeatable proof note.</li>
-      </ul>
+      <h2>What this means for players</h2>
+      <p>Open the <a href="/guides/gta-6-characters-official-cast/">official cast guide</a> for concise profiles of Jason, Lucia, and the supporting cast.</p>
     </article>
   </section>
 </BaseLayout>
