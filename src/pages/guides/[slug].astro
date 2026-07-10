@@ -1,9 +1,12 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import { getImage } from "astro:assets";
+import AdSlot from "@components/AdSlot.astro";
 import Gta6Rail from "@components/Gta6Rail.astro";
 import GuideMedia from "@components/GuideMedia.astro";
 import { guideArticles } from "@data/guideArticles";
 import { categoryMetaByName, publicGuides } from "@data/guides";
+import { mediaById } from "@data/media";
 import { sourceById } from "@data/sources";
 import { site } from "@data/site";
 
@@ -15,7 +18,9 @@ export function getStaticPaths() {
 }
 
 const { guide } = Astro.props;
-const image = categoryMetaByName[guide.category].image;
+const primaryMedia = mediaById[guide.primaryMediaId];
+const socialImage = await getImage({ src: primaryMedia.local, width: 1200, height: 675, format: "jpg", quality: 82 });
+const image = socialImage.src;
 const relatedGuides = publicGuides
   .filter((candidate) => candidate.slug !== guide.slug && candidate.category === guide.category)
   .slice(0, 3);
@@ -59,7 +64,16 @@ const schema = [
 ];
 ---
 
-<BaseLayout title={guide.title} description={guide.deck} image={image} schema={schema}>
+<BaseLayout
+  title={guide.title}
+  description={guide.deck}
+  image={image}
+  imageAlt={primaryMedia.alt}
+  imageWidth={1200}
+  imageHeight={675}
+  ogType="article"
+  schema={schema}
+>
   <header class="article-header shell">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
       <a href="/">Home</a><span>/</span><a href="/guides/">Guides</a><span>/</span><a href={`/guides/category/${categoryMetaByName[guide.category].slug}/`}>{guide.category}</a>
@@ -80,6 +94,8 @@ const schema = [
         <p>{firstAnswer}</p>
       </section>
 
+      <AdSlot placement="after-answer" />
+
       <section class="article-section" id="key-points">
         <h2>What To Know</h2>
         <ul class="key-points">
@@ -98,6 +114,8 @@ const schema = [
           )}
         </section>
       ))}
+
+      <AdSlot placement="mid-article" />
 
       {decisionRows.length > 0 && (
         <section class="article-section" id="decision-table">

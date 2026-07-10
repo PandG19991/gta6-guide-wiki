@@ -4,6 +4,7 @@ import { execFileSync } from "node:child_process";
 const siteFile = readFileSync("src/data/site.ts", "utf8");
 const configuredUrl = siteFile.match(/url:\s*"([^"]+)"/)?.[1];
 const base = (process.env.SITE_URL ?? configuredUrl)?.replace(/\/$/, "");
+const today = new Date().toLocaleDateString("sv-SE");
 
 if (!base) throw new Error("Missing site URL. Set SITE_URL or src/data/site.ts site.url.");
 
@@ -19,6 +20,9 @@ const corePaths = [
   "/about/",
   "/guides/",
   "/release/",
+  "/guides/gta-6-pre-order-standard-vs-ultimate/",
+  "/guides/gta-6-map-leonida-regions-evidence-tracker/",
+  "/guides/gta-6-characters-official-cast/",
   "/guides/is-gta-6-coming-to-pc/",
   "/guides/gta-6-release-date-countdown-preload/"
 ];
@@ -86,6 +90,23 @@ const fetchStatus = (url) => {
   }
 };
 
+const fetchRedirectHeaders = (url) => {
+  try {
+    return execFileSync(process.platform === "win32" ? "curl.exe" : "curl", [
+      "--silent",
+      "--show-error",
+      "--head",
+      "--max-redirs",
+      "0",
+      "--max-time",
+      "30",
+      url
+    ], { encoding: "utf8", maxBuffer: 1024 * 1024 }).toLowerCase();
+  } catch (error) {
+    fail(`${url}: curl redirect check failed (${error.status ?? "unknown"})`);
+  }
+};
+
 const homepageHeaders = fetchHeaders(`${base}/`);
 for (const header of [
   "strict-transport-security:",
@@ -131,9 +152,9 @@ if (new Set(livePaths).size !== livePaths.length) fail("sitemap must not contain
 if (lastmods.length !== urls.length) fail("sitemap must define one lastmod per URL");
 for (const lastmod of lastmods) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(lastmod)) fail(`sitemap lastmod must use YYYY-MM-DD: ${lastmod}`);
-  const timestamp = Date.parse(`${lastmod}T00:00:00.000Z`);
+  const timestamp = Date.parse(`${lastmod}T00:00:00`);
   if (Number.isNaN(timestamp)) fail(`sitemap lastmod is invalid: ${lastmod}`);
-  if (timestamp > Date.now()) fail(`sitemap lastmod is in the future: ${lastmod}`);
+  if (lastmod > today) fail(`sitemap lastmod is in the future: ${lastmod}`);
 }
 
 const localSitemap = readFileSync("dist/sitemap.xml", "utf8");
@@ -190,6 +211,22 @@ for (const [path, canonicalPath] of [["/database/", "/gta-6/database/"]]) {
   if (!/<meta name="robots" content="[^"]*noindex/i.test(html)) fail(`${url}: missing noindex`);
 }
 
+for (const path of [
+  "/guides/gta-6-price-standard-ultimate-explained/",
+  "/guides/gta-6-gta-plus-preorder-benefit/",
+  "/guides/gta-6-physical-vs-digital-preorder/",
+  "/guides/gta-6-vintage-vice-city-pack/"
+]) {
+  const url = `${base}${path}`;
+  if (sitemapSet.has(url)) fail(`redirect URL must stay out of sitemap: ${url}`);
+  const headers = fetchRedirectHeaders(url);
+  if (!/^http\/\S+ 301\b/m.test(headers)) fail(`${url}: expected a 301 redirect`);
+  const location = headers.match(/^location:\s*(.+)$/m)?.[1]?.trim();
+  if (!location || new URL(location, base).pathname !== "/guides/gta-6-pre-order-standard-vs-ultimate/") {
+    fail(`${url}: redirect target is incorrect`);
+  }
+}
+
 for (const url of urls) {
   const parsed = new URL(url);
   if (parsed.origin !== base) fail(`sitemap URL has wrong origin: ${url}`);
@@ -209,7 +246,8 @@ for (const path of corePaths) {
   const schemaTypes = schema.map((item) => item["@type"]);
   if (!schemaTypes.includes("Organization")) fail(`${url}: missing Organization schema`);
   if (!schemaTypes.includes("WebSite")) fail(`${url}: missing WebSite schema`);
-  if (path === "/release/") {
+  const isArticle = path === "/release/" || /^\/guides\/[^/]+\/$/.test(path);
+  if (isArticle) {
     if (!schemaTypes.includes("Article")) fail(`${url}: missing Article schema`);
     if (!schemaTypes.includes("BreadcrumbList")) fail(`${url}: missing BreadcrumbList schema`);
     const articleSchema = schema.find((item) => item["@type"] === "Article");
@@ -220,7 +258,13 @@ for (const path of corePaths) {
   if (!html.includes('rel="manifest" href="/site.webmanifest"')) fail(`${url}: missing manifest link`);
   if (!html.includes(`<meta name="theme-color" content="${manifest.theme_color}"`)) fail(`${url}: theme-color does not match manifest`);
   const ogImage = html.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
+  const ogWidth = Number(html.match(/<meta property="og:image:width" content="(\d+)"/)?.[1]);
+  const ogHeight = Number(html.match(/<meta property="og:image:height" content="(\d+)"/)?.[1]);
   if (!ogImage?.startsWith(`${base}/`)) fail(`${url}: og:image must be same-origin`);
+  if (ogWidth < 600 || ogHeight < 315) fail(`${url}: og:image dimensions are too small`);
+  if (/^\/guides\/[^/]+\/$/.test(path) && !ogImage.includes("/_astro/")) {
+    fail(`${url}: guide must use approved primary media for social previews`);
+  }
   if (!checkedImages.has(ogImage)) {
     if (!fetchHeaders(ogImage).includes("content-type: image/")) fail(`${ogImage}: og:image must be served as an image`);
     checkedImages.add(ogImage);

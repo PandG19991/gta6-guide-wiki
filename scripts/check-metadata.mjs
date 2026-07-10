@@ -9,7 +9,7 @@ const pages = [
   { file: "dist/gta-6/database/locations/index.html", types: ["CollectionPage", "BreadcrumbList", "ItemList"] },
   { file: "dist/gta-6/database/editions/index.html", types: ["CollectionPage", "BreadcrumbList", "ItemList"] },
   { file: "dist/release/index.html", types: ["BreadcrumbList"], image: "/assets/og-release.png", article: true },
-  { file: "dist/guides/is-gta-6-coming-to-pc/index.html", image: "/assets/og-release.png", article: true },
+  { file: "dist/guides/is-gta-6-coming-to-pc/index.html", article: true },
   { file: "dist/guides/category/map/index.html", image: "/assets/og-map.png" }
 ];
 
@@ -35,7 +35,9 @@ for (const { file, image, types: requiredTypes = [], article = false } of pages)
     if (articleSchema.inLanguage !== "en-US") throw new Error(`${file}: missing Article inLanguage`);
   }
   if (!html.includes('property="og:image:alt"')) throw new Error(`${file}: missing og:image:alt`);
-  if (!html.includes('property="og:image:width" content="1672"')) throw new Error(`${file}: missing og:image dimensions`);
+  const imageWidth = Number(html.match(/property="og:image:width" content="(\d+)"/)?.[1]);
+  const imageHeight = Number(html.match(/property="og:image:height" content="(\d+)"/)?.[1]);
+  if (imageWidth < 600 || imageHeight < 315) throw new Error(`${file}: missing useful og:image dimensions`);
   if (!html.includes('name="twitter:image:alt"')) throw new Error(`${file}: missing twitter:image:alt`);
   if (image && !html.includes(image)) throw new Error(`${file}: missing expected OG image ${image}`);
 }
@@ -59,6 +61,10 @@ for (const slug of guideDirs) {
   const articleSchema = schema.find((item) => item["@type"] === "Article");
   if (!articleSchema?.image) throw new Error(`${file}: missing Article image`);
   if (articleSchema.inLanguage !== "en-US") throw new Error(`${file}: missing Article inLanguage`);
+  const ogImage = html.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
+  if (!ogImage?.includes("/_astro/")) throw new Error(`${file}: guide OG image must use approved primary media`);
+  if (articleSchema.image !== ogImage) throw new Error(`${file}: Article and OG images must match`);
+  if (!html.includes('<meta property="og:type" content="article"')) throw new Error(`${file}: missing article og:type`);
 }
 
 const categoryDirs = readdirSync("dist/guides/category", { withFileTypes: true })

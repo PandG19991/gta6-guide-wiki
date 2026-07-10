@@ -1,11 +1,11 @@
 {
   "name": "Leonida Ledger",
   "short_name": "Leonida",
-  "description": "Source-tracked GTA 6 guide hub.",
+  "description": "GTA 6 guides, news, maps, characters, vehicles, and release information.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f7f4ee",
-  "theme_color": "#ef4b3e",
+  "background_color": "#f2f3f0",
+  "theme_color": "#f0554b",
   "icons": [
     {
       "src": "/favicon.svg",

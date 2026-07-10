@@ -50,9 +50,15 @@ for (const lastmod of lastmods) {
 const origin = locs[0].origin;
 const feed = read(feedPath);
 const feedItems = (feed.match(/<item>/g) ?? []).length;
+const feedGuideUrls = matchAll(feed, /<guid isPermaLink="true">(.*?)<\/guid>/g);
+const sitemapGuideUrls = locs
+  .filter((url) => /^\/guides\/[^/]+\/$/.test(url.pathname))
+  .map((url) => url.href);
 const manifest = JSON.parse(read(manifestPath));
 if (!feed.includes("<rss version=\"2.0\">")) fail("feed.xml must be RSS 2.0");
 if (feedItems === 0) fail("feed.xml must contain at least one item");
+if (feedItems !== sitemapGuideUrls.length) fail("feed and sitemap must expose the same public guide count");
+if (feedGuideUrls.some((url) => !sitemapGuideUrls.includes(url))) fail("feed contains a non-indexable guide URL");
 if (!manifest.theme_color) fail("site.webmanifest must define theme_color");
 if (!Array.isArray(manifest.icons) || manifest.icons.length === 0) fail("site.webmanifest must define at least one icon");
 for (const icon of manifest.icons) {

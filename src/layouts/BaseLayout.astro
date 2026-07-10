@@ -9,6 +9,10 @@ interface Props {
   description?: string;
   canonical?: string;
   image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  ogType?: "website" | "article";
   robots?: string;
   schema?: unknown;
 }
@@ -18,13 +22,17 @@ const {
   description = site.description,
   canonical = new URL(Astro.url.pathname, site.url).toString(),
   image = "/assets/hero-leonida-dossier.png",
+  imageAlt = "GTA 6 guide coverage from Leonida Ledger",
+  imageWidth = 1672,
+  imageHeight = 941,
+  ogType = "website",
   robots = "index,follow,max-image-preview:large",
   schema
 } = Astro.props;
 
 const pageTitle = title === site.name ? site.name : `${title} | ${site.name}`;
 const absoluteImage = new URL(image, site.url).toString();
-const imageAlt = "Leonida Ledger source-tracked GTA 6 guide dossier";
+const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
 const pageSchema = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 const hasPageWebSiteSchema = pageSchema.some((item) => (item as { "@type"?: unknown })["@type"] === "WebSite");
 const siteSchema: Record<string, unknown>[] = [
@@ -64,15 +72,16 @@ const jsonLd = [...siteSchema, ...pageSchema];
     <link rel="canonical" href={canonical} />
     <link rel="alternate" type="application/rss+xml" title={`${site.name} RSS`} href={new URL("/feed.xml", site.url).toString()} />
     <meta name="robots" content={robots} />
-    <meta name="theme-color" content="#ef4b3e" />
-    <meta property="og:type" content="website" />
+    {googleSiteVerification && <meta name="google-site-verification" content={googleSiteVerification} />}
+    <meta name="theme-color" content="#f0554b" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={absoluteImage} />
-    <meta property="og:image:width" content="1672" />
-    <meta property="og:image:height" content="941" />
+    <meta property="og:image:width" content={String(imageWidth)} />
+    <meta property="og:image:height" content={String(imageHeight)} />
     <meta property="og:image:alt" content={imageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />

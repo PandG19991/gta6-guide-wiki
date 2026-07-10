@@ -1,17 +1,17 @@
 # Leonida Ledger
 
-English SEO-first guide and database site for GTA 6 search demand.
+Player-first GTA 6 guide, news, and database site built with Astro and Cloudflare Workers Static Assets.
 
 This is an unofficial fan guide project. It is not affiliated with Rockstar Games or Take-Two Interactive.
 
 ## Positioning
 
-Leonida Ledger is not a generic wiki clone. It is a source-tracked guide hub:
+Leonida Ledger is not a generic wiki clone or a project-status blog. It is a visual guide hub:
 
-- fast official answers for release, preload, platforms, preorder, and edition searches;
-- evidence-labeled trackers for map, characters, vehicles, cheats, and missions;
-- launch-week templates that convert into tested walkthroughs after release;
-- static, fast, mobile-friendly pages suitable for Google indexing and later ad review.
+- fast answers for release, preload, platforms, preorder, and edition decisions;
+- substantial guides for the Leonida map, characters, vehicles, and official trailers;
+- image-led databases built from a governed official-media registry;
+- static, responsive pages with canonical URLs, sitemap, RSS, Article schema, and Breadcrumb schema.
 
 ## Commands
 
@@ -19,17 +19,24 @@ Leonida Ledger is not a generic wiki clone. It is a source-tracked guide hub:
 npm install
 npm run dev
 npm run build
+npm run check:media
+npm run check:metadata
+npm run check:indexability
+npm run check:links
+npm run check:content
 npm run preview
 npm run deploy
 ```
 
 ## Content Rules
 
-- Put every material factual claim behind a source or a confidence label.
-- Do not publish leaked pre-release footage, leaked maps, copied screenshots, official logos, or copied guide text.
+- Answer the player question before background context, sources, or monetization.
+- Use Rockstar, Take-Two, and platform stores for material launch and product facts.
+- Use only media approved in `src/data/media.ts`, with useful alt text and source attribution.
+- Do not publish leaked pre-release footage, leaked maps, copied guides, or fake downloads.
 - Do not invent cheat codes, mission lists, locations, prices, or PC timing.
-- Keep official facts, trailer-observed facts, analysis, and rumors separate.
-- Add AdSense only after the site has enough original publisher content and policy pages are current.
+- Keep launch testing in `docs/launch-week-workflow.md` until it produces a useful verified guide.
+- Keep AdSense disabled until the production domain, publisher account, consent behavior, and privacy disclosure are ready.
 
 ## Deployment
 

@@ -364,6 +364,9 @@ button, input, select { font: inherit; }
 .article-section h2 { margin-bottom: 16px; }
 .guide-detail-section p { max-width: 72ch; margin: 0 0 14px; color: var(--ink-soft); }
 .detail-points { margin-top: 18px; }
+.ad-slot { min-height: 250px; display: grid; align-content: start; margin-top: 30px; border-block: 1px solid var(--line); padding-block: 8px; }
+.ad-slot > span { color: var(--muted); font-size: .68rem; text-transform: uppercase; }
+.ad-slot-frame { min-height: 220px; }
 .key-points { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
 .key-points li { position: relative; padding: 12px 14px 12px 34px; background: var(--paper); }
 .key-points li::before { content: ""; position: absolute; left: 14px; top: 20px; width: 7px; height: 7px; background: var(--coral); }
@@ -530,6 +533,8 @@ button, input, select { font: inherit; }
   .article-layout { padding-block: 20px 44px; }
   .quick-answer { padding: 15px 17px; }
   .quick-answer p { font-size: 1rem; }
+  .ad-slot { min-height: 120px; }
+  .ad-slot-frame { min-height: 90px; }
   .related-guide-list > a { grid-template-columns: 110px 1fr 24px; }
   .related-guide-list .guide-media { width: 110px; }
   .database-category-grid,

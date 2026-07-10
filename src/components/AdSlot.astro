@@ -1,0 +1,19 @@
+---
+interface Props {
+  placement: "after-answer" | "mid-article";
+}
+
+const { placement } = Astro.props;
+const client = import.meta.env.PUBLIC_ADSENSE_CLIENT?.trim();
+const slot = placement === "after-answer"
+  ? import.meta.env.PUBLIC_ADSENSE_SLOT_AFTER_ANSWER?.trim()
+  : import.meta.env.PUBLIC_ADSENSE_SLOT_MID_ARTICLE?.trim();
+const enabled = import.meta.env.PUBLIC_ADS_ENABLED === "true" && client && slot;
+---
+
+{enabled && (
+  <aside class="ad-slot" data-ad-placement={placement} aria-label="Advertisement">
+    <span>Advertisement</span>
+    <div class="ad-slot-frame" data-ad-client={client} data-ad-slot={slot}></div>
+  </aside>
+)}
