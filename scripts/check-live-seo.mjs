@@ -189,6 +189,13 @@ for (const path of corePaths) {
   const schemaTypes = schema.map((item) => item["@type"]);
   if (!schemaTypes.includes("Organization")) fail(`${url}: missing Organization schema`);
   if (!schemaTypes.includes("WebSite")) fail(`${url}: missing WebSite schema`);
+  if (path === "/release/") {
+    if (!schemaTypes.includes("Article")) fail(`${url}: missing Article schema`);
+    if (!schemaTypes.includes("BreadcrumbList")) fail(`${url}: missing BreadcrumbList schema`);
+    const articleSchema = schema.find((item) => item["@type"] === "Article");
+    if (!articleSchema?.image) fail(`${url}: missing Article image`);
+    if (articleSchema.inLanguage !== "en-US") fail(`${url}: missing Article inLanguage`);
+  }
   if (!html.includes('rel="alternate" type="application/rss+xml"')) fail(`${url}: missing RSS alternate link`);
   if (!html.includes('rel="manifest" href="/site.webmanifest"')) fail(`${url}: missing manifest link`);
   if (!html.includes(`<meta name="theme-color" content="${manifest.theme_color}"`)) fail(`${url}: theme-color does not match manifest`);

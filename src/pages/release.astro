@@ -13,14 +13,26 @@ const facts = [
   ["PC release date", "Not officially announced", "official"]
 ] as const;
 
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  headline: "GTA 6 Release Date, Countdown, and Preload Times",
-  dateModified: site.currentDate,
-  author: { "@type": "Organization", name: site.name },
-  mainEntityOfPage: `${site.url}/release/`
-};
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "GTA 6 Release Date, Countdown, and Preload Times",
+    dateModified: site.currentDate,
+    author: { "@type": "Organization", name: site.name },
+    image: new URL("/assets/og-release.png", site.url).toString(),
+    inLanguage: "en-US",
+    mainEntityOfPage: `${site.url}/release/`
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "Release", item: `${site.url}/release/` }
+    ]
+  }
+];
 ---
 
 <BaseLayout title="GTA 6 Release Date and Preload Guide" description="Official GTA 6 release date, platforms, preload timing, pricing, and preorder status with source links." image="/assets/og-release.png" schema={schema}>
