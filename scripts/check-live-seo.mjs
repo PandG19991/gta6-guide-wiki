@@ -136,6 +136,14 @@ for (const icon of manifest.icons) {
 
 const sitemapSet = new Set(urls);
 const checkedImages = new Set();
+
+const feedLinks = [...feed.matchAll(/<link>(.*?)<\/link>/g)].map((match) => match[1]);
+for (const link of feedLinks) {
+  if (link === base || link === `${base}/`) continue;
+  if (!link.startsWith(`${base}/`)) fail(`feed link has wrong origin: ${link}`);
+  if (!sitemapSet.has(link)) fail(`feed link missing from sitemap: ${link}`);
+}
+
 for (const path of corePaths) {
   const url = `${base}${path}`;
   if (!sitemapSet.has(url)) fail(`core URL missing from sitemap: ${url}`);
