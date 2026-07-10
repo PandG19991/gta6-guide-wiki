@@ -1,4 +1,7 @@
+export type UpdatePublication = "public" | "internal";
+
 export type LedgerUpdate = {
+  publication: UpdatePublication;
   date: string;
   time: string;
   confidence: "official" | "observed" | "analysis" | "unconfirmed";
@@ -8,6 +11,7 @@ export type LedgerUpdate = {
 
 export const ledgerUpdates: LedgerUpdate[] = [
   {
+    publication: "internal",
     date: "2026-07-08",
     time: "04:58 ET",
     confidence: "official",
@@ -15,6 +19,7 @@ export const ledgerUpdates: LedgerUpdate[] = [
     source: "Editorial desk"
   },
   {
+    publication: "public",
     date: "2026-06-25",
     time: "00:00 local",
     confidence: "official",
@@ -22,6 +27,7 @@ export const ledgerUpdates: LedgerUpdate[] = [
     source: "Rockstar Newswire"
   },
   {
+    publication: "public",
     date: "2026-06-24",
     time: "06:15 ET",
     confidence: "official",
@@ -29,4 +35,6 @@ export const ledgerUpdates: LedgerUpdate[] = [
     source: "Take-Two"
   }
 ];
+
+export const publicLedgerUpdates = ledgerUpdates.filter((update) => update.publication === "public");
 

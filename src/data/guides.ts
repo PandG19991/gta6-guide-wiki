@@ -1,8 +1,9 @@
 import type { ConfidenceKey } from "./site";
 
 export type GuideStatus = "live" | "tracker" | "launch-week" | "planned";
+export type GuidePublication = "public" | "withdrawn" | "redirect";
 
-export type Guide = {
+type GuideBase = {
   slug: string;
   title: string;
   deck: string;
@@ -23,6 +24,10 @@ export type Guide = {
   }>;
 };
 
+export type Guide =
+  | (GuideBase & { publication: Exclude<GuidePublication, "redirect">; redirectTo?: never })
+  | (GuideBase & { publication: "redirect"; redirectTo: string });
+
 export type EvidenceRow = {
   claim: string;
   status: "Official" | "Observed" | "Policy" | "Analysis";
@@ -33,6 +38,7 @@ export type EvidenceRow = {
 export const guides: Guide[] = [
   {
     slug: "gta-6-release-date-countdown-preload",
+    publication: "public",
     title: "GTA 6 Release Date, Countdown, and Preload Times",
     deck: "The source-tracked launch timing page: release date, supported console platforms, digital preload, and what is still unconfirmed.",
     category: "Release",
@@ -66,6 +72,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-pre-order-standard-vs-ultimate",
+    publication: "public",
     title: "GTA 6 Pre-Order Guide: Standard vs Ultimate Edition",
     deck: "A plain-English comparison of prices, preorder bonuses, digital preload, and what each edition currently includes.",
     category: "Buying",
@@ -105,6 +112,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-map-leonida-regions-evidence-tracker",
+    publication: "public",
     title: "GTA 6 Map: Leonida Regions and Evidence Tracker",
     deck: "A pre-launch map hub that separates official location names from trailer-observed details and community theories.",
     category: "Map",
@@ -124,6 +132,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-characters-official-cast",
+    publication: "public",
     title: "GTA 6 Characters: Jason, Lucia, and Official Cast Tracker",
     deck: "Confirmed character pages with short bios, relationship notes, and source confidence labels.",
     category: "Characters",
@@ -143,6 +152,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-vehicles-confirmed-so-far",
+    publication: "public",
     title: "GTA 6 Vehicles Confirmed So Far",
     deck: "A conservative vehicle tracker that starts with officially shown or named vehicles and avoids leak-driven list spam.",
     category: "Vehicles",
@@ -162,6 +172,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-mission-list-walkthrough-hub",
+    publication: "withdrawn",
     title: "GTA 6 Mission List Testing Hub",
     deck: "A launch-week mission index plan for walkthroughs, rewards, replay notes, and spoiler-safe navigation.",
     category: "Missions",
@@ -181,6 +192,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-price-standard-ultimate-explained",
+    publication: "public",
     title: "GTA 6 Price Explained: Standard, Ultimate, and Value Check",
     deck: "A buyer-focused breakdown of the confirmed US prices, preorder bonus timing, and who should wait before spending more.",
     category: "Buying",
@@ -220,6 +232,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "is-gta-6-coming-to-pc",
+    publication: "public",
     title: "Is GTA 6 Coming to PC?",
     deck: "The current PC status page: what has been announced, what has not, and how to avoid fake PC preorder claims.",
     category: "Release",
@@ -253,6 +266,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-platforms-ps5-xbox-series-x-s",
+    publication: "public",
     title: "GTA 6 Platforms: PS5 and Xbox Series X|S",
     deck: "A simple platform guide for launch support, what is confirmed, and what remains unannounced.",
     category: "Release",
@@ -292,6 +306,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-preload-download-size-prep",
+    publication: "public",
     title: "GTA 6 Preload and Download Prep",
     deck: "A practical preload checklist for console players, separating confirmed dates from unknown file-size details.",
     category: "Release",
@@ -331,6 +346,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-gta-plus-preorder-benefit",
+    publication: "public",
     title: "GTA 6 GTA+ Preorder Benefit Explained",
     deck: "What the current digital preorder GTA+ benefit says, who it helps, and what not to assume about GTA 6 Online.",
     category: "Buying",
@@ -370,6 +386,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-physical-vs-digital-preorder",
+    publication: "public",
     title: "GTA 6 Physical vs Digital Preorder",
     deck: "A console buyer guide for preload timing, download-code boxes, collector habits, and refund friction.",
     category: "Buying",
@@ -409,6 +426,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-vintage-vice-city-pack",
+    publication: "public",
     title: "GTA 6 Vintage Vice City Pack",
     deck: "A focused tracker for the confirmed preorder bonus and the cutoff date currently attached to it.",
     category: "Buying",
@@ -442,6 +460,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-trailer-2-breakdown-evidence",
+    publication: "public",
     title: "GTA 6 Trailer 2 Breakdown: Evidence Only",
     deck: "A spoiler-safe trailer notes page for officially published material, without leak claims or frame-by-frame overreach.",
     category: "Map",
@@ -461,6 +480,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-vice-city-location-guide",
+    publication: "public",
     title: "GTA 6 Vice City Location Guide",
     deck: "The Vice City hub for official description, map context, and future neighborhood-by-neighborhood guides.",
     category: "Map",
@@ -480,6 +500,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-leonida-keys-location-guide",
+    publication: "public",
     title: "GTA 6 Leonida Keys Location Guide",
     deck: "A conservative Leonida Keys tracker for official region mentions, character ties, and future map markers.",
     category: "Map",
@@ -499,6 +520,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-grassrivers-location-guide",
+    publication: "public",
     title: "GTA 6 Grassrivers Location Guide",
     deck: "A pre-launch region page for Grassrivers that keeps official naming separate from biome speculation.",
     category: "Map",
@@ -518,6 +540,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-port-gellhorn-location-guide",
+    publication: "public",
     title: "GTA 6 Port Gellhorn Location Guide",
     deck: "The Port Gellhorn tracker for official destination status and future tested mission, vehicle, and activity notes.",
     category: "Map",
@@ -537,6 +560,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-jason-duval-character-guide",
+    publication: "public",
     title: "GTA 6 Jason Duval Character Guide",
     deck: "A compact Jason guide using official bio details while leaving mission, actor, and ending speculation out.",
     category: "Characters",
@@ -556,6 +580,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-lucia-caminos-character-guide",
+    publication: "public",
     title: "GTA 6 Lucia Caminos Character Guide",
     deck: "A source-led Lucia page for official background, Jason ties, and future mission/walkthrough links.",
     category: "Characters",
@@ -575,6 +600,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-real-dimez-character-guide",
+    publication: "public",
     title: "GTA 6 Real Dimez Character Guide",
     deck: "A short official tracker for Real Dimez, Only Raw Records, and music-scene story threads.",
     category: "Characters",
@@ -594,6 +620,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "how-to-avoid-gta-6-spoilers-before-launch",
+    publication: "public",
     title: "How to Avoid GTA 6 Spoilers Before Launch",
     deck: "A practical spoiler-control guide for muting leaks, avoiding fake download bait, and staying on official GTA 6 information paths.",
     category: "Missions",
@@ -633,6 +660,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-beginner-guide-launch-week",
+    publication: "withdrawn",
     title: "GTA 6 Beginner Guide for Launch Week",
     deck: "A spoiler-safe beginner hub planned for first settings, saving, map reading, wanted levels, money, and vehicles.",
     category: "Missions",
@@ -652,6 +680,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-wanted-level-police-escape-guide",
+    publication: "withdrawn",
     title: "GTA 6 Wanted Level and Police Escape Test Plan",
     deck: "A launch-week test plan for wanted levels, escape routes, hiding, vehicles, and repeatable police behavior.",
     category: "Missions",
@@ -671,6 +700,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-money-fast-early-no-exploits",
+    publication: "withdrawn",
     title: "GTA 6 Early Money Testing Tracker: No Exploits",
     deck: "A future early-money tracker that will avoid fake unlimited-money claims and separate story, side activity, and online advice.",
     category: "Missions",
@@ -690,6 +720,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "gta-6-cheats-codes-testing-tracker",
+    publication: "withdrawn",
     title: "GTA 6 Cheats: Codes and Testing Tracker",
     deck: "A no-fake-codes page that will only publish cheat codes after official confirmation or repeatable in-game testing.",
     category: "Cheats",
@@ -709,6 +740,7 @@ export const guides: Guide[] = [
   }
 ];
 
+export const publicGuides = guides.filter((guide) => guide.publication === "public");
 export const liveGuides = guides.filter((guide) => guide.status === "live" || guide.status === "tracker");
 export const plannedGuides = guides.filter((guide) => guide.status === "launch-week" || guide.status === "planned");
 
@@ -766,6 +798,9 @@ export const guideCategoryMeta = [
   }
 ] as const satisfies Array<{ category: Guide["category"]; slug: string; title: string; deck: string; image: string }>;
 
+export const publicGuideCategoryMeta = guideCategoryMeta.filter((meta) =>
+  publicGuides.some((guide) => guide.category === meta.category)
+);
 export const categoryMetaBySlug = Object.fromEntries(guideCategoryMeta.map((meta) => [meta.slug, meta]));
 export const categoryMetaByName = Object.fromEntries(guideCategoryMeta.map((meta) => [meta.category, meta]));
 

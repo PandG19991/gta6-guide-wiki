@@ -27,6 +27,11 @@ const fail = (message) => {
   throw new Error(message);
 };
 
+const normalizePath = (url) => {
+  const pathname = new URL(url).pathname.replace(/\/+/g, "/");
+  return pathname === "/" ? "/" : `${pathname.replace(/\/+$/, "")}/`;
+};
+
 const fetchText = (url) => {
   try {
     return execFileSync(process.platform === "win32" ? "curl.exe" : "curl", [
@@ -120,7 +125,9 @@ if (!robots.includes(`Sitemap: ${base}/sitemap.xml`)) fail("robots.txt sitemap d
 const sitemap = fetchText(`${base}/sitemap.xml`);
 const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
 const lastmods = [...sitemap.matchAll(/<lastmod>(.*?)<\/lastmod>/g)].map((match) => match[1]);
-if (urls.length < 40) fail(`sitemap has too few URLs: ${urls.length}`);
+if (urls.length === 0) fail("sitemap must contain at least one URL");
+const livePaths = urls.map(normalizePath);
+if (new Set(livePaths).size !== livePaths.length) fail("sitemap must not contain duplicate paths");
 if (lastmods.length !== urls.length) fail("sitemap must define one lastmod per URL");
 for (const lastmod of lastmods) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(lastmod)) fail(`sitemap lastmod must use YYYY-MM-DD: ${lastmod}`);
@@ -129,10 +136,23 @@ for (const lastmod of lastmods) {
   if (timestamp > Date.now()) fail(`sitemap lastmod is in the future: ${lastmod}`);
 }
 
+const localSitemap = readFileSync("dist/sitemap.xml", "utf8");
+const localUrls = [...localSitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
+if (localUrls.length === 0) fail("local dist sitemap must contain at least one URL");
+const localPaths = localUrls.map(normalizePath);
+if (new Set(localPaths).size !== localPaths.length) fail("local dist sitemap must not contain duplicate paths");
+const livePathSet = new Set(livePaths);
+const localPathSet = new Set(localPaths);
+const missingLivePaths = localPaths.filter((path) => !livePathSet.has(path));
+const extraLivePaths = livePaths.filter((path) => !localPathSet.has(path));
+if (missingLivePaths.length || extraLivePaths.length) {
+  fail(`live sitemap differs from local dist (missing: ${missingLivePaths.join(", ") || "none"}; extra: ${extraLivePaths.join(", ") || "none"})`);
+}
+
 const feed = fetchText(`${base}/feed.xml`);
 const feedItems = (feed.match(/<item>/g) ?? []).length;
 if (!feed.includes("<rss version=\"2.0\">")) fail("feed.xml must be RSS 2.0");
-if (feedItems < 20) fail(`feed.xml has too few items: ${feedItems}`);
+if (feedItems === 0) fail("feed.xml must contain at least one item");
 
 const manifest = JSON.parse(fetchText(`${base}/site.webmanifest`));
 if (!manifest.theme_color) fail("site.webmanifest must define theme_color");

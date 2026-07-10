@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { guides } from "@data/guides";
+import { publicGuides } from "@data/guides";
 import { site } from "@data/site";
 
 const escapeXml = (value: string) =>
@@ -17,7 +17,7 @@ const escapeXml = (value: string) =>
 const pubDate = (date: string) => new Date(`${date}T12:00:00.000Z`).toUTCString();
 
 export const GET: APIRoute = () => {
-  const items = guides
+  const items = publicGuides
     .map((guide) => {
       const url = new URL(`/guides/${guide.slug}/`, site.url).toString();
       const description = `${guide.deck} ${guide.bullets[0]}`;

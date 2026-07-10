@@ -4,8 +4,8 @@ import ConfidenceBadge from "@components/ConfidenceBadge.astro";
 import GuideCard from "@components/GuideCard.astro";
 import NewsGuideCard from "@components/NewsGuideCard.astro";
 import { confidenceLevels, site } from "@data/site";
-import { guides } from "@data/guides";
-import { ledgerUpdates } from "@data/updates";
+import { publicGuideCategoryMeta, publicGuides } from "@data/guides";
+import { publicLedgerUpdates } from "@data/updates";
 import { contentClusters } from "@data/contentPlan";
 
 const heroGuideSlugs = [
@@ -16,10 +16,10 @@ const heroGuideSlugs = [
 ];
 
 const heroGuides = heroGuideSlugs
-  .map((slug) => guides.find((guide) => guide.slug === slug))
-  .filter((guide): guide is (typeof guides)[number] => Boolean(guide));
-const latestGuides = [...guides].sort((a, b) => b.updated.localeCompare(a.updated)).slice(0, 3);
-const latestUpdates = ledgerUpdates.slice(0, 2);
+  .map((slug) => publicGuides.find((guide) => guide.slug === slug))
+  .filter((guide): guide is (typeof publicGuides)[number] => Boolean(guide));
+const latestGuides = [...publicGuides].sort((a, b) => b.updated.localeCompare(a.updated)).slice(0, 3);
+const latestUpdates = publicLedgerUpdates.slice(0, 2);
 
 const schema = {
   "@context": "https://schema.org",
@@ -46,10 +46,9 @@ const schema = {
         <button class="button" type="submit">Search Guides</button>
       </form>
       <nav class="hero-jump-row" aria-label="Popular guide categories">
-        <a href="/guides/category/release/">Release</a>
-        <a href="/guides/category/buying/">Buying</a>
-        <a href="/guides/category/map/">Map</a>
-        <a href="/guides/category/cheats/">Cheats</a>
+        {publicGuideCategoryMeta.slice(0, 4).map((meta) => (
+          <a href={`/guides/category/${meta.slug}/`}>{meta.category}</a>
+        ))}
       </nav>
     </div>
     <aside class="hero-guide-panel" aria-label="Top GTA 6 guide paths">
@@ -139,7 +138,7 @@ const schema = {
           </select>
         </form>
         <div class="guide-list" data-guide-list>
-          {guides.map((guide) => <GuideCard guide={guide} />)}
+          {publicGuides.map((guide) => <GuideCard guide={guide} />)}
         </div>
       </div>
     </div>
@@ -160,7 +159,7 @@ const schema = {
         </tr>
       </thead>
       <tbody>
-        {ledgerUpdates.map((update) => (
+        {publicLedgerUpdates.map((update) => (
           <tr>
             <td class="mono">{update.date}<br />{update.time}</td>
             <td><ConfidenceBadge value={update.confidence} /></td>

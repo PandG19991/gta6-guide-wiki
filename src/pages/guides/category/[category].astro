@@ -1,15 +1,15 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import GuideCard from "@components/GuideCard.astro";
-import { guideCategoryMeta, guides } from "@data/guides";
+import { publicGuideCategoryMeta, publicGuides } from "@data/guides";
 import { site } from "@data/site";
 
 export function getStaticPaths() {
-  return guideCategoryMeta.map((meta) => ({
+  return publicGuideCategoryMeta.map((meta) => ({
     params: { category: meta.slug },
     props: {
       meta,
-      categoryGuides: guides.filter((guide) => guide.category === meta.category)
+      categoryGuides: publicGuides.filter((guide) => guide.category === meta.category)
     }
   }));
 }

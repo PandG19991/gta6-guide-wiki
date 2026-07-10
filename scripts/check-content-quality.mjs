@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const requiredEvidenceTables = [
@@ -14,11 +14,6 @@ const requiredEvidenceTables = [
   ["gta-6-vintage-vice-city-pack", 3],
   ["gta-6-trailer-2-breakdown-evidence", 3],
   ["gta-6-vehicles-confirmed-so-far", 3],
-  ["gta-6-mission-list-walkthrough-hub", 3],
-  ["gta-6-cheats-codes-testing-tracker", 3],
-  ["gta-6-money-fast-early-no-exploits", 3],
-  ["gta-6-wanted-level-police-escape-guide", 3],
-  ["gta-6-beginner-guide-launch-week", 3],
   ["gta-6-vice-city-location-guide", 3],
   ["gta-6-leonida-keys-location-guide", 3],
   ["gta-6-grassrivers-location-guide", 3],
@@ -31,6 +26,11 @@ const requiredEvidenceTables = [
 ];
 
 const failures = [];
+const htmlFiles = (dir) =>
+  readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(dir, entry.name);
+    return entry.isDirectory() ? htmlFiles(path) : path.endsWith(".html") ? [path] : [];
+  });
 const requiredBuiltPages = [
   ["dist/gta-6/index.html", ["GTA 6 Database Hub", "Database Surface", "Confirmed Features"]],
   ["dist/gta-6/features/index.html", ["GTA 6 Features Confirmed So Far", "Release Information", "Vehicles and Driving"]],
@@ -57,6 +57,12 @@ for (const [file, requiredText] of requiredBuiltPages) {
     if (!html.includes(text)) failures.push(`${file}: missing required text ${text}`);
   }
   if (html.includes(">undefined<")) failures.push(`${file}: contains undefined output`);
+}
+
+for (const file of htmlFiles("dist")) {
+  if (readFileSync(file, "utf8").includes("Site source ledger refreshed")) {
+    failures.push(`${file}: contains internal update record`);
+  }
 }
 
 for (const [file, requiredText] of requiredStaticFiles) {

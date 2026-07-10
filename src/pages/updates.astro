@@ -2,18 +2,17 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ConfidenceBadge from "@components/ConfidenceBadge.astro";
 import NewsGuideCard from "@components/NewsGuideCard.astro";
-import { guides } from "@data/guides";
-import { ledgerUpdates } from "@data/updates";
+import { publicGuides } from "@data/guides";
+import { publicLedgerUpdates } from "@data/updates";
 import { site } from "@data/site";
 
-const recentGuides = [...guides].sort((a, b) => b.updated.localeCompare(a.updated)).slice(0, 8);
-const launchQueue = guides.filter((guide) => guide.status === "launch-week").slice(0, 6);
+const recentGuides = [...publicGuides].sort((a, b) => b.updated.localeCompare(a.updated)).slice(0, 8);
 const schema = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   name: "GTA 6 News And Guide Updates",
   url: `${site.url}/updates/`,
-  description: "Latest GTA 6 guide updates, source checks, publishing queue, and transparent change log for Leonida Ledger.",
+  description: "Latest official GTA 6 announcements and newly updated player guides from Leonida Ledger.",
   mainEntity: {
     "@type": "ItemList",
     itemListElement: recentGuides.map((guide, index) => ({
@@ -26,12 +25,12 @@ const schema = {
 };
 ---
 
-<BaseLayout title="GTA 6 News And Guide Updates" description="Latest GTA 6 guide updates, source checks, publishing queue, and transparent change log for Leonida Ledger." schema={schema}>
+<BaseLayout title="GTA 6 News And Guide Updates" description="Latest official GTA 6 announcements and newly updated player guides from Leonida Ledger." schema={schema}>
   <header class="page-header news-header shell">
     <div class="page-kicker">GTA 6 news desk</div>
     <h1 class="page-title">GTA 6 News And Guide Updates</h1>
     <p class="page-intro">
-      Latest guide refreshes, source checks, and launch-week publishing priorities, with the full evidence ledger kept below.
+      See what changed for players across official GTA 6 announcements, release details, and newly updated guides.
     </p>
   </header>
 
@@ -60,7 +59,7 @@ const schema = {
         </tr>
       </thead>
       <tbody>
-        {ledgerUpdates.map((update) => (
+        {publicLedgerUpdates.map((update) => (
           <tr>
             <td class="mono">{update.date}<br />{update.time}</td>
             <td><ConfidenceBadge value={update.confidence} /></td>
@@ -72,24 +71,4 @@ const schema = {
     </table>
   </section>
 
-  <section class="section-tight shell split">
-    <div>
-      <h2 class="page-title">Next Queue</h2>
-      <p class="page-intro">
-        These launch-week pages are intentionally live as stable URLs, but will not pretend to know unverified mechanics before release.
-      </p>
-    </div>
-    <div class="panel">
-      {launchQueue.map((guide) => (
-        <section>
-          <h3><a href={`/guides/${guide.slug}/`}>{guide.title}</a></h3>
-          <p>{guide.nextUpdate}</p>
-        </section>
-      ))}
-      <section>
-        <h3>Machine Feeds</h3>
-        <p><a href="/sitemap.xml">Sitemap</a> / <a href="/feed.xml">RSS feed</a></p>
-      </section>
-    </div>
-  </section>
 </BaseLayout>

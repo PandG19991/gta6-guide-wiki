@@ -22,7 +22,16 @@ const files = (dir) =>
 const sitemap = read(sitemapPath);
 const locs = matchAll(sitemap, /<loc>(.*?)<\/loc>/g).map((loc) => new URL(loc));
 const lastmods = matchAll(sitemap, /<lastmod>(.*?)<\/lastmod>/g);
-if (locs.length < 40) fail(`sitemap has too few URLs: ${locs.length}`);
+const withdrawnGuidePaths = [
+  "/guides/gta-6-mission-list-walkthrough-hub/",
+  "/guides/gta-6-beginner-guide-launch-week/",
+  "/guides/gta-6-wanted-level-police-escape-guide/",
+  "/guides/gta-6-money-fast-early-no-exploits/",
+  "/guides/gta-6-cheats-codes-testing-tracker/"
+];
+for (const path of withdrawnGuidePaths) {
+  if (locs.some((loc) => loc.pathname === path)) fail(`withdrawn route appears in sitemap: ${path}`);
+}
 if (lastmods.length !== locs.length) fail("sitemap must define one lastmod per URL");
 for (const lastmod of lastmods) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(lastmod)) fail(`sitemap lastmod must use YYYY-MM-DD: ${lastmod}`);
@@ -36,7 +45,7 @@ const feed = read(feedPath);
 const feedItems = (feed.match(/<item>/g) ?? []).length;
 const manifest = JSON.parse(read(manifestPath));
 if (!feed.includes("<rss version=\"2.0\">")) fail("feed.xml must be RSS 2.0");
-if (feedItems < 20) fail(`feed.xml has too few items: ${feedItems}`);
+if (feedItems === 0) fail("feed.xml must contain at least one item");
 if (!manifest.theme_color) fail("site.webmanifest must define theme_color");
 if (!Array.isArray(manifest.icons) || manifest.icons.length === 0) fail("site.webmanifest must define at least one icon");
 for (const icon of manifest.icons) {
@@ -50,6 +59,7 @@ for (const loc of locs) {
 }
 
 const sitemapUrls = new Set(locs.map((loc) => loc.href));
+if (sitemapUrls.size !== locs.length) fail("sitemap must not contain duplicate URLs");
 const robots = read(robotsPath);
 if (!robots.includes("Allow: /")) fail("robots.txt must allow crawling");
 if (robots.includes("Disallow: /")) fail("robots.txt blocks the whole site");
@@ -71,6 +81,9 @@ const seenTitles = new Map();
 for (const file of htmlFiles) {
   const html = read(file);
   const label = relative(dist, file);
+  const ownPath = `/${label.replaceAll("\\", "/").replace(/index\.html$/, "")}`;
+  if (withdrawnGuidePaths.includes(ownPath)) fail(`${label}: withdrawn route emitted HTML: ${ownPath}`);
+  if (ownPath.startsWith("/guides/category/") && !html.includes("data-guide-card")) fail(`${label}: empty guide category emitted HTML`);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1]?.trim();
   const description = html.match(/<meta name="description" content="(.*?)"/)?.[1]?.trim();
   const canonical = html.match(/<link rel="canonical" href="(.*?)"/)?.[1];
@@ -91,7 +104,6 @@ for (const file of htmlFiles) {
   }
   if (!canonical) fail(`${label}: missing canonical`);
   if (!sitemapUrls.has(canonical)) fail(`${label}: canonical not listed in sitemap: ${canonical}`);
-  const ownPath = `/${relative(dist, file).replaceAll("\\", "/").replace(/index\.html$/, "")}`;
   const ownUrl = new URL(ownPath === "/" ? "/" : ownPath, origin).toString();
   if (!html.includes(`rel="alternate" type="application/rss+xml"`)) fail(`${label}: missing RSS alternate link`);
   if (themeColor !== manifest.theme_color) fail(`${label}: theme-color must match site.webmanifest`);

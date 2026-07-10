@@ -177,7 +177,7 @@ export const vehicleDatabaseRows: Array<{
     status: "Observed",
     proof: "Law-enforcement response is visible enough to plan testing, but detailed vehicle behavior waits for repeatable wanted-level tests.",
     sourceId: "rockstar-media",
-    page: "/guides/gta-6-wanted-level-police-escape-guide/",
+    page: "/guides/gta-6-vehicles-confirmed-so-far/",
     launchUse: "Wanted-level behavior, pursuit strength, roadblocks, and escape routes."
   },
   {

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import GuideCard from "@components/GuideCard.astro";
-import { guideCategoryMeta, guides } from "@data/guides";
+import { publicGuideCategoryMeta, publicGuides } from "@data/guides";
 import { confidenceLevels, site } from "@data/site";
 
 const schema = [
@@ -13,7 +13,7 @@ const schema = [
     description: "All Leonida Ledger GTA 6 guides, trackers, launch-week pages, and evergreen database plans.",
     mainEntity: {
       "@type": "ItemList",
-      itemListElement: guides.map((guide, index) => ({
+      itemListElement: publicGuides.map((guide, index) => ({
         "@type": "ListItem",
         position: index + 1,
         name: guide.title,
@@ -43,7 +43,7 @@ const schema = [
 
   <section class="section-tight shell">
     <nav class="category-strip" aria-label="Guide categories">
-      {guideCategoryMeta.map((meta) => (
+      {publicGuideCategoryMeta.map((meta) => (
         <a href={`/guides/category/${meta.slug}/`}>{meta.category}</a>
       ))}
     </nav>
@@ -61,7 +61,7 @@ const schema = [
       </select>
     </form>
     <div class="guide-list">
-      {guides.map((guide) => <GuideCard guide={guide} />)}
+      {publicGuides.map((guide) => <GuideCard guide={guide} />)}
     </div>
   </section>
 

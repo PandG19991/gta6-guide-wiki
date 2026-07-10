@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { site } from "@data/site";
-import { guideCategoryMeta, guides } from "@data/guides";
+import { publicGuideCategoryMeta, publicGuides } from "@data/guides";
 
 const staticPages = [
   "/",
@@ -26,12 +26,12 @@ const staticPages = [
 export const GET: APIRoute = () => {
   const urls = [
     ...staticPages.map((path) => ({ path, lastmod: site.currentDate, changefreq: "weekly" })),
-    ...guideCategoryMeta.map((meta) => ({
+    ...publicGuideCategoryMeta.map((meta) => ({
       path: `/guides/category/${meta.slug}/`,
       lastmod: site.currentDate,
       changefreq: "weekly"
     })),
-    ...guides.map((guide) => ({
+    ...publicGuides.map((guide) => ({
       path: `/guides/${guide.slug}/`,
       lastmod: guide.updated,
       changefreq: guide.status === "launch-week" ? "weekly" : "monthly"
