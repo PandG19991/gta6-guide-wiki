@@ -135,6 +135,7 @@ for (const icon of manifest.icons) {
 }
 
 const sitemapSet = new Set(urls);
+const checkedImages = new Set();
 for (const path of corePaths) {
   const url = `${base}${path}`;
   if (!sitemapSet.has(url)) fail(`core URL missing from sitemap: ${url}`);
@@ -169,6 +170,12 @@ for (const path of corePaths) {
   if (!html.includes('rel="alternate" type="application/rss+xml"')) fail(`${url}: missing RSS alternate link`);
   if (!html.includes('rel="manifest" href="/site.webmanifest"')) fail(`${url}: missing manifest link`);
   if (!html.includes(`<meta name="theme-color" content="${manifest.theme_color}"`)) fail(`${url}: theme-color does not match manifest`);
+  const ogImage = html.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
+  if (!ogImage?.startsWith(`${base}/`)) fail(`${url}: og:image must be same-origin`);
+  if (!checkedImages.has(ogImage)) {
+    if (!fetchHeaders(ogImage).includes("content-type: image/")) fail(`${ogImage}: og:image must be served as an image`);
+    checkedImages.add(ogImage);
+  }
 }
 
 console.log(`Live SEO check passed: ${urls.length} sitemap URLs at ${base}.`);
