@@ -52,7 +52,7 @@ for (const slug of guideDirs) {
 
   const schema = JSON.parse(json);
   const types = schema.map((item) => item["@type"]);
-  for (const type of ["Article", "BreadcrumbList", "FAQPage"]) {
+  for (const type of ["Article", "BreadcrumbList"]) {
     if (!types.includes(type)) throw new Error(`${file}: missing ${type} schema`);
   }
 

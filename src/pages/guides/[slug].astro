@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import ConfidenceBadge from "@components/ConfidenceBadge.astro";
 import Gta6Rail from "@components/Gta6Rail.astro";
 import GuideMedia from "@components/GuideMedia.astro";
 import { categoryMetaByName, publicGuides } from "@data/guides";
@@ -23,20 +22,6 @@ const firstAnswer = guide.bullets[0];
 const decisionRows = guide.decisionRows ?? [];
 const playerSourceIds = new Set(["rockstar-vi", "rockstar-preorders", "take-two-preorders", "rockstar-leonida", "rockstar-media"]);
 const guideSources = guide.sourceIds.map((id) => sourceById[id]).filter((source) => source && playerSourceIds.has(source.id));
-const faqItems = [
-  {
-    question: `What is the short answer for ${guide.title}?`,
-    answer: guide.bullets[0]
-  },
-  {
-    question: `What else should players know about ${guide.title}?`,
-    answer: guide.bullets[1] ?? guide.bullets[0]
-  },
-  {
-    question: `What should players check before acting on this ${guide.category.toLowerCase()} guide?`,
-    answer: guide.bullets[2] ?? guide.bullets.at(-1) ?? guide.bullets[0]
-  }
-];
 const schema = [
   {
     "@context": "https://schema.org",
@@ -59,135 +44,91 @@ const schema = [
       { "@type": "ListItem", position: 2, name: "Guides", item: `${site.url}/guides/` },
       { "@type": "ListItem", position: 3, name: guide.title, item: `${site.url}/guides/${guide.slug}/` }
     ]
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqItems.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer
-      }
-    }))
   }
 ];
 ---
 
 <BaseLayout title={guide.title} description={guide.deck} image={image} schema={schema}>
-  <header class="page-header shell">
-    <div class="page-kicker">{guide.category}</div>
-    <h1 class="page-title">{guide.title}</h1>
-    <p class="page-intro">{guide.deck}</p>
+  <header class="article-header shell">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a><span>/</span><a href="/guides/">Guides</a><span>/</span><a href={`/guides/category/${categoryMetaByName[guide.category].slug}/`}>{guide.category}</a>
+    </nav>
+    <h1>{guide.title}</h1>
+    <p>{guide.deck}</p>
+    <div class="article-meta"><span>{guide.category}</span><time datetime={guide.updated}>Updated {guide.updated}</time></div>
   </header>
 
   <Gta6Rail />
 
-  <section class="section-tight shell">
-    <GuideMedia id={guide.primaryMediaId} priority attribution />
-  </section>
+  <div class="article-layout shell">
+    <article class="article-main">
+      <GuideMedia id={guide.primaryMediaId} priority attribution sizes="(max-width: 900px) 100vw, 860px" />
 
-  <section class="section-tight shell">
-    <div class="snapshot-grid" aria-label="Answer snapshot">
-      <article class="snapshot-card primary">
-        <strong class="meta-label">Short answer</strong>
+      <section class="quick-answer" id="quick-answer">
+        <strong>Quick answer</strong>
         <p>{firstAnswer}</p>
-      </article>
-      <article class="snapshot-card">
-        <strong class="meta-label">Confidence</strong>
-        <p><ConfidenceBadge value={guide.confidence} /></p>
-      </article>
-      <article class="snapshot-card">
-        <strong class="meta-label">Last updated</strong>
-        <p class="mono">{guide.updated}</p>
-      </article>
-    </div>
-  </section>
+      </section>
 
-  {relatedGuides.length > 0 && (
-    <section class="shell next-clicks" aria-label="Related next clicks">
-      {relatedGuides.map((item) => (
-        <a href={`/guides/${item.slug}/`}>
-          <span>{item.category}</span>
-          <strong>{item.title}</strong>
-        </a>
-      ))}
-    </section>
-  )}
+      <section class="article-section" id="key-points">
+        <h2>What To Know</h2>
+        <ul class="key-points">
+          {guide.bullets.map((bullet) => <li>{bullet}</li>)}
+        </ul>
+      </section>
 
-  <section class="section-tight shell">
-    <article class="panel">
-      <h2>What To Know</h2>
-      <ul>
-        {guide.bullets.map((bullet) => <li>{bullet}</li>)}
-      </ul>
-    </article>
-  </section>
+      {decisionRows.length > 0 && (
+        <section class="article-section" id="decision-table">
+          <h2>Decision Table</h2>
+          <div class="table-scroll">
+            <table class="source-table decision-table">
+              <thead><tr><th>Option</th><th>Best for</th><th>Current status</th><th>Caveat</th></tr></thead>
+              <tbody>
+                {decisionRows.map((row) => (
+                  <tr><td><strong>{row.option}</strong></td><td>{row.bestFor}</td><td>{row.status}</td><td>{row.caveat}</td></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
 
-  {decisionRows.length > 0 && (
-    <section class="section-tight shell">
-      <h2 class="page-title">Decision Table</h2>
-      <table class="source-table decision-table">
-        <thead>
-          <tr>
-            <th>Option</th>
-            <th>Best for</th>
-            <th>Current status</th>
-            <th>Caveat</th>
-          </tr>
-        </thead>
-        <tbody>
-          {decisionRows.map((row) => (
-            <tr>
-              <td><strong>{row.option}</strong></td>
-              <td>{row.bestFor}</td>
-              <td>{row.status}</td>
-              <td>{row.caveat}</td>
-            </tr>
+      <section class="article-section" id="sources">
+        <h2>Sources</h2>
+        <div class="source-list compact-sources">
+          {guideSources.map((source) => (
+            <p><a href={source.url} target="_blank" rel="nofollow noopener">{source.title}</a><span>{source.publisher} · Accessed {source.accessed}</span></p>
           ))}
-        </tbody>
-      </table>
-    </section>
-  )}
+        </div>
+      </section>
 
-  <section class="section-tight shell">
-    <h2 class="page-title">Sources</h2>
-    <div class="source-list">
-      {guideSources.map((source) => (
-        <p>
-          <a href={source.url} target="_blank" rel="nofollow noopener">{source.title}</a>
-          <br />{source.publisher}. Accessed {source.accessed}.
-        </p>
-      ))}
-    </div>
-  </section>
+      {relatedGuides.length > 0 && (
+        <section class="article-section" id="related-guides">
+          <h2>Related Guides</h2>
+          <div class="related-guide-list">
+            {relatedGuides.map((item) => (
+              <a href={`/guides/${item.slug}/`}>
+                <GuideMedia id={item.primaryMediaId} sizes="140px" />
+                <span><small>{item.category}</small><strong>{item.title}</strong></span><b aria-hidden="true">→</b>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+    </article>
 
-  <section class="section-tight shell">
-    <h2 class="page-title">Quick FAQ</h2>
-    <div class="faq-list">
-      {faqItems.map((item) => (
-        <details>
-          <summary>{item.question}</summary>
-          <p>{item.answer}</p>
-        </details>
-      ))}
-    </div>
-  </section>
-
-  {relatedGuides.length > 0 && (
-    <section class="section-tight shell">
-      <h2 class="page-title">Related Guides</h2>
-      <div class="content-grid">
-        {relatedGuides.map((item) => (
-          <article class="content-card">
-            <div class="card-meta"><ConfidenceBadge value={item.confidence} /></div>
-            <h3><a href={`/guides/${item.slug}/`}>{item.title}</a></h3>
-            <p>{item.deck}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  )}
+    <aside class="article-rail">
+      <nav aria-label="On this page">
+        <strong>On This Page</strong>
+        <a href="#quick-answer">Quick answer</a>
+        <a href="#key-points">What to know</a>
+        {decisionRows.length > 0 && <a href="#decision-table">Decision table</a>}
+        <a href="#sources">Sources</a>
+        {relatedGuides.length > 0 && <a href="#related-guides">Related guides</a>}
+      </nav>
+      {relatedGuides.length > 0 && (
+        <div class="rail-related"><strong>Keep Reading</strong>{relatedGuides.map((item) => <a href={`/guides/${item.slug}/`}>{item.title}<span>→</span></a>)}</div>
+      )}
+    </aside>
+  </div>
 </BaseLayout>
 

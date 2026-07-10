@@ -4,19 +4,16 @@ import GuideCard from "@components/GuideCard.astro";
 import NewsGuideCard from "@components/NewsGuideCard.astro";
 import GuideMedia from "@components/GuideMedia.astro";
 import { site } from "@data/site";
-import { publicGuideCategoryMeta, publicGuides } from "@data/guides";
+import { publicGuides } from "@data/guides";
 import { publicLedgerUpdates } from "@data/updates";
 
-const heroGuideSlugs = [
-  "gta-6-release-date-countdown-preload",
-  "is-gta-6-coming-to-pc",
-  "gta-6-pre-order-standard-vs-ultimate",
-  "gta-6-map-leonida-regions-evidence-tracker"
-];
-
-const heroGuides = heroGuideSlugs
-  .map((slug) => publicGuides.find((guide) => guide.slug === slug))
-  .filter((guide): guide is (typeof publicGuides)[number] => Boolean(guide));
+const guidePaths = [
+  { title: "Release & Platforms", deck: "Release date, preload, consoles, and PC status.", href: "/release/", mediaId: "cover-art" },
+  { title: "Map & Locations", deck: "Vice City, the Keys, and every confirmed region.", href: "/map/", mediaId: "vice-city" },
+  { title: "Characters", deck: "Jason, Lucia, supporting cast, and story connections.", href: "/guides/category/characters/", mediaId: "jason-lucia" },
+  { title: "Vehicles", deck: "Cars, bikes, boats, aircraft, and official sightings.", href: "/gta-6/database/vehicles/", mediaId: "grotti-cheetah" },
+  { title: "Buying & Editions", deck: "Standard, Ultimate, preorder bonuses, and value.", href: "/guides/category/buying/", mediaId: "vintage-pack" }
+] as const;
 const latestGuides = [...publicGuides].sort((a, b) => b.updated.localeCompare(a.updated)).slice(0, 3);
 const latestUpdates = publicLedgerUpdates.slice(0, 2);
 
@@ -36,75 +33,71 @@ const schema = {
 
 <BaseLayout title="GTA 6 Guide Hub" description={site.description} schema={schema}>
   <section class="hero">
-    <div class="hero-copy">
-      <h1>GTA 6 Guide Hub</h1>
-      <span class="coral-rule" aria-hidden="true"></span>
-      <p>Fast answers for release date, PC status, preload, preorder, map, characters, vehicles, missions, and cheats.</p>
-      <form class="hero-search" action="/guides/" method="get">
-        <input class="field" type="search" name="q" placeholder="Search PC, preload, map, cheats..." aria-label="Search GTA 6 guides" />
-        <button class="button" type="submit">Search Guides</button>
-      </form>
-      <nav class="hero-jump-row" aria-label="Popular guide categories">
-        {publicGuideCategoryMeta.slice(0, 4).map((meta) => (
-          <a href={`/guides/category/${meta.slug}/`}>{meta.category}</a>
-        ))}
-      </nav>
+    <div class="hero-background">
+      <GuideMedia id="vice-city" priority sizes="100vw" />
     </div>
-    <aside class="hero-guide-panel" aria-label="Top GTA 6 guide paths">
-      <div class="hero-art">
-        <GuideMedia id="cover-art" priority />
-      </div>
-      <div class="hero-panel-content">
-        <h2>Start Here</h2>
-        <div class="hero-quick-list">
-          {heroGuides.map((guide) => (
-            <a href={`/guides/${guide.slug}/`}>
-              <span>{guide.title.replace("GTA 6 ", "")}</span>
-              <small>{guide.category}</small>
-            </a>
-          ))}
-        </div>
-      </div>
-    </aside>
-    <div class="facts-strip" aria-label="Current official GTA 6 facts">
-      <div class="fact">
-        <b>Release</b>
-        <span>Nov 19, 2026</span>
-      </div>
-      <div class="fact">
-        <b>Platforms</b>
-        <span>PS5 / Xbox Series X|S</span>
-      </div>
-      <div class="fact">
-        <b>Preload</b>
-        <span>Nov 12, 2026</span>
-      </div>
-      <div class="fact">
-        <b>Starting Price</b>
-        <span>$79.99</span>
+    <div class="hero-copy shell">
+      <div class="hero-copy-inner">
+        <h1>GTA 6 Guide Hub</h1>
+        <p>Fast answers for release date, PC status, preload, preorder, map, characters, vehicles, missions, and cheats.</p>
+        <form class="hero-search" action="/guides/" method="get">
+          <input class="field" type="search" name="q" placeholder="Search GTA 6 guides" aria-label="Search GTA 6 guides" />
+          <button class="button" type="submit">Search Guides</button>
+        </form>
       </div>
     </div>
   </section>
 
-  <section class="section-tight shell">
-    <div class="section-heading">
-      <h2>Latest GTA 6 News And Guides</h2>
-      <p>Official announcements, buying decisions, and practical launch guides for GTA 6 players.</p>
+  <section class="facts-band" aria-label="Current official GTA 6 facts">
+    <div class="facts-strip shell">
+      <div class="fact"><b>Release</b><span>Nov 19, 2026</span></div>
+      <div class="fact"><b>Platforms</b><span>PS5 / Xbox Series X|S</span></div>
+      <div class="fact"><b>Preload</b><span>Nov 12, 2026</span></div>
+      <div class="fact"><b>Starting Price</b><span>$79.99</span></div>
     </div>
-    <div class="content-grid">
-      {latestGuides.map((guide) => <NewsGuideCard guide={guide} />)}
+  </section>
+
+  <section class="guide-path-section shell" aria-labelledby="guide-path-title">
+    <div class="section-heading compact-heading">
+      <h2 id="guide-path-title">Explore Key Guide Paths</h2>
     </div>
-    <div class="section-actions">
-      {latestUpdates.map((update) => (
-        <a class="button secondary" href="/updates/">{update.date}: {update.title}</a>
+    <nav class="guide-path-grid" aria-label="GTA 6 guide paths">
+      {guidePaths.map((path) => (
+        <a class="guide-path" href={path.href}>
+          <GuideMedia id={path.mediaId} sizes="(max-width: 720px) 42vw, 20vw" />
+          <span class="guide-path-copy">
+            <strong>{path.title}</strong>
+            <small>{path.deck}</small>
+          </span>
+          <b aria-hidden="true">→</b>
+        </a>
       ))}
+    </nav>
+  </section>
+
+  <section class="section-tight shell home-split">
+    <div>
+      <div class="section-heading compact-heading">
+        <h2>Latest Guides</h2>
+        <a href="/updates/">View updates →</a>
+      </div>
+      <div class="content-grid">
+        {latestGuides.map((guide) => <NewsGuideCard guide={guide} />)}
+      </div>
     </div>
+    <aside class="update-list" aria-label="Latest official announcements">
+      <div class="section-heading compact-heading"><h2>Official Updates</h2></div>
+      {latestUpdates.map((update) => (
+        <a href="/updates/"><time>{update.date}</time><strong>{update.title}</strong><span>→</span></a>
+      ))}
+      <a class="update-list-more" href="/updates/">All GTA 6 updates</a>
+    </aside>
   </section>
 
   <section class="section shell" id="launch-prep">
     <div class="section-heading">
-      <h2>Guide Board</h2>
-      <p>Browse release, buying, map, character, vehicle, mission, and launch-preparation guides.</p>
+      <h2>All GTA 6 Guides</h2>
+      <p>Browse release, buying, map, character, vehicle, and spoiler-safe preparation guides.</p>
     </div>
 
     <form class="toolbar" data-guide-filters>

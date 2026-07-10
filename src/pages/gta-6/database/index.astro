@@ -1,7 +1,6 @@
 ---
 import Gta6Rail from "@components/Gta6Rail.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
-import ConfidenceBadge from "@components/ConfidenceBadge.astro";
 import GuideMedia from "@components/GuideMedia.astro";
 import { gta6DatabaseCards } from "@data/gta6";
 import { site } from "@data/site";
@@ -44,7 +43,6 @@ const schema = [
   schema={schema}
 >
   <header class="page-header shell">
-    <div class="page-kicker">Database</div>
     <h1 class="page-title">GTA 6 Database</h1>
     <p class="page-intro">
       Choose a category to browse the GTA 6 information currently available for players.
@@ -58,9 +56,6 @@ const schema = [
       {gta6DatabaseCards.map((section) => (
         <article class="database-category-card">
           <GuideMedia id={section.mediaId} />
-          <div class="card-meta">
-            <ConfidenceBadge value={section.confidence} />
-          </div>
           <h2><a href={section.href}>{section.title}</a></h2>
           <p>{section.deck}</p>
         </article>

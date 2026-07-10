@@ -11,7 +11,7 @@ const { guide } = Astro.props;
 
 <article class="content-card news-guide-card">
   <a class="news-card-media" href={`/guides/${guide.slug}/`} aria-label={guide.title}>
-    <GuideMedia id={guide.primaryMediaId} />
+    <GuideMedia id={guide.primaryMediaId} sizes="(max-width: 720px) 100vw, 33vw" />
   </a>
   <div class="card-meta">
     <span class="badge category">{guide.category}</span>
