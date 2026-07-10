@@ -166,7 +166,13 @@ for (const path of corePaths) {
   const html = fetchText(url);
   if (!html.includes(`<link rel="canonical" href="${url}"`)) fail(`${url}: missing matching canonical`);
   if (/<meta name="robots" content="[^"]*noindex/i.test(html)) fail(`${url}: contains noindex`);
-  if (!html.includes('type="application/ld+json"')) fail(`${url}: missing JSON-LD`);
+  const jsonLd = html.match(/<script type="application\/ld\+json">(.*?)<\/script>/)?.[1];
+  if (!jsonLd) fail(`${url}: missing JSON-LD`);
+  const schema = JSON.parse(jsonLd);
+  if (!Array.isArray(schema)) fail(`${url}: JSON-LD must be an array`);
+  const schemaTypes = schema.map((item) => item["@type"]);
+  if (!schemaTypes.includes("Organization")) fail(`${url}: missing Organization schema`);
+  if (!schemaTypes.includes("WebSite")) fail(`${url}: missing WebSite schema`);
   if (!html.includes('rel="alternate" type="application/rss+xml"')) fail(`${url}: missing RSS alternate link`);
   if (!html.includes('rel="manifest" href="/site.webmanifest"')) fail(`${url}: missing manifest link`);
   if (!html.includes(`<meta name="theme-color" content="${manifest.theme_color}"`)) fail(`${url}: theme-color does not match manifest`);
