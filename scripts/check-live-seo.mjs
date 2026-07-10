@@ -62,6 +62,25 @@ const fetchHeaders = (url) => {
   }
 };
 
+const fetchStatus = (url) => {
+  try {
+    return execFileSync(process.platform === "win32" ? "curl.exe" : "curl", [
+      "--silent",
+      "--show-error",
+      "--location",
+      "--output",
+      process.platform === "win32" ? "NUL" : "/dev/null",
+      "--write-out",
+      "%{http_code}",
+      "--max-time",
+      "30",
+      url
+    ], { encoding: "utf8", maxBuffer: 1024 * 1024 }).trim();
+  } catch (error) {
+    fail(`${url}: curl status failed (${error.status ?? "unknown"})`);
+  }
+};
+
 const homepageHeaders = fetchHeaders(`${base}/`);
 for (const header of [
   "strict-transport-security:",
@@ -120,6 +139,10 @@ for (const path of corePaths) {
   const url = `${base}${path}`;
   if (!sitemapSet.has(url)) fail(`core URL missing from sitemap: ${url}`);
 }
+
+const missingUrl = `${base}/__missing-seo-smoke-test__/`;
+if (sitemapSet.has(missingUrl)) fail(`missing smoke URL must stay out of sitemap: ${missingUrl}`);
+if (fetchStatus(missingUrl) !== "404") fail(`${missingUrl}: missing URL must return 404`);
 
 for (const [path, canonicalPath] of [["/database/", "/gta-6/database/"]]) {
   const url = `${base}${path}`;
