@@ -2,7 +2,16 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { sources } from "@data/sources";
 
-const gta6SourceIds = new Set(["rockstar-vi", "rockstar-preorders", "take-two-preorders", "rockstar-leonida", "rockstar-media"]);
+const gta6SourceIds = new Set([
+  "rockstar-vi",
+  "rockstar-preorders",
+  "take-two-preorders",
+  "rockstar-leonida",
+  "rockstar-media",
+  "rockstar-editions",
+  "rockstar-support-editions",
+  "rockstar-support-preorders"
+]);
 const gta6Sources = sources.filter((source) => gta6SourceIds.has(source.id));
 ---
 

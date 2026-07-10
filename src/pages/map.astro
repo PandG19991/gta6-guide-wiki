@@ -1,25 +1,28 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import ConfidenceBadge from "@components/ConfidenceBadge.astro";
+import GuideMedia from "@components/GuideMedia.astro";
 
 const regions = [
-  ["Vice City", "Miami-inspired urban core", "official"],
-  ["Leonida Keys", "Island and coastal region", "official"],
-  ["Grassrivers", "Wetlands region", "official"],
-  ["Port Gellhorn", "Coastal destination", "official"],
-  ["Ambrosia", "Industrial/community region", "official"],
-  ["Mount Kalaga", "Northern/wildland destination", "official"]
+  ["Vice City", "Urban center and story anchor"],
+  ["Leonida Keys", "Island and coastal region"],
+  ["Grassrivers", "Wetlands region"],
+  ["Port Gellhorn", "Coastal destination"],
+  ["Ambrosia", "Named Leonida destination"],
+  ["Mount Kalaga", "Northern destination"]
 ] as const;
 ---
 
 <BaseLayout title="GTA 6 Map and Leonida Locations" description="Official GTA 6 locations across Leonida, including Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia, and Mount Kalaga." image="/assets/og-map.png">
   <header class="page-header shell">
-    <div class="page-kicker">Map intel</div>
     <h1 class="page-title">GTA 6 Map and Leonida Locations</h1>
     <p class="page-intro">
       Rockstar has named six Leonida destinations. Use the region board and location guides below for the currently confirmed map information.
     </p>
   </header>
+
+  <section class="section-tight shell">
+    <GuideMedia id="vice-city" priority attribution sizes="(max-width: 900px) 100vw, 900px" />
+  </section>
 
   <section class="section-tight shell split">
     <div class="panel">
@@ -29,15 +32,13 @@ const regions = [
           <tr>
             <th>Region</th>
             <th>Role</th>
-            <th>Confidence</th>
           </tr>
         </thead>
         <tbody>
-          {regions.map(([name, role, confidence]) => (
+          {regions.map(([name, role]) => (
             <tr>
-              <td><strong>{name}</strong></td>
-              <td>{role}</td>
-              <td><ConfidenceBadge value={confidence} /></td>
+              <td data-label="Region"><strong>{name}</strong></td>
+              <td data-label="Role">{role}</td>
             </tr>
           ))}
         </tbody>

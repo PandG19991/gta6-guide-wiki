@@ -6,7 +6,7 @@ export const site = {
   url: "https://leonida-ledger.pandg1991.workers.dev",
   author: "Leonida Ledger editorial desk",
   locale: "en_US",
-  currentDate: "2026-07-09"
+  currentDate: "2026-07-11"
 };
 
 export const navItems = [

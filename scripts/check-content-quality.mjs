@@ -113,11 +113,15 @@ const prohibitedPublicCopy = [
   "What Gets Published",
   "What Waits",
   "How Updates Work",
-  "testing templates"
+  "testing templates",
+  "Evidence Tracker",
+  "Official Cast Tracker",
+  "Evidence Only",
+  "source-tracked launch timing"
 ];
 const requiredBuiltPages = [
-  ["dist/gta-6/index.html", ["GTA 6 Database Hub", "Browse the Database", "Confirmed Features"]],
-  ["dist/gta-6/features/index.html", ["GTA 6 Features Confirmed So Far", "Release Information", "Vehicles and Driving"]],
+  ["dist/gta-6/index.html", ["GTA 6 Guide And Database", "Browse the Database", "Confirmed Features"]],
+  ["dist/gta-6/features/index.html", ["GTA 6 Overview", "Release Information", "Vehicles and Driving"]],
   ["dist/gta-6/database/index.html", ["GTA 6 Database", "Vehicles", "Characters", "Locations", "Editions"]],
   ["dist/gta-6/database/vehicles/index.html", ["GTA 6 Vehicle Database", "What is confirmed", "What this means for players"]],
   ["dist/gta-6/database/characters/index.html", ["GTA 6 Character Database", "What is confirmed", "What this means for players"]],
@@ -172,6 +176,18 @@ for (const file of publicHtmlFiles) {
   if (/<strong>next:<\/strong>/i.test(html)) {
     failures.push(`${file}: exposes database next-work copy`);
   }
+}
+
+const guideDirs = readdirSync("dist/guides", { withFileTypes: true })
+  .filter((entry) => entry.isDirectory() && entry.name !== "category")
+  .map((entry) => entry.name);
+for (const slug of guideDirs) {
+  const file = join("dist/guides", slug, "index.html");
+  const html = readFileSync(file, "utf8");
+  const detailSections = (html.match(/class="article-section guide-detail-section"/g) ?? []).length;
+  if (detailSections < 2) failures.push(`${file}: expected at least two player-focused detail sections`);
+  if (!html.includes('id="quick-answer"')) failures.push(`${file}: missing quick answer`);
+  if (!html.includes('id="sources"')) failures.push(`${file}: missing visible sources`);
 }
 
 for (const [file, requiredText] of requiredStaticFiles) {

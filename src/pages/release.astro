@@ -1,16 +1,17 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import ConfidenceBadge from "@components/ConfidenceBadge.astro";
+import GuideMedia from "@components/GuideMedia.astro";
 import { site } from "@data/site";
 import { sourceById } from "@data/sources";
 
 const facts = [
-  ["Release date", "November 19, 2026", "official"],
-  ["Platforms", "PlayStation 5 and Xbox Series X|S", "official"],
-  ["Standard price", "$79.99", "official"],
-  ["Ultimate Edition price", "$99.99", "official"],
-  ["Digital preload", "November 12, 2026", "official"],
-  ["PC release date", "Not officially announced", "official"]
+  ["Release date", "November 19, 2026"],
+  ["Platforms", "PlayStation 5 and Xbox Series X|S"],
+  ["Standard price", "$79.99"],
+  ["Ultimate Edition price", "$99.99"],
+  ["Digital preload", "November 12, 2026 at local midnight"],
+  ["Physical format", "Download code in box; no disc"],
+  ["PC release date", "Not officially announced"]
 ] as const;
 
 const schema = [
@@ -37,7 +38,6 @@ const schema = [
 
 <BaseLayout title="GTA 6 Release Date and Preload Guide" description="Official GTA 6 release date, platforms, preload timing, pricing, and preorder status with source links." image="/assets/og-release.png" schema={schema}>
   <header class="page-header shell">
-    <div class="page-kicker">Official launch prep</div>
     <h1 class="page-title">GTA 6 Release Date and Preload Guide</h1>
     <p class="page-intro">
       Fast answer: Grand Theft Auto VI is officially scheduled for November 19, 2026 on PS5 and Xbox Series X|S.
@@ -45,16 +45,19 @@ const schema = [
     </p>
   </header>
 
+  <section class="section-tight shell">
+    <GuideMedia id="cover-art" priority attribution sizes="(max-width: 900px) 100vw, 900px" />
+  </section>
+
   <section class="section-tight shell split">
     <div class="panel">
       <h2>Launch Facts</h2>
       <table class="database-table">
         <tbody>
-          {facts.map(([label, value, confidence]) => (
+          {facts.map(([label, value]) => (
             <tr>
               <th>{label}</th>
               <td>{value}</td>
-              <td><ConfidenceBadge value={confidence} /></td>
             </tr>
           ))}
         </tbody>

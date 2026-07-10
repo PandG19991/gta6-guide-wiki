@@ -2,6 +2,7 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Gta6Rail from "@components/Gta6Rail.astro";
 import GuideMedia from "@components/GuideMedia.astro";
+import { guideArticles } from "@data/guideArticles";
 import { categoryMetaByName, publicGuides } from "@data/guides";
 import { sourceById } from "@data/sources";
 import { site } from "@data/site";
@@ -20,7 +21,17 @@ const relatedGuides = publicGuides
   .slice(0, 3);
 const firstAnswer = guide.bullets[0];
 const decisionRows = guide.decisionRows ?? [];
-const playerSourceIds = new Set(["rockstar-vi", "rockstar-preorders", "take-two-preorders", "rockstar-leonida", "rockstar-media"]);
+const guideSections = guideArticles[guide.slug] ?? [];
+const playerSourceIds = new Set([
+  "rockstar-vi",
+  "rockstar-preorders",
+  "take-two-preorders",
+  "rockstar-leonida",
+  "rockstar-media",
+  "rockstar-editions",
+  "rockstar-support-editions",
+  "rockstar-support-preorders"
+]);
 const guideSources = guide.sourceIds.map((id) => sourceById[id]).filter((source) => source && playerSourceIds.has(source.id));
 const schema = [
   {
@@ -76,6 +87,18 @@ const schema = [
         </ul>
       </section>
 
+      {guideSections.map((section) => (
+        <section class="article-section guide-detail-section" id={section.id}>
+          <h2>{section.title}</h2>
+          {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+          {section.points && (
+            <ul class="key-points detail-points">
+              {section.points.map((point) => <li>{point}</li>)}
+            </ul>
+          )}
+        </section>
+      ))}
+
       {decisionRows.length > 0 && (
         <section class="article-section" id="decision-table">
           <h2>Decision Table</h2>
@@ -117,10 +140,12 @@ const schema = [
     </article>
 
     <aside class="article-rail">
+      <div class="rail-answer"><strong>Quick Answer</strong><p>{firstAnswer}</p></div>
       <nav aria-label="On this page">
         <strong>On This Page</strong>
         <a href="#quick-answer">Quick answer</a>
         <a href="#key-points">What to know</a>
+        {guideSections.map((section) => <a href={`#${section.id}`}>{section.title}</a>)}
         {decisionRows.length > 0 && <a href="#decision-table">Decision table</a>}
         <a href="#sources">Sources</a>
         {relatedGuides.length > 0 && <a href="#related-guides">Related guides</a>}

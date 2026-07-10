@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import { confidenceLevels } from "@data/site";
 ---
 
 <BaseLayout title="Editorial Policy" description="How Leonida Ledger handles official GTA 6 sources, rumors, corrections, copyright, and independent coverage.">
@@ -8,24 +7,22 @@ import { confidenceLevels } from "@data/site";
     <div class="page-kicker">Editorial policy</div>
     <h1 class="page-title">Editorial Policy</h1>
     <p class="page-intro">
-      Leonida Ledger separates official information, direct observations, analysis, and unconfirmed claims so players can see what is known.
+      We publish concise GTA 6 answers from official sources, correct mistakes, and keep rumors out of factual guidance.
     </p>
   </header>
 
   <section class="section-tight shell split">
     <div class="panel">
-      <h2>Source Hierarchy</h2>
-      {confidenceLevels.map((level) => (
-        <p><strong>{level.label}:</strong> {level.description}</p>
-      ))}
+      <h2>How We Report GTA 6</h2>
+      <p>Rockstar Games, Take-Two, PlayStation, Xbox, and official store pages are our primary sources.</p>
+      <p>Details visible only in trailers or screenshots are described as observations. Rumors and anonymous leaks are not presented as facts.</p>
     </div>
     <div class="panel">
       <h2>Corrections And Rights</h2>
       <ul>
-        <li>Official Rockstar, Take-Two, and platform-store information takes priority.</li>
-        <li>Rumors and leaks are not presented as confirmed facts.</li>
-        <li>We do not host leaked footage, leaked maps, copied guides, or rehosted media packs.</li>
-        <li>Correction and rights requests can be sent through the <a href="/contact/">contact page</a>.</li>
+        <li>Send the page URL, the detail that is wrong, and a supporting official link.</li>
+        <li>Rights requests should identify the relevant image or page and the rights holder.</li>
+        <li>We update material facts when an official source changes.</li>
       </ul>
       <p><a href="/sources/">View GTA 6 sources and correction details.</a></p>
     </div>

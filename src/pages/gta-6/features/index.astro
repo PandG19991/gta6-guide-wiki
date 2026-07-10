@@ -1,7 +1,6 @@
 ---
 import Gta6Rail from "@components/Gta6Rail.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
-import ConfidenceBadge from "@components/ConfidenceBadge.astro";
 import { gta6FeatureSections } from "@data/gta6";
 import { sourceById } from "@data/sources";
 import { site } from "@data/site";
@@ -10,8 +9,8 @@ const schema = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: "GTA 6 Features Confirmed So Far",
-    description: "Confirmed GTA 6 release, platform, Leonida, character, vehicle, edition, cheat, and mission information.",
+    headline: "GTA 6 Overview: Release, World, Characters, Vehicles, and Editions",
+    description: "Current GTA 6 release, platform, Leonida, character, vehicle, and edition information for players.",
     datePublished: site.currentDate,
     dateModified: site.currentDate,
     author: { "@type": "Organization", name: site.name },
@@ -31,13 +30,12 @@ const schema = [
 ---
 
 <BaseLayout
-  title="GTA 6 Features Confirmed So Far"
-  description="Confirmed GTA 6 release, platform, Leonida, character, vehicle, edition, cheat, and mission information."
+  title="GTA 6 Overview: Release, World, Characters, Vehicles, And Editions"
+  description="Current GTA 6 release, platform, Leonida, character, vehicle, and edition information for players."
   schema={schema}
 >
   <header class="page-header shell">
-    <div class="page-kicker">Confirmed so far</div>
-    <h1 class="page-title">GTA 6 Features Confirmed So Far</h1>
+    <h1 class="page-title">GTA 6 Overview</h1>
     <p class="page-intro">
       Browse currently confirmed GTA 6 features and what each announcement means for players.
     </p>
@@ -51,7 +49,6 @@ const schema = [
         const source = sourceById[section.sourceId];
         return (
           <article class="feature-panel">
-            <div class="card-meta"><ConfidenceBadge value={section.confidence} /></div>
             <h2>{section.title}</h2>
             <ul>
               {section.points.map((point) => <li>{point}</li>)}

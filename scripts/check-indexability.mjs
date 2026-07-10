@@ -22,6 +22,7 @@ const files = (dir) =>
 const sitemap = read(sitemapPath);
 const locs = matchAll(sitemap, /<loc>(.*?)<\/loc>/g).map((loc) => new URL(loc));
 const lastmods = matchAll(sitemap, /<lastmod>(.*?)<\/lastmod>/g);
+const today = new Date().toLocaleDateString("sv-SE");
 const withdrawnGuidePaths = [
   "/guides/gta-6-mission-list-walkthrough-hub/",
   "/guides/gta-6-beginner-guide-launch-week/",
@@ -29,15 +30,21 @@ const withdrawnGuidePaths = [
   "/guides/gta-6-money-fast-early-no-exploits/",
   "/guides/gta-6-cheats-codes-testing-tracker/"
 ];
-for (const path of withdrawnGuidePaths) {
-  if (locs.some((loc) => loc.pathname === path)) fail(`withdrawn route appears in sitemap: ${path}`);
+const redirectedGuidePaths = [
+  "/guides/gta-6-price-standard-ultimate-explained/",
+  "/guides/gta-6-gta-plus-preorder-benefit/",
+  "/guides/gta-6-physical-vs-digital-preorder/",
+  "/guides/gta-6-vintage-vice-city-pack/"
+];
+for (const path of [...withdrawnGuidePaths, ...redirectedGuidePaths]) {
+  if (locs.some((loc) => loc.pathname === path)) fail(`non-indexable route appears in sitemap: ${path}`);
 }
 if (lastmods.length !== locs.length) fail("sitemap must define one lastmod per URL");
 for (const lastmod of lastmods) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(lastmod)) fail(`sitemap lastmod must use YYYY-MM-DD: ${lastmod}`);
-  const timestamp = Date.parse(`${lastmod}T00:00:00.000Z`);
+  const timestamp = Date.parse(`${lastmod}T00:00:00`);
   if (Number.isNaN(timestamp)) fail(`sitemap lastmod is invalid: ${lastmod}`);
-  if (timestamp > Date.now()) fail(`sitemap lastmod is in the future: ${lastmod}`);
+  if (lastmod > today) fail(`sitemap lastmod is in the future: ${lastmod}`);
 }
 
 const origin = locs[0].origin;
@@ -78,11 +85,18 @@ for (const url of sitemapUrls) {
 const htmlFiles = files(dist).filter((file) => file.endsWith(".html") && !file.endsWith(`${sep}404.html`));
 const seenTitles = new Map();
 
+const redirects = read(join(dist, "_redirects"));
+for (const path of redirectedGuidePaths) {
+  const rule = `${path} /guides/gta-6-pre-order-standard-vs-ultimate/ 301`;
+  if (!redirects.includes(rule)) fail(`missing permanent redirect rule: ${rule}`);
+  if (existsSync(expectedFileFor(new URL(path, origin)))) fail(`redirect route emitted HTML: ${path}`);
+}
+
 for (const file of htmlFiles) {
   const html = read(file);
   const label = relative(dist, file);
   const ownPath = `/${label.replaceAll("\\", "/").replace(/index\.html$/, "")}`;
-  if (withdrawnGuidePaths.includes(ownPath)) fail(`${label}: withdrawn route emitted HTML: ${ownPath}`);
+  if ([...withdrawnGuidePaths, ...redirectedGuidePaths].includes(ownPath)) fail(`${label}: non-indexable route emitted HTML: ${ownPath}`);
   if (ownPath.startsWith("/guides/category/") && !html.includes("data-guide-card")) fail(`${label}: empty guide category emitted HTML`);
   const title = html.match(/<title>(.*?)<\/title>/)?.[1]?.trim();
   const description = html.match(/<meta name="description" content="(.*?)"/)?.[1]?.trim();

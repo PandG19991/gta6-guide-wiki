@@ -59,7 +59,7 @@ const schema = {
         {publicLedgerUpdates.map((update) => (
           <tr>
             <td class="mono">{update.date}</td>
-            <td>{update.title}</td>
+            <td><a href={update.url} target="_blank" rel="nofollow noopener"><strong>{update.title}</strong></a></td>
             <td>{update.source}</td>
           </tr>
         ))}

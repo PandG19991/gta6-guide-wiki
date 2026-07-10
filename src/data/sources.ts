@@ -14,7 +14,7 @@ export const sources: Source[] = [
     title: "Grand Theft Auto VI official page",
     publisher: "Rockstar Games",
     url: "https://www.rockstargames.com/VI/",
-    accessed: "2026-07-08",
+    accessed: "2026-07-11",
     priority: 1,
     notes: "Release date, platforms, official media links, editions, and current public positioning."
   },
@@ -23,7 +23,7 @@ export const sources: Source[] = [
     title: "Grand Theft Auto VI Pre-Orders Begin on June 25",
     publisher: "Rockstar Newswire",
     url: "https://www.rockstargames.com/newswire/article/517oa135328155/grand-theft-auto-vi-pre-orders-begin-on-june-25",
-    accessed: "2026-07-08",
+    accessed: "2026-07-11",
     priority: 1,
     notes: "Preorder timing, edition details, preload timing, and storefront availability."
   },
@@ -32,7 +32,7 @@ export const sources: Source[] = [
     title: "Rockstar Games Announces Pre-Orders for Grand Theft Auto VI",
     publisher: "Take-Two Interactive",
     url: "https://www.take2games.com/ir/news/rockstar-games-announces-pre-orders-grand-theft-auto-vi",
-    accessed: "2026-07-08",
+    accessed: "2026-07-11",
     priority: 1,
     notes: "Investor-grade confirmation for release date, platform, prices, preorder benefits, and preload."
   },
@@ -41,7 +41,7 @@ export const sources: Source[] = [
     title: "Grand Theft Auto VI: Only in Leonida",
     publisher: "Rockstar Games",
     url: "https://www.rockstargames.com/VI/only-in-leonida",
-    accessed: "2026-07-08",
+    accessed: "2026-07-11",
     priority: 1,
     notes: "Official character and location descriptions."
   },
@@ -50,9 +50,36 @@ export const sources: Source[] = [
     title: "Grand Theft Auto VI Media",
     publisher: "Rockstar Games",
     url: "https://www.rockstargames.com/VI/media",
-    accessed: "2026-07-08",
+    accessed: "2026-07-11",
     priority: 1,
-    notes: "Official media index. This site links to it but does not rehost assets by default."
+    notes: "Official trailers, screenshots, edition imagery, artwork, and downloadable media."
+  },
+  {
+    id: "rockstar-editions",
+    title: "Grand Theft Auto VI editions",
+    publisher: "Rockstar Games",
+    url: "https://www.rockstargames.com/VI/editions",
+    accessed: "2026-07-11",
+    priority: 1,
+    notes: "Standard and Ultimate Edition contents, upgrade items, and preorder bonuses."
+  },
+  {
+    id: "rockstar-support-editions",
+    title: "Grand Theft Auto VI platforms, editions, and versions",
+    publisher: "Rockstar Games Support",
+    url: "https://support.rockstargames.com/articles/4QfG4FmZCf5W1gS8jy4UVT/grand-theft-auto-vi-platform-editions-and-versions",
+    accessed: "2026-07-11",
+    priority: 1,
+    notes: "Edition upgrade rules, code-in-box format, preload timing, bonuses, and regional code guidance."
+  },
+  {
+    id: "rockstar-support-preorders",
+    title: "Grand Theft Auto VI preorder details",
+    publisher: "Rockstar Games Support",
+    url: "https://support.rockstargames.com/articles/46YkMi4rHxYXMeIHtZiKaE/grand-theft-auto-vi-pre-order-details",
+    accessed: "2026-07-11",
+    priority: 1,
+    notes: "Official PlayStation, Xbox, and Rockstar Store preorder links and country availability."
   },
   {
     id: "google-seo-starter",

@@ -88,7 +88,7 @@ const schema = {
     <aside class="update-list" aria-label="Latest official announcements">
       <div class="section-heading compact-heading"><h2>Official Updates</h2></div>
       {latestUpdates.map((update) => (
-        <a href="/updates/"><time>{update.date}</time><strong>{update.title}</strong><span>→</span></a>
+        <a href={update.url} target="_blank" rel="nofollow noopener"><time>{update.date}</time><strong>{update.title}</strong><span>→</span></a>
       ))}
       <a class="update-list-more" href="/updates/">All GTA 6 updates</a>
     </aside>

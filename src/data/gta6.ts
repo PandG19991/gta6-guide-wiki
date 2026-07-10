@@ -95,36 +95,25 @@ export const gta6FeatureSections = [
   },
   {
     title: "Vehicles and Driving",
-    confidence: "observed" as const,
+    confidence: "official" as const,
     points: [
-      "Official media shows cars, motorcycles, boats, aircraft, and police or emergency vehicles.",
-      "Rockstar has not published a complete named vehicle list.",
-      "Use the vehicle database for the currently confirmed categories and official media links."
+      "Rockstar names multiple vehicles in the Ultimate Edition and Vintage Vice City Pack.",
+      "Official media also shows cars, motorcycles, boats, aircraft, and police or emergency vehicles.",
+      "Use the vehicle database for named bonuses, current categories, and official media links."
     ],
-    sourceId: "rockstar-media",
+    sourceId: "rockstar-editions",
     href: "/gta-6/database/vehicles/"
   },
   {
     title: "Editions and Preorder",
     confidence: "official" as const,
     points: [
-      "Standard Edition and Ultimate Edition pricing is tracked from publisher announcements.",
-      "The Vintage Vice City Pack is the named preorder bonus currently shown.",
-      "Regional taxes, refund terms, and final item lists can vary, so check the PlayStation or Xbox store before buying."
+      "Standard Edition includes the game; Ultimate adds named story vehicles, weapons, businesses, and customization locations.",
+      "Standard owners can buy the Ultimate Edition Upgrade later through the PlayStation or Xbox store.",
+      "Digital and physical preorder benefits differ, and the physical box contains a code rather than a disc."
     ],
-    sourceId: "take-two-preorders",
+    sourceId: "rockstar-support-editions",
     href: "/guides/gta-6-pre-order-standard-vs-ultimate/"
-  },
-  {
-    title: "Cheats and Missions",
-    confidence: "analysis" as const,
-    points: [
-      "No cheat codes, mission order, or early-money methods are treated as confirmed before release.",
-      "Avoid fake generators, invented code lists, and claims that cannot be checked against the game or an official announcement.",
-      "Use the missions category for current spoiler-safe preparation guides."
-    ],
-    sourceId: "rockstar-vi",
-    href: "/guides/category/missions/"
   }
 ];
 
@@ -177,11 +166,11 @@ export const vehicleDatabaseRows: Array<{
     mediaId: "grotti-cheetah"
   },
   {
-    category: "Edition or bonus vehicles",
-    status: "Analysis",
-    proof: "Publisher preorder copy confirms edition and bonus framing, but no specific bonus vehicle is confirmed in the current item details.",
-    sourceId: "take-two-preorders",
-    page: "/guides/gta-6-vintage-vice-city-pack/",
+    category: "Named edition and preorder vehicles",
+    status: "Official",
+    proof: "Rockstar names the '55 Vapid Stanier, '95 Grotti Cheetah, Shitzu Squalo, '67 Vapid Dominator Buggy, and other vehicle rewards.",
+    sourceId: "rockstar-editions",
+    page: "/guides/gta-6-pre-order-standard-vs-ultimate/",
     mediaId: "vintage-pack"
   }
 ];
@@ -337,25 +326,33 @@ export const editionDatabaseRows: Array<{
   {
     name: "Ultimate Edition",
     status: "Official",
-    proof: "Take-Two's preorder announcement lists Ultimate Edition at $99.99.",
-    sourceId: "take-two-preorders",
-    page: "/guides/gta-6-price-standard-ultimate-explained/",
+    proof: "The $99.99 edition includes the game plus named vehicles, weapons, businesses, clothing, and customization locations.",
+    sourceId: "rockstar-editions",
+    page: "/guides/gta-6-pre-order-standard-vs-ultimate/",
     mediaId: "vintage-pack"
+  },
+  {
+    name: "Ultimate Edition Upgrade",
+    status: "Official",
+    proof: "Standard owners can purchase the Ultimate Edition Upgrade later through the PlayStation or Xbox store.",
+    sourceId: "rockstar-support-editions",
+    page: "/guides/gta-6-pre-order-standard-vs-ultimate/",
+    mediaId: "grotti-cheetah"
   },
   {
     name: "Vintage Vice City Pack",
     status: "Official",
-    proof: "Publisher copy ties the Vintage Vice City Pack to preorders and purchases before November 20, 2026.",
-    sourceId: "rockstar-preorders",
-    page: "/guides/gta-6-vintage-vice-city-pack/",
+    proof: "The pack includes a '55 Vapid Stanier Sedan and Garage, outfits and hairstyles, and an exclusive weapon pattern.",
+    sourceId: "rockstar-support-editions",
+    page: "/guides/gta-6-pre-order-standard-vs-ultimate/",
     mediaId: "vintage-pack"
   },
   {
     name: "Digital preorder GTA+ month",
     status: "Official",
-    proof: "The publisher announcement describes one free month of GTA+ for digital preorders.",
-    sourceId: "take-two-preorders",
-    page: "/guides/gta-6-gta-plus-preorder-benefit/",
+    proof: "Digital preorders and purchases before November 20 include one month of GTA+; physical preorders do not list this benefit.",
+    sourceId: "rockstar-support-editions",
+    page: "/guides/gta-6-pre-order-standard-vs-ultimate/",
     mediaId: "vintage-pack"
   },
   {
@@ -369,9 +366,9 @@ export const editionDatabaseRows: Array<{
   {
     name: "Physical download-code preload",
     status: "Official",
-    proof: "Publisher copy describes the physical version as a box with a download code available for preload.",
-    sourceId: "take-two-preorders",
-    page: "/guides/gta-6-physical-vs-digital-preorder/",
+    proof: "The physical Standard Edition contains a download code, no disc, and can support preload once the code is received.",
+    sourceId: "rockstar-support-editions",
+    page: "/guides/gta-6-pre-order-standard-vs-ultimate/",
     mediaId: "vintage-pack"
   }
 ];

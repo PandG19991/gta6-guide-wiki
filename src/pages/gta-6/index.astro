@@ -1,7 +1,7 @@
 ---
 import Gta6Rail from "@components/Gta6Rail.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
-import ConfidenceBadge from "@components/ConfidenceBadge.astro";
+import GuideMedia from "@components/GuideMedia.astro";
 import { gta6DatabaseCards, gta6FeatureSections, gta6HubStats } from "@data/gta6";
 import { site } from "@data/site";
 
@@ -25,14 +25,13 @@ const schema = [
 ---
 
 <BaseLayout
-  title="GTA 6 Database Hub"
+  title="GTA 6 Guide And Database"
   description="GTA 6 release facts, confirmed features, vehicles, characters, locations, and editions in one hub."
   schema={schema}
 >
   <header class="page-header shell hub-header">
     <div>
-      <div class="page-kicker">GTA 6 hub</div>
-      <h1 class="page-title">GTA 6 Database Hub</h1>
+      <h1 class="page-title">GTA 6 Guide And Database</h1>
       <p class="page-intro">
         Start with the confirmed release details, then browse features, vehicles, characters, locations, and editions.
       </p>
@@ -65,7 +64,6 @@ const schema = [
     <div class="feature-grid">
       {gta6FeatureSections.slice(0, 4).map((section) => (
         <article class="content-card compact-card">
-          <div class="card-meta"><ConfidenceBadge value={section.confidence} /></div>
           <h3><a href={section.href}>{section.title}</a></h3>
           <p>{section.points[0]}</p>
         </article>
@@ -84,9 +82,7 @@ const schema = [
     <div class="content-grid">
       {gta6DatabaseCards.map((card) => (
         <article class="content-card">
-          <div class="card-meta">
-            <ConfidenceBadge value={card.confidence} />
-          </div>
+          <a class="news-card-media" href={card.href} aria-label={card.title}><GuideMedia id={card.mediaId} sizes="(max-width: 720px) 100vw, 25vw" /></a>
           <h3><a href={card.href}>{card.title}</a></h3>
           <p>{card.deck}</p>
         </article>

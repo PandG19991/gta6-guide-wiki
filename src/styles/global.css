@@ -362,12 +362,18 @@ button, input, select { font: inherit; }
 .quick-answer p { margin: 6px 0 0; font-size: 1.12rem; font-weight: 700; }
 .article-section { border-top: 1px solid var(--line); padding-top: 28px; margin-top: 30px; }
 .article-section h2 { margin-bottom: 16px; }
+.guide-detail-section p { max-width: 72ch; margin: 0 0 14px; color: var(--ink-soft); }
+.detail-points { margin-top: 18px; }
 .key-points { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
 .key-points li { position: relative; padding: 12px 14px 12px 34px; background: var(--paper); }
 .key-points li::before { content: ""; position: absolute; left: 14px; top: 20px; width: 7px; height: 7px; background: var(--coral); }
 .article-rail { min-width: 0; }
 .article-rail > nav,
 .rail-related { position: sticky; top: 92px; border: 1px solid var(--line); background: var(--paper); }
+.article-rail > nav { margin-top: 18px; }
+.rail-answer { border: 1px solid var(--line); border-left: 4px solid var(--coral); padding: 15px 16px; background: var(--paper); }
+.rail-answer strong { color: var(--coral-dark); font-family: var(--font-display); text-transform: uppercase; }
+.rail-answer p { margin: 7px 0 0; color: var(--ink-soft); font-size: .86rem; line-height: 1.45; }
 .article-rail > nav > strong,
 .rail-related > strong { display: block; border-bottom: 3px solid var(--coral); padding: 14px 16px 11px; font-family: var(--font-display); text-transform: uppercase; }
 .article-rail nav a,
