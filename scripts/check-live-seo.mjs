@@ -119,7 +119,15 @@ if (!robots.includes(`Sitemap: ${base}/sitemap.xml`)) fail("robots.txt sitemap d
 
 const sitemap = fetchText(`${base}/sitemap.xml`);
 const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
+const lastmods = [...sitemap.matchAll(/<lastmod>(.*?)<\/lastmod>/g)].map((match) => match[1]);
 if (urls.length < 40) fail(`sitemap has too few URLs: ${urls.length}`);
+if (lastmods.length !== urls.length) fail("sitemap must define one lastmod per URL");
+for (const lastmod of lastmods) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(lastmod)) fail(`sitemap lastmod must use YYYY-MM-DD: ${lastmod}`);
+  const timestamp = Date.parse(`${lastmod}T00:00:00.000Z`);
+  if (Number.isNaN(timestamp)) fail(`sitemap lastmod is invalid: ${lastmod}`);
+  if (timestamp > Date.now()) fail(`sitemap lastmod is in the future: ${lastmod}`);
+}
 
 const feed = fetchText(`${base}/feed.xml`);
 const feedItems = (feed.match(/<item>/g) ?? []).length;

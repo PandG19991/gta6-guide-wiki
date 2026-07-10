@@ -21,7 +21,15 @@ const files = (dir) =>
 
 const sitemap = read(sitemapPath);
 const locs = matchAll(sitemap, /<loc>(.*?)<\/loc>/g).map((loc) => new URL(loc));
+const lastmods = matchAll(sitemap, /<lastmod>(.*?)<\/lastmod>/g);
 if (locs.length < 40) fail(`sitemap has too few URLs: ${locs.length}`);
+if (lastmods.length !== locs.length) fail("sitemap must define one lastmod per URL");
+for (const lastmod of lastmods) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(lastmod)) fail(`sitemap lastmod must use YYYY-MM-DD: ${lastmod}`);
+  const timestamp = Date.parse(`${lastmod}T00:00:00.000Z`);
+  if (Number.isNaN(timestamp)) fail(`sitemap lastmod is invalid: ${lastmod}`);
+  if (timestamp > Date.now()) fail(`sitemap lastmod is in the future: ${lastmod}`);
+}
 
 const origin = locs[0].origin;
 const feed = read(feedPath);
