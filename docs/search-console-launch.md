@@ -4,11 +4,11 @@ The current `workers.dev` origin is a temporary production URL. Complete this ch
 
 ## Domain shortlist
 
-1. `leonidaledger.com` - strongest brand fit and easiest to expand beyond one keyword.
-2. `leonidaguides.com` - combines the Leonida brand with the high-intent `guides` term.
-3. `gta6guidehub.com` - clearest exact-intent option, but more generic and more dependent on another company's trademark.
+1. `theleonidaledger.com` - closest match to the current brand and the recommended choice.
+2. `leonidaplaybook.com` - clearly signals practical guides without reading like a generic wiki.
+3. `leonidahandbook.com` - descriptive and expandable, but longer.
 
-Availability and price must be checked at purchase time. Keep high-volume intents such as `gta 6 guide`, `gta 6 map`, `gta 6 release date`, and `gta 6 characters` in page titles and paths; do not force every keyword into the domain.
+Verisign RDAP returned no registration record for these `.com` names on 2026-07-11. Availability and price can change until purchase. The previous candidates `leonidaledger.com`, `leonidaguides.com`, and `gta6guidehub.com` are registered and should not be presented as available. Keep high-volume intents such as `gta 6 guide`, `gta 6 map`, `gta 6 release date`, and `gta 6 characters` in page titles and paths; do not force every keyword into the domain.
 
 ## Cutover
 
