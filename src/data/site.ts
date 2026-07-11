@@ -3,7 +3,7 @@ export const site = {
   shortName: "Leonida Ledger",
   description:
     "An unofficial GTA 6 guide hub for release details, Leonida locations, vehicles, characters, editions, and player guides.",
-  url: "https://leonida-ledger.pandg1991.workers.dev",
+  url: "https://gta6gameguide.xyz",
   author: "Leonida Ledger editorial desk",
   locale: "en_US",
   currentDate: "2026-07-11"

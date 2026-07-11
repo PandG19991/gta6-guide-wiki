@@ -3,6 +3,12 @@
   "name": "leonida-ledger",
   "compatibility_date": "2026-07-07",
   "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "gta6gameguide.xyz",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "directory": "./dist"
   },
