@@ -4,7 +4,7 @@
 
 The locally stored Rockstar Games images in `src/assets/media/official/` are approved for limited internal editorial use on this site. `approved` is a governance state for this repository; it is not permission from Rockstar Games.
 
-Rockstar's [Policy on Posting Copyrighted Rockstar Games Material](https://support.rockstargames.com/articles/7bNaeoMFTV0iUDGhStTXvz/policy-on-posting-copyrighted-rockstar-games-material) describes non-commercial posting and does not grant commercial digital-publishing permission. The `permissionStatus` for the current catalog is therefore `not-formally-granted`. Formal licensing, commercial approval, or any policy exception remains an owner handoff before monetized publication.
+Rockstar's [Policy on Posting Copyrighted Rockstar Games Material](https://support.rockstargames.com/articles/7bNaeoMFTV0iUDGhStTXvz/policy-on-posting-copyrighted-rockstar-games-material) does not provide a blanket commercial license. The `permissionStatus` for the current catalog is therefore `not-formally-granted`. This field records uncertainty; it does not mean that every independent guide or news site must obtain individual publisher authorization before operating. Before monetization, the owner must make and document a proportionate risk decision based on the actual assets, context, market, platform policies, and replacement options. Written permission is one risk-reduction path, not a universal prerequisite asserted by this project.
 
 ## Boundaries
 
@@ -13,6 +13,7 @@ Rockstar's [Policy on Posting Copyrighted Rockstar Games Material](https://suppo
 - Do not imply affiliation with Rockstar Games or Take-Two.
 - The current official catalog has no reusable HUD or menu set. Do not invent official UI.
 - Remove or replace an asset immediately if the owner changes the decision or formal rights review rejects it.
+- Keep editorial-use approval and formal commercial permission as separate states; neither field should imply legal advice.
 
 ## Inventory
 

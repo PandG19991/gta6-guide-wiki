@@ -40,7 +40,7 @@
 - [x] 6.2 Remove generic FAQ schema and require representative approved images for indexable guides.
 - [x] 6.3 Run build, metadata, indexability, link, content, media, and visual checks before deployment.
 - [x] 6.4 Deploy each phase to Cloudflare and run live SEO plus redirect checks.
-- [ ] 6.5 After the owner selects a domain, connect it, update the canonical origin, verify permanent redirects, and submit the sitemap in Search Console.
+- [x] 6.5 Connect `gta6gameguide.xyz`, update the canonical origin, verify permanent redirects, verify the Domain property, and submit the sitemap in Search Console.
 
 ## 7. Monetization Gate
 

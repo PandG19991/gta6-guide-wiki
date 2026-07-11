@@ -1,33 +1,29 @@
-# Search Console and custom-domain launch
+# Search Console and custom-domain launch record
 
-The current `workers.dev` origin is a temporary production URL. Complete this checklist after choosing the permanent domain.
+The production origin is `https://gta6gameguide.xyz`. The custom-domain cutover, Domain property verification, and sitemap submission were completed on 2026-07-11. Keep this document as the launch record and monitoring checklist.
 
-## Domain shortlist
+## Completed cutover
 
-1. `theleonidaledger.com` - closest match to the current brand and the recommended choice.
-2. `leonidaplaybook.com` - clearly signals practical guides without reading like a generic wiki.
-3. `leonidahandbook.com` - descriptive and expandable, but longer.
+- Bound the apex and `www` host to the `leonida-ledger` Worker.
+- Set `https://gta6gameguide.xyz` as the canonical origin.
+- Redirect HTTP, `www`, `workers.dev`, and other non-canonical hosts with permanent redirects while preserving paths and queries.
+- Disabled preview URLs and verified canonical, Open Graph, robots, sitemap, feed, security.txt, redirects, 404, and security headers.
+- Deployed Worker version `b7ec2e22-ffae-4cbb-a571-0f8e2f799bf3` from commit `9e59ec0`.
 
-Verisign RDAP returned no registration record for these `.com` names on 2026-07-11. Availability and price can change until purchase. The previous candidates `leonidaledger.com`, `leonidaguides.com`, and `gta6guidehub.com` are registered and should not be presented as available. Keep high-volume intents such as `gta 6 guide`, `gta 6 map`, `gta 6 release date`, and `gta 6 characters` in page titles and paths; do not force every keyword into the domain.
+## Completed Search Console handoff
 
-## Cutover
+- Verified the `gta6gameguide.xyz` Domain property under the owner's Google account.
+- Submitted `https://gta6gameguide.xyz/sitemap.xml`.
+- Search Console created the sitemap record but initially showed `Could not fetch` and zero discovered pages.
+- An independent crawlability probe using a Googlebot User-Agent returned HTTP 200, `application/xml`, 5,180 bytes, and all 37 URLs. This does not prove that Google fetched the file; it supports waiting for Google's first processing pass rather than changing a valid response immediately.
 
-1. Add the selected custom domain to the `leonida-ledger` Worker in Cloudflare.
-2. Change `site.url` in `src/data/site.ts` to the final HTTPS origin.
-3. Rebuild and deploy, then verify canonical, Open Graph, robots, sitemap, feed, and security.txt URLs use the new origin.
-4. Redirect the old `workers.dev` host to the custom domain with a Cloudflare host-level redirect, or add `X-Robots-Tag: noindex` to the old host after the custom domain is live.
-5. Keep every path unchanged during the host migration.
+## Monitoring
 
-## Search Console
-
-1. Add a Domain property using only the root domain, without `https://` or a path.
-2. Copy Google's DNS TXT verification value into Cloudflare DNS and complete verification.
-3. Submit `https://<domain>/sitemap.xml` in the Sitemaps report. The sitemap is already linked from `robots.txt`.
-4. Use URL Inspection on the homepage, guide index, release guide, preorder guide, map guide, and one character guide.
-5. Request indexing only for the most important newly launched pages; let the sitemap and internal links handle the rest.
-6. Review Page indexing, Core Web Vitals, Manual actions, Security issues, and Performance after Google begins collecting data.
-
-If a URL-prefix property is needed as a temporary fallback, set `PUBLIC_GOOGLE_SITE_VERIFICATION` to Google's exact token before building. The preferred Domain property still uses DNS verification.
+1. Recheck the sitemap after Google's first processing window.
+2. Inspect the homepage, guide index, release guide, preorder guide, map guide, and one character guide when data becomes available.
+3. Review Page indexing, Core Web Vitals, Manual actions, Security issues, and Performance.
+4. Use real query impressions and click-through rates to prioritize updates; do not create thin pages to increase sitemap size.
+5. Change the sitemap only if the fetch failure persists and independent requests reproduce a real crawl problem.
 
 Official references:
 
@@ -36,6 +32,6 @@ Official references:
 - https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
 - https://developers.google.com/search/docs/appearance/structured-data/breadcrumb
 
-## Owner handoff
+## Remaining owner handoffs
 
-The owner must choose and purchase the domain and use the Google account that will own the Search Console property. Do not add a fake verification token or submit a temporary property on someone else's account.
+Registrar-side DNSSEC DS publication, AdSense publisher configuration, and consent management remain separate from Search Console. Do not store verification tokens or account credentials in the repository.

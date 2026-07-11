@@ -28,6 +28,11 @@ npm run preview
 npm run deploy
 ```
 
+## Project Knowledge
+
+- [GTA 6 guide site project retrospective](docs/retrospectives/gta6-guide-site-project-retrospective.md)
+- [Reusable game guide site workflow template](docs/playbooks/game-guide-site-playbook.md)
+
 ## Content Rules
 
 - Answer the player question before background context, sources, or monetization.
