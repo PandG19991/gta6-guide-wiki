@@ -28,13 +28,13 @@
 
 - [x] 4.1 Use the private candidate queue to record official changes and available Search Console demand, updating existing canonical pages before creating new URLs.
 - [x] 4.2 Keep standalone stories under `/updates/<slug>/` and create them only when every reliability, player-impact, distinct-intent, and completeness gate passes.
-- [ ] 4.3 Verify which US-facing store affiliate programs actually accept this publisher, record terms privately, and add no tracked link until eligibility is confirmed.
+- [x] 4.3 Verify which US-facing store affiliate programs actually accept this publisher, record terms privately, and add no tracked link until eligibility is confirmed.
 - [x] 4.4 Keep contribution intake, D1, Turnstile, Access, AI tooling, automatic radar imports, utilities, and custom event analytics disabled during this milestone.
 - [x] 4.5 Keep AdSense disabled until publisher, consent, disclosure, and stable placement requirements are real; treat Search Console and Cloudflare Web Analytics as acquisition/performance tools rather than custom event systems.
 
 ## 5. Verify And Release
 
 - [x] 5.1 Run build, media, metadata, indexability, link, content, dependency-audit, and strict OpenSpec checks.
-- [ ] 5.2 Verify representative homepage, hub, guide, database, updates, redirect, and 404 paths on desktop and mobile, including answer visibility, image crop, text fit, focus, and overflow.
+- [x] 5.2 Verify representative homepage, hub, guide, database, updates, redirect, and 404 paths on desktop and mobile, including answer visibility, image crop, text fit, focus, and overflow.
 - [ ] 5.3 Deploy from the isolated implementation worktree, verify the canonical domain, redirects, security headers, sitemap, robots, RSS, and live SEO, then record the commit and Worker version.
 - [ ] 5.4 Run one final independent milestone review, resolve blockers, and update project state without starting additional overlapping reviewers.
