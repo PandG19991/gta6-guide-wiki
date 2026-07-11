@@ -22,12 +22,17 @@ Source records, test fields, confidence decisions, and update triggers SHALL rem
 - **THEN** the public answer and last-updated date can change while the source and decision trail remains auditable internally
 
 ### Requirement: Launch-week guide workflow
-Mission, cheat, money, wanted-level, settings, map-marker, and vehicle-acquisition guides SHALL become public only after the relevant platform and game version have been tested or an official source supplies the same detail.
+Mission, cheat, money, wanted-level, settings, map-marker, and vehicle-acquisition guides SHALL become public only when the detail is official, first-party-tested, or corroborated through reproducible evidence reviewed by an editor.
 
 #### Scenario: Tested gameplay answer is ready
-- **GIVEN** a repeatable result with platform, version, method, outcome, spoiler level, and capture evidence
+- **GIVEN** a repeatable result with platform, version, method, outcome, relevant spoiler warning, and verification evidence
 - **WHEN** an editor changes the route to public
 - **THEN** the guide enters indexes and the sitemap with task-specific content and media
+
+#### Scenario: Corroborated gameplay answer is ready
+- **GIVEN** two independent gameplay records or one reproducible source checked by an editor, with platform and version applicability recorded
+- **WHEN** an editor approves the result as corroborated
+- **THEN** the guide may enter indexes without pretending it was first-party tested
 
 ### Requirement: Updates are player news
 The public updates page SHALL contain GTA 6 announcements and meaningful guide revisions rather than editorial queues or machine-feed links.

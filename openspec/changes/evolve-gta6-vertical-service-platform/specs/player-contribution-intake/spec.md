@@ -31,9 +31,12 @@ The contribution endpoint SHALL reject file uploads and public links, MAY accept
 - **AND** the server does not automatically request it
 
 ### Requirement: Private contribution data has a retention policy
-The system SHALL define and enforce a deletion period for rejected submissions and unnecessary personal data before enabling contribution intake.
+The system SHALL define finite retention periods for rejected submissions, accepted raw submissions, security logs, and unnecessary personal data before contribution storage is enabled. A contributor MAY request removal of public nickname credit without retracting verified editorial facts.
 
 #### Scenario: Rejected contribution reaches retention limit
 - **WHEN** the configured retention period expires
 - **THEN** the raw submission and unnecessary personal data are deleted while non-identifying aggregate abuse records may remain
 
+#### Scenario: Contributor withdraws nickname credit
+- **WHEN** an authenticated or reasonably verified contributor requests removal of their published nickname
+- **THEN** the credit is removed while the independently verified editorial content remains published

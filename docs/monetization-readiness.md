@@ -20,9 +20,12 @@ Do not enable the flag until the actual AdSense loader, consent behavior, publis
 
 - The custom domain and Search Console property are active.
 - Policy, contact, privacy, and correction pages match production behavior.
-- Core guides are indexed and receiving real impressions.
+- The selected pages are complete, useful, and contain no under-construction inventory.
+- Publisher approval and applicable consent behavior are ready.
 - Ads do not appear before the quick answer or interrupt tables and navigation.
 - Layout reservations prevent ad loading from shifting article content.
+
+Search impressions are a measurement baseline, not an eligibility requirement. Start with a bounded page set and remove any placement that harms answer access, layout stability, or task completion.
 
 ## Monitoring
 

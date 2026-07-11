@@ -48,11 +48,11 @@ Search demand and lasting value only prioritize eligible work. They cannot compe
 
 Alternative considered: publish when three of four signals pass. Rejected because unreliable or non-distinct stories could still pass.
 
-### Decision: Keep one site operating phase and simple content state
+### Decision: Keep lifecycle judgment private and public data simple
 
-The site has one `operatingPhase`: `PRE_LAUNCH`, `LAUNCH`, or `EVERGREEN`. Public content has only `draft`, `published`, `redirected`, or `withdrawn` publication state. Guides separately record player job, platform applicability, game/patch version, last tested or verified time, freshness, and spoiler level (`none`, `gameplay`, or `story`).
+Editors use `PRE_LAUNCH`, `LAUNCH`, and `EVERGREEN` as operating judgment, not as a new public enum or automatic state machine. The public repository contains publishable content only; redirects remain static routing rules. Guides record player job, platform applicability, game/patch version, last tested or verified time, and freshness. Spoiler level is optional: routine factual pages show no meaningless `none` badge, while relevant gameplay or story pages use `gameplay` or `story`.
 
-Alternative considered: give each article a lifecycle state machine. Rejected because pre-launch pages can remain useful after launch and players care more about current version applicability.
+Alternative considered: add draft/published/withdrawn and lifecycle states to public guide data. Rejected because private operations own unpublished work, pre-launch pages can remain useful after launch, and players care more about current version applicability.
 
 ### Decision: Allow three publishable evidence levels
 
@@ -64,13 +64,15 @@ Public claims may be:
 
 `unconfirmed` material remains private. Leaks, unverifiable rumors, copied walkthroughs, cheat services, and unsafe downloads remain excluded.
 
+`analysis` is an editorial interpretation, not an evidence source. It must remain traceable to the official, tested, or corroborated facts it interprets.
+
 Alternative considered: require official or first-party testing for every guide. Rejected because a small team would miss launch-period player needs despite reproducible evidence being available.
 
 ### Decision: Improve the current journey before adding platform infrastructure
 
 The first implementation milestone reuses existing data and components:
 
-- Article order becomes title/update context, Quick Answer, subject media, details, next action, and compact sources.
+- Article DOM order becomes title/update context, Quick Answer, subject media, details, next action, and compact sources. Desktop may place Quick Answer and subject media side by side; mobile keeps the answer first.
 - The 11-item article rail is removed from task pages; global navigation, breadcrumb, local contents, and related actions remain.
 - `/gta-6/` becomes the durable content hub with latest meaningful changes and a small Start Here task set.
 - Updates gain explicit affected routes; guides gain one explicit next action with current category recommendations as fallback.
@@ -80,7 +82,7 @@ Alternative considered: build the candidate database, contribution backend, and 
 
 ### Decision: Start demand operations as a manual queue
 
-The initial Candidate Queue is a private human-maintained list. Inputs may include official changes, Search Console queries, search suggestions, trends, competitor gaps, site-search misses, and player leads. The decision remains human: update an existing URL, create a distinct page, defer, or reject.
+The initial Candidate Queue has one private source of truth at `D:\workspace\projects\gta6-guide-wiki\candidate-queue.md`, outside the public repository. Inputs may include official changes, Search Console queries, search suggestions, trends, competitor gaps, site-search misses, and player leads. The decision remains human: update an existing URL, create a distinct page, defer, or reject.
 
 Automation may import candidates later but must not publish. No custom scoring engine or dedicated public search product is included in the first milestone.
 
@@ -115,7 +117,7 @@ Alternative considered: wait for a stable traffic baseline before applying. Reje
 ## Migration Plan
 
 1. Correct the content-state model, news decision rule, and stale operating documents without changing public URLs except the approved map redirect.
-2. Improve article answer order, remove redundant task-page navigation, strengthen `/gta-6/`, and add explicit update/next-action relationships using existing static data.
+2. Remove private update records and future content plans from public source control, then improve article answer order, remove redundant task-page navigation, strengthen `/gta-6/`, and add explicit update/next-action relationships using approved static data.
 3. Start the private candidate list and use Search Console plus official-source review to choose the next content updates.
 4. Select and validate one small utility only after a real player task and data source are available.
 5. Implement contribution intake only after its moderation, privacy, and abuse gates are funded and approved.
@@ -123,9 +125,9 @@ Alternative considered: wait for a stable traffic baseline before applying. Reje
 
 Each milestone ships independently from an isolated worktree and must pass the existing build, media, metadata, indexability, link, content, live SEO, and desktop/mobile checks. Rollback is a normal Git revert plus Cloudflare redeploy; redirects remain unless the original URL is deliberately restored.
 
-## Open Questions
+## Activation Defaults
 
-- Which real Search Console queries should drive the first post-design content update after Google finishes processing the site?
-- Which single utility demonstrates repeat use with available, reliable data?
-- Which US affiliate programs are actually open to this publisher and compatible with the site?
-- What submission volume or repeated editorial bottleneck will justify enabling the contribution backend or automated imports?
+- The first content updates follow actual Search Console queries after Google processes the site; before then, official source changes and existing high-intent pages take priority.
+- No utility is built in the first correction milestone. The first candidate is a release/preload readiness checklist before launch or a completion checklist after launch, selected from available reliable data and observed demand.
+- No affiliate program is assumed. Only programs verified as open to this publisher and US audience are used.
+- Contribution storage and automated candidate imports remain disabled until the complete moderation/security boundary is ready or repeated manual work proves the need. Exact retention periods are selected when the real storage and privacy flow is implemented rather than hard-coded in advance.

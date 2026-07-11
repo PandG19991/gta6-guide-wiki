@@ -23,7 +23,7 @@ Official media needs a controlled path. Rockstar currently exposes a GTA VI down
 - Copying competitor text, screenshots, maps, or page composition.
 - Scraping Google Images, fan wikis, social posts, leaks, or unofficial asset packs.
 - Replacing Astro, adding a CMS, adding a database, or introducing a new frontend framework during this adjustment.
-- Adding live ads before a publisher ID, consent decision, meaningful content depth, and traffic baseline exist.
+- Adding live ads before a publisher ID, consent decision, useful completed pages, and stable placement exist.
 - Treating this plan as legal advice or as a commercial-use license for Rockstar-owned media.
 
 ## Decisions
@@ -89,7 +89,7 @@ Alternative considered: preserve every existing schema and URL because the check
 
 ## Risks / Trade-offs
 
-- Official media creates commercial-use uncertainty -> keep a rights state in the manifest, prefer official embeds and original diagrams, request written permission when needed, and provide a fast asset-withdrawal path.
+- Official media creates commercial-use uncertainty -> keep owner approval separate from formal permission, record provenance and limited placements, and provide a fast asset-withdrawal path without treating written permission as a universal prerequisite.
 - Removing placeholder URLs reduces sitemap size -> measure useful indexed pages and search impressions instead of URL count.
 - Merging buying pages may lose long-tail coverage -> preserve redirects and retain standalone pages only when they answer a distinct query with unique content.
 - Image-rich pages may hurt Core Web Vitals -> generate responsive AVIF/WebP variants, declare dimensions, preload only the LCP asset, and lazy-load below the fold.
@@ -99,13 +99,13 @@ Alternative considered: preserve every existing schema and URL because the check
 ## Coordination Notes
 
 - Affected areas: the Astro repository, Cloudflare deployment, GitHub source control, custom domain, and Search Console property.
-- Open handoffs: owner chooses the domain, confirms Search Console access, provides any written media permission, and later provides AdSense/consent identifiers.
+- Remaining external handoffs: the owner later provides AdSense/consent identifiers and any verified affiliate enrollment. Domain and Search Console setup are complete; media follows the documented owner-approved editorial-use boundary and replacement path.
 - Implementation entry criteria: this OpenSpec change and the detailed execution plan are approved; each phase runs in an isolated worktree; current live checks remain available as a baseline.
 - Source references: `https://www.rockstargames.com/VI/downloads` and `https://support.rockstargames.com/articles/7bNaeoMFTV0iUDGhStTXvz/policy-on-posting-copyrighted-rockstar-games-material`.
 
-## Open Questions
+## Current Decisions
 
-- Which custom domain will be purchased and used as canonical?
-- Will Take-Two/Rockstar provide written permission for ad-supported use of download-center images, or should launch visuals remain embeds/original graphics until gameplay capture is available?
-- Which analytics and consent stack, if any, will be introduced with AdSense?
+- `gta6gameguide.xyz` is the canonical domain and its Search Console Domain property is verified.
+- Current official downloadable media may be used only within the recorded owner-approved editorial placements; `not-formally-granted` remains explicit and every asset retains a replacement path.
+- AdSense remains disabled until publisher and consent configuration exist. Cloudflare Web Analytics is the default future option for lightweight distribution measurement; GA4, a warehouse, and a custom event platform are not part of this change.
 

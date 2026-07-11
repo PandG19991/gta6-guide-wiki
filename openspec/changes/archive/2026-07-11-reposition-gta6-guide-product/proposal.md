@@ -25,10 +25,10 @@ The visual layer has the same mismatch. The repository contains one visible orig
   - `repo/public/assets/` image assets and provenance metadata.
   - `repo/scripts/` content-quality, metadata, indexability, link, and live SEO gates.
   - GitHub and Cloudflare deployment, custom domain, and Google Search Console handoff.
-- Unresolved:
-  - Final custom domain and Search Console ownership require the owner account.
-  - Monetized use of Rockstar-owned downloadable media requires a documented rights decision; the public download page invites sharing, while Rockstar's fan-content policy does not grant a blanket commercial digital-publishing license.
-  - AdSense publisher ID and consent requirements are unavailable until the owner begins monetization setup.
+- Current external state:
+  - `gta6gameguide.xyz` is canonical, the Search Console Domain property is verified, and the sitemap is submitted.
+  - Rockstar-owned downloadable media uses a documented limited editorial-use decision with provenance and a replacement path; this is not represented as formal publisher permission or as a universal requirement for guide sites.
+  - AdSense publisher ID and consent configuration remain unavailable until the owner begins monetization setup.
   - Hands-on GTA 6 UI and gameplay captures cannot exist until released gameplay is legally available to test.
 
 ## Capabilities
@@ -48,7 +48,7 @@ The visual layer has the same mismatch. The repository contains one visible orig
 - `visual-system`: from typography-and-card-led editorial styling to an image-rich, object-focused game-guide interface.
 - `updates`: from source ledger and publishing queue to actual GTA 6 news and meaningful guide revisions.
 - `indexability`: from URL-count growth to value-gated indexing.
-- `monetization-readiness`: from policy copy in public pages to reserved, low-CLS ad slots added only after content and traffic qualify.
+- `monetization-readiness`: from policy copy in public pages to reserved, low-CLS ad slots added only after selected pages, publisher configuration, disclosures, and consent behavior qualify.
 
 ## Impact
 

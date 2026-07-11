@@ -17,14 +17,15 @@ The current site is already a credible, image-led GTA 6 guide property, but its 
 
 ### New Capabilities
 
-- `player-content-model`: Defines private editorial objects, public page products, publication states, evidence levels, and the site operating phase.
+- `player-content-model`: Defines private editorial objects, public page products, repository boundaries, evidence levels, and content applicability.
 - `editorial-demand-queue`: Defines how official signals, search demand, site gaps, and player leads enter a private queue and become updates or new pages.
 - `player-contribution-intake`: Defines the conditional, private, moderated contribution flow and its security and privacy boundaries.
 - `intent-aligned-monetization`: Defines when and where display ads and verified store affiliate links may be tested without obstructing player tasks.
+- `crawl-and-private-boundary`: Defines the crawlable public surface, authenticated private surface, and proportionate anti-abuse controls.
 
 ### Modified Capabilities
 
-- None. The earlier repositioning change remains the baseline; this change governs the next platform stage.
+- None. The completed repositioning change is archived as the product baseline; this change is the only active implementation source.
 
 ## Impact
 

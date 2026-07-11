@@ -39,9 +39,11 @@ Each page needs:
 
 Do not apply for or add AdSense until:
 
-- at least 25 useful pages are live;
+- the pages selected for monetization are complete, useful, and free of placeholder content;
 - privacy/contact/editorial/source pages are current;
-- no page is under construction or mostly empty;
+- the publisher account and applicable consent behavior are ready;
 - ads can be placed away from navigation, filters, and interactive controls;
-- copyrighted media risk has been audited.
+- the media-use decision and replacement path are documented.
+
+There is no fixed page-count or traffic threshold. Apply when the product and policy boundary are ready, then use a bounded low-density experiment to measure impact.
 

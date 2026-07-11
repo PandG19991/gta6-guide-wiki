@@ -26,6 +26,14 @@ The system SHALL use search demand and lasting value to prioritize eligible work
 - **WHEN** a topic is popular but lacks reliable information or a useful player outcome
 - **THEN** it is deferred or rejected rather than published for traffic
 
+### Requirement: Updates use one route family
+The system SHALL keep official changes, guide revisions, and qualifying standalone stories under `/updates/` and SHALL NOT create a parallel `/news/` hierarchy for the current product stage.
+
+#### Scenario: Qualifying standalone story is published
+- **WHEN** a candidate passes every mandatory News gate
+- **THEN** its route uses `/updates/<slug>/`
+- **AND** `/updates/` links the story to its affected Guide or Entity pages
+
 ### Requirement: Automation cannot publish
 Any future source monitor or demand importer SHALL create private candidates only and SHALL require human approval before public content changes.
 
@@ -33,4 +41,3 @@ Any future source monitor or demand importer SHALL create private candidates onl
 - **WHEN** a monitored official page changes
 - **THEN** the system creates or updates a private candidate
 - **AND** no public route or content is changed automatically
-

@@ -2,7 +2,7 @@
 
 - [x] 1.1 Approve the product goal, route lifecycle, media-rights policy, and phased sequence in this change.
 - [x] 1.2 Record the current 53-page build, current live URL, and current visual snapshots as the before-state.
-- [x] 1.3 Keep custom domain, Search Console ownership, media permission, and AdSense identifiers as explicit owner handoffs without blocking local product work.
+- [x] 1.3 Keep custom domain, Search Console ownership, the media-use decision, and AdSense identifiers as explicit owner handoffs without blocking local product work.
 
 ## 2. Public-Layer Cleanup
 
@@ -45,6 +45,6 @@
 ## 7. Monetization Gate
 
 - [x] 7.1 Define reserved low-layout-shift ad placements after the useful answer and between major content sections.
-- [ ] 7.2 Add AdSense and consent code only after publisher identity, policy pages, traffic baseline, and owner configuration exist.
-- [ ] 7.3 Monitor indexed pages, impressions, click-through rate, engagement, Core Web Vitals, and ad viewability without creating thin pages to inflate inventory.
+- [x] 7.2 Defer AdSense and consent implementation to `evolve-gta6-vertical-service-platform`; the repositioning baseline emits no ad network code.
+- [x] 7.3 Move post-activation revenue and placement monitoring to `evolve-gta6-vertical-service-platform`; no thin inventory is created in the repositioning baseline.
 

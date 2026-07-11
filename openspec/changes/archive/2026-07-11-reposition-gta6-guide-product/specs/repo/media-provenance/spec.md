@@ -1,7 +1,7 @@
 ## ADDED Requirements
 
 ### Requirement: Governed media registry
-Every visible game-related media asset SHALL resolve through one registry entry containing provenance, ownership, usage basis, rights state, attribution, alt text, intrinsic dimensions, and allowed placements.
+Every visible game-related media asset SHALL resolve through one registry entry containing provenance, ownership, usage basis, owner approval, formal permission state, attribution, alt text, intrinsic dimensions, and allowed placements. Owner approval is a proportionate editorial risk decision and SHALL NOT claim formal publisher authorization.
 
 #### Scenario: Approved media renders
 - **GIVEN** a registry item marked approved for a page placement
@@ -9,12 +9,17 @@ Every visible game-related media asset SHALL resolve through one registry entry 
 - **THEN** the rendered media uses the recorded source, alt text, width, height, and attribution behavior
 
 #### Scenario: Pending media is blocked
-- **GIVEN** a registry item whose commercial-use basis is unresolved
+- **GIVEN** a registry item without recorded owner approval or with a prohibited provenance class
 - **WHEN** the site builds for production
 - **THEN** no public page renders that item
 
+#### Scenario: Editorial use is approved without formal permission
+- **GIVEN** an official downloadable asset with provenance, limited placements, owner approval, `not-formally-granted` permission state, and a replacement path
+- **WHEN** the site builds for production
+- **THEN** the asset may render without implying that Rockstar or Take-Two granted a commercial license
+
 ### Requirement: Core pages use subject media
-The homepage, each core landing page, and every indexable guide SHALL include at least one approved visual that identifies the page subject or task.
+The homepage, each core landing page, and entity/database surfaces SHALL include approved subject media. Priority guides SHALL include media when it materially helps identify the subject, location, object, comparison, or step; a complete narrow answer SHALL NOT be blocked from indexing solely because it has no dedicated inline image.
 
 #### Scenario: Character guide
 - **GIVEN** a public Jason or Lucia guide
@@ -22,9 +27,10 @@ The homepage, each core landing page, and every indexable guide SHALL include at
 - **THEN** the primary media depicts that character or an approved related official scene rather than generic category artwork
 
 #### Scenario: Guide has no lawful subject image
-- **GIVEN** no approved screenshot or artwork is available
+- **GIVEN** a narrow troubleshooting or factual guide has a complete useful answer but no approved dedicated image
 - **WHEN** the page is prepared for publication
-- **THEN** it uses an original factual diagram or remains non-indexable instead of using leaked, copied, or deceptive generated gameplay imagery
+- **THEN** it may remain indexable without weakly related media
+- **AND** it does not use leaked, copied, or deceptive generated gameplay imagery
 
 ### Requirement: Responsive and accessible images
 All raster media SHALL use stable dimensions, responsive sources where useful, descriptive alt text, and loading priority appropriate to its viewport position.
