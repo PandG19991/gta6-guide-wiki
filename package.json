@@ -12,8 +12,9 @@
     "check:content": "node scripts/check-content-quality.mjs",
     "check:media": "node scripts/check-media.mjs",
     "check:live-seo": "node scripts/check-live-seo.mjs",
+    "check:live-seo:retry": "node scripts/check-live-seo-retry.mjs",
     "preview": "astro preview --host 127.0.0.1",
-    "deploy": "npm run build && npm run check:media && npm run check:metadata && npm run check:indexability && npm run check:links && npm run check:content && wrangler deploy"
+    "deploy": "npm run build && npm run check:media && npm run check:metadata && npm run check:indexability && npm run check:links && npm run check:content && wrangler deploy && npm run check:live-seo:retry"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",

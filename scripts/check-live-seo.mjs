@@ -139,8 +139,15 @@ if (!securityExpires || Number.isNaN(Date.parse(securityExpires))) fail("securit
 if (Date.parse(securityExpires) <= Date.now()) fail("security.txt Expires is not in the future");
 
 const robots = fetchText(`${base}/robots.txt`);
-if (!robots.includes("Allow: /")) fail("robots.txt must allow crawling");
-if (robots.includes("Disallow: /")) fail("robots.txt blocks the whole site");
+const wildcardRobotGroups = robots
+  .split(/\r?\n\s*\r?\n/)
+  .filter((group) => /^User-agent:\s*\*\s*$/im.test(group));
+if (!wildcardRobotGroups.some((group) => /^Allow:\s*\/\s*$/im.test(group))) {
+  fail("robots.txt must allow crawling");
+}
+if (wildcardRobotGroups.some((group) => /^Disallow:\s*\/\s*$/im.test(group))) {
+  fail("robots.txt blocks the whole site");
+}
 if (!robots.includes(`Sitemap: ${base}/sitemap.xml`)) fail("robots.txt sitemap does not match site.url");
 
 const sitemap = fetchText(`${base}/sitemap.xml`);
@@ -201,6 +208,24 @@ for (const path of corePaths) {
 const missingUrl = `${base}/__missing-seo-smoke-test__/`;
 if (sitemapSet.has(missingUrl)) fail(`missing smoke URL must stay out of sitemap: ${missingUrl}`);
 if (fetchStatus(missingUrl) !== "404") fail(`${missingUrl}: missing URL must return 404`);
+
+const canonicalUrl = new URL(base);
+const redirectOrigins = [
+  `http://${canonicalUrl.host}`,
+  "https://leonida-ledger.pandg1991.workers.dev"
+];
+if (!canonicalUrl.hostname.startsWith("www.")) {
+  redirectOrigins.push(`https://www.${canonicalUrl.host}`);
+}
+for (const origin of redirectOrigins) {
+  const aliasProbe = new URL("/__host-redirect-check__/?source=seo", origin);
+  const headers = fetchRedirectHeaders(aliasProbe.toString());
+  if (!/^http\/\S+ 301\b/m.test(headers)) fail(`${aliasProbe}: expected a 301 redirect`);
+  const location = headers.match(/^location:\s*(.+)$/m)?.[1]?.trim();
+  if (!location || location !== `${base}${aliasProbe.pathname}${aliasProbe.search}`) {
+    fail(`${aliasProbe}: redirect target must preserve the path and query on the canonical origin`);
+  }
+}
 
 for (const [path, canonicalPath] of [["/database/", "/gta-6/database/"]]) {
   const url = `${base}${path}`;

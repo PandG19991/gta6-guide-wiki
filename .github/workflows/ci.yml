@@ -23,6 +23,8 @@ jobs:
       - run: npm ci
       - run: npm audit --omit=dev --audit-level=high
       - run: npm run build
+      - name: Validate Worker bundle and routes
+        run: npx wrangler deploy --dry-run
       - name: Run static quality gates
         run: |
           npm run check:media

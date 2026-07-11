@@ -78,8 +78,15 @@ for (const loc of locs) {
 const sitemapUrls = new Set(locs.map((loc) => loc.href));
 if (sitemapUrls.size !== locs.length) fail("sitemap must not contain duplicate URLs");
 const robots = read(robotsPath);
-if (!robots.includes("Allow: /")) fail("robots.txt must allow crawling");
-if (robots.includes("Disallow: /")) fail("robots.txt blocks the whole site");
+const wildcardRobotGroups = robots
+  .split(/\r?\n\s*\r?\n/)
+  .filter((group) => /^User-agent:\s*\*\s*$/im.test(group));
+if (!wildcardRobotGroups.some((group) => /^Allow:\s*\/\s*$/im.test(group))) {
+  fail("robots.txt must allow crawling");
+}
+if (wildcardRobotGroups.some((group) => /^Disallow:\s*\/\s*$/im.test(group))) {
+  fail("robots.txt blocks the whole site");
+}
 if (!robots.includes(`Sitemap: ${origin}/sitemap.xml`)) fail("robots.txt sitemap URL does not match sitemap origin");
 
 const expectedFileFor = (url) => {

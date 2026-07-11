@@ -1,16 +1,24 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "leonida-ledger",
+  "main": "./src/worker.js",
   "compatibility_date": "2026-07-07",
   "workers_dev": true,
+  "preview_urls": false,
   "routes": [
     {
       "pattern": "gta6gameguide.xyz",
       "custom_domain": true
+    },
+    {
+      "pattern": "www.gta6gameguide.xyz/*",
+      "zone_name": "gta6gameguide.xyz"
     }
   ],
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": true
   },
   "observability": {
     "enabled": true
