@@ -21,7 +21,7 @@ const corePaths = [
   "/guides/",
   "/release/",
   "/guides/gta-6-pre-order-standard-vs-ultimate/",
-  "/guides/gta-6-map-leonida-regions-evidence-tracker/",
+  "/guides/gta-6-map-leonida-regions-locations/",
   "/guides/gta-6-characters-official-cast/",
   "/guides/is-gta-6-coming-to-pc/",
   "/guides/gta-6-release-date-countdown-preload/"
@@ -236,18 +236,23 @@ for (const [path, canonicalPath] of [["/database/", "/gta-6/database/"]]) {
   if (!/<meta name="robots" content="[^"]*noindex/i.test(html)) fail(`${url}: missing noindex`);
 }
 
-for (const path of [
-  "/guides/gta-6-price-standard-ultimate-explained/",
-  "/guides/gta-6-gta-plus-preorder-benefit/",
-  "/guides/gta-6-physical-vs-digital-preorder/",
-  "/guides/gta-6-vintage-vice-city-pack/"
-]) {
+const redirectPaths = new Map([
+  ["/guides/gta-6-price-standard-ultimate-explained/", "/guides/gta-6-pre-order-standard-vs-ultimate/"],
+  ["/guides/gta-6-gta-plus-preorder-benefit/", "/guides/gta-6-pre-order-standard-vs-ultimate/"],
+  ["/guides/gta-6-physical-vs-digital-preorder/", "/guides/gta-6-pre-order-standard-vs-ultimate/"],
+  ["/guides/gta-6-vintage-vice-city-pack/", "/guides/gta-6-pre-order-standard-vs-ultimate/"],
+  ["/guides/gta-6-map-leonida-regions-evidence-tracker/", "/guides/gta-6-map-leonida-regions-locations/"],
+  ["/guides/gta-6-grassrivers-location-guide/", "/guides/gta-6-map-leonida-regions-locations/"],
+  ["/guides/gta-6-port-gellhorn-location-guide/", "/guides/gta-6-map-leonida-regions-locations/"]
+]);
+
+for (const [path, target] of redirectPaths) {
   const url = `${base}${path}`;
   if (sitemapSet.has(url)) fail(`redirect URL must stay out of sitemap: ${url}`);
   const headers = fetchRedirectHeaders(url);
   if (!/^http\/\S+ 301\b/m.test(headers)) fail(`${url}: expected a 301 redirect`);
   const location = headers.match(/^location:\s*(.+)$/m)?.[1]?.trim();
-  if (!location || new URL(location, base).pathname !== "/guides/gta-6-pre-order-standard-vs-ultimate/") {
+  if (!location || new URL(location, base).pathname !== target) {
     fail(`${url}: redirect target is incorrect`);
   }
 }

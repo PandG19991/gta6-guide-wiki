@@ -3,7 +3,17 @@ import Gta6Rail from "@components/Gta6Rail.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import GuideMedia from "@components/GuideMedia.astro";
 import { gta6DatabaseCards, gta6FeatureSections, gta6HubStats } from "@data/gta6";
+import { publicGuides } from "@data/guides";
+import { publicUpdates } from "@data/updates";
 import { site } from "@data/site";
+
+const startHereSlugs = [
+  "gta-6-release-date-countdown-preload",
+  "gta-6-pre-order-standard-vs-ultimate",
+  "gta-6-map-leonida-regions-locations",
+  "gta-6-characters-official-cast"
+];
+const startHere = publicGuides.filter((guide) => startHereSlugs.includes(guide.slug));
 
 const schema = [
   {
@@ -43,6 +53,45 @@ const schema = [
   </header>
 
   <Gta6Rail />
+
+  <section class="section-tight shell">
+    <div class="section-heading">
+      <h2>Start Here</h2>
+      <p>Make the main pre-launch decisions: when GTA 6 releases, which edition fits, and what Rockstar has confirmed about Leonida and its cast.</p>
+    </div>
+    <div class="content-grid">
+      {startHere.map((guide) => (
+        <article class="content-card">
+          {guide.primaryMediaId && (
+            <a class="news-card-media" href={`/guides/${guide.slug}/`} aria-label={guide.title}>
+              <GuideMedia id={guide.primaryMediaId} sizes="(max-width: 720px) 100vw, 25vw" />
+            </a>
+          )}
+          <h3><a href={`/guides/${guide.slug}/`}>{guide.title}</a></h3>
+          <p>{guide.bullets[0]}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-tight shell">
+    <div class="section-heading">
+      <h2>Meaningful Changes</h2>
+      <p>Official changes that affect a current player decision or guide answer.</p>
+    </div>
+    <div class="feature-grid">
+      {publicUpdates.slice(0, 3).map((update) => (
+        <article class="content-card compact-card">
+          <p class="page-kicker"><time datetime={update.date}>{update.date}</time> - {update.source}</p>
+          <h3>{update.title}</h3>
+          <p><a href={update.affectedRoutes[0]}>See the affected guide</a></p>
+        </article>
+      ))}
+    </div>
+    <div class="section-actions">
+      <a class="button secondary" href="/updates/">View all meaningful changes</a>
+    </div>
+  </section>
 
   <section class="section-tight shell">
     <div class="stats-grid">

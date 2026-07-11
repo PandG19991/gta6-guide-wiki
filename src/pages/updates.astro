@@ -2,16 +2,20 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NewsGuideCard from "@components/NewsGuideCard.astro";
 import { publicGuides } from "@data/guides";
-import { publicLedgerUpdates } from "@data/updates";
+import { publicUpdates } from "@data/updates";
 import { site } from "@data/site";
 
 const recentGuides = [...publicGuides].sort((a, b) => b.updated.localeCompare(a.updated)).slice(0, 8);
+const affectedTitles = new Map<string, string>([
+  ...publicGuides.map((guide) => [`/guides/${guide.slug}/`, guide.title] as const),
+  ["/gta-6/database/editions/", "GTA 6 Edition Database"] as const
+]);
 const schema = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  name: "GTA 6 News And Guide Updates",
+  name: "GTA 6 Updates",
   url: `${site.url}/updates/`,
-  description: "Latest official GTA 6 announcements and newly updated player guides from Leonida Ledger.",
+  description: "Official GTA 6 changes connected to the player guides and database pages they affect.",
   mainEntity: {
     "@type": "ItemList",
     itemListElement: recentGuides.map((guide, index) => ({
@@ -24,17 +28,17 @@ const schema = {
 };
 ---
 
-<BaseLayout title="GTA 6 News And Guide Updates" description="Latest official GTA 6 announcements and newly updated player guides from Leonida Ledger." schema={schema}>
+<BaseLayout title="GTA 6 Updates" description="Official GTA 6 changes connected to the player guides and database pages they affect." schema={schema}>
   <header class="page-header news-header shell">
-    <h1 class="page-title">GTA 6 News And Guide Updates</h1>
+    <h1 class="page-title">GTA 6 Updates</h1>
     <p class="page-intro">
-      Browse the latest updated GTA 6 guides and official release and preorder announcements.
+      See the official changes that altered a current player answer, then open the affected guide for the durable details.
     </p>
   </header>
 
   <section class="section-tight news-section shell">
     <div class="section-heading">
-      <h2>Latest GTA 6 News And Guides</h2>
+      <h2>Recently Updated Guides</h2>
       <p>Open the latest release, buying, map, character, and vehicle guides.</p>
     </div>
     <div class="content-grid">
@@ -44,8 +48,8 @@ const schema = {
 
   <section class="section-tight shell">
     <div class="section-heading">
-      <h2>Official Announcements</h2>
-      <p>Key GTA 6 release and preorder news from Rockstar Games and Take-Two Interactive.</p>
+      <h2>Meaningful Official Changes</h2>
+      <p>Each change links to the guide or database page where the answer is maintained.</p>
     </div>
     <table class="source-table">
       <thead>
@@ -56,10 +60,15 @@ const schema = {
         </tr>
       </thead>
       <tbody>
-        {publicLedgerUpdates.map((update) => (
+        {publicUpdates.map((update) => (
           <tr>
             <td class="mono">{update.date}</td>
-            <td><a href={update.url} target="_blank" rel="nofollow noopener"><strong>{update.title}</strong></a></td>
+            <td>
+              <a href={update.url} target="_blank" rel="noopener"><strong>{update.title}</strong></a>
+              <div class="affected-links">
+                {update.affectedRoutes.map((route) => <a href={route}>{affectedTitles.get(route) ?? "Affected page"}</a>)}
+              </div>
+            </td>
             <td>{update.source}</td>
           </tr>
         ))}

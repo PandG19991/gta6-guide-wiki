@@ -2,6 +2,46 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const failures = [];
+const publicDataFiles = ["src/data/guides.ts", "src/data/guideArticles.ts", "src/data/updates.ts"];
+const privateSourcePatterns = [
+  [/["']?searchTerms["']?\s*:/, "searchTerms"],
+  [/["']?nextUpdate["']?\s*:/, "nextUpdate"],
+  [/["']?publication["']?\s*:/, "publication state"],
+  [/["']?redirectTo["']?\s*:/, "redirect data"],
+  [/\bGuideStatus\b/, "GuideStatus"],
+  [/\bGuidePublication\b/, "GuidePublication"],
+  [/\bguideEvidenceRows\b/, "evidence-decision rows"],
+  [/Site source ledger refreshed/i, "internal update record"],
+  [/\b(?:PRE_LAUNCH|LAUNCH|EVERGREEN)\b/, "operating phase state"]
+];
+
+if (existsSync("src/data/contentPlan.ts")) failures.push("src/data/contentPlan.ts: private content planning must stay outside the public repository");
+if (existsSync("candidate-queue.md")) failures.push("candidate-queue.md: private candidate data must stay outside the public repository");
+for (const file of publicDataFiles) {
+  const source = readFileSync(file, "utf8");
+  for (const [pattern, label] of privateSourcePatterns) {
+    if (pattern.test(source)) failures.push(`${file}: contains private ${label}`);
+  }
+}
+
+const guideSource = readFileSync("src/data/guides.ts", "utf8");
+const evidenceValues = [...guideSource.matchAll(/["']?evidence["']?\s*:\s*["']([^"']+)["']/g)].map((match) => match[1]);
+if (!evidenceValues.length) failures.push("src/data/guides.ts: guides must declare publishable evidence");
+for (const value of evidenceValues) {
+  if (!["official", "first-party-tested", "corroborated"].includes(value)) {
+    failures.push(`src/data/guides.ts: unsupported public evidence value ${value}`);
+  }
+}
+if (guideSource.includes('"spoilerLevel": "none"')) failures.push("src/data/guides.ts: routine pages must not emit a none spoiler label");
+if (guideSource.includes('"evidence": "first-party-tested"') && !guideSource.includes('"tested":')) {
+  failures.push("src/data/guides.ts: first-party-tested guides require platform, version, date, and method metadata");
+}
+const siteSource = readFileSync("src/data/site.ts", "utf8");
+if (!siteSource.includes('locale: "en-US"')) failures.push("src/data/site.ts: public locale must be en-US");
+if (!guideSource.includes("$79.99") || !guideSource.includes("$99.99")) failures.push("src/data/guides.ts: US buying guidance must preserve USD prices");
+if (!guideSource.includes("applicable PlayStation or Xbox store region")) {
+  failures.push("src/data/guides.ts: preload timing must name the applicable platform store region");
+}
 const prohibitedPublicCopy = [
   "Search Terms Covered",
   "Page Status",
@@ -125,7 +165,7 @@ const prohibitedPublicCopy = [
   "See what changed for players"
 ];
 const requiredBuiltPages = [
-  ["dist/gta-6/index.html", ["GTA 6 Guide And Database", "Browse the Database", "Confirmed Features"]],
+  ["dist/gta-6/index.html", ["GTA 6 Guide And Database", "Start Here", "Meaningful Changes", "Browse the Database", "Confirmed Features"]],
   ["dist/gta-6/features/index.html", ["GTA 6 Overview", "Release Information", "Vehicles and Driving"]],
   ["dist/gta-6/database/index.html", ["GTA 6 Database", "Vehicles", "Characters", "Locations", "Editions"]],
   ["dist/gta-6/database/vehicles/index.html", ["GTA 6 Vehicle Database", "What is confirmed", "What this means for players"]],
@@ -166,6 +206,7 @@ const htmlFiles = (dir) =>
     const path = join(dir, entry.name);
     return entry.isDirectory() ? htmlFiles(path) : path.endsWith(".html") ? [path] : [];
   });
+const textContent = (html) => html.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 const publicHtmlFiles = htmlFiles("dist").filter((file) => file !== join("dist", "404.html"));
 for (const file of publicHtmlFiles) {
   const html = readFileSync(file, "utf8").toLowerCase();
@@ -181,6 +222,12 @@ for (const file of publicHtmlFiles) {
   if (/<strong>next:<\/strong>/i.test(html)) {
     failures.push(`${file}: exposes database next-work copy`);
   }
+  if (/rel="[^"]*nofollow[^"]*"/.test(html) && !/rel="[^"]*sponsored[^"]*nofollow[^"]*"/.test(html)) {
+    failures.push(`${file}: ordinary editorial links must not use nofollow`);
+  }
+  if (html.includes('rel="sponsored') || html.includes("data-ad-placement") || html.includes("adsbygoogle")) {
+    failures.push(`${file}: monetization must remain disabled for Milestone A`);
+  }
 }
 
 const home = readFileSync("dist/index.html", "utf8");
@@ -195,6 +242,10 @@ if (/\b(?:mission|cheat)s?\b/i.test(guideIndexHead)) failures.push("dist/guides/
 if (guideIndex.includes(">Is Coming to PC?</a>")) failures.push("dist/guides/index.html: PC guide card title is malformed");
 if (!guideIndex.includes(">Is GTA 6 Coming to PC?</a>")) failures.push("dist/guides/index.html: PC guide card title is missing");
 
+const updatesPage = readFileSync("dist/updates/index.html", "utf8");
+if (!updatesPage.includes('class="affected-links"')) failures.push("dist/updates/index.html: public changes must link to affected routes");
+if (updatesPage.includes("GTA 6 News And Guide Updates")) failures.push("dist/updates/index.html: updates hub must not overstate standalone news coverage");
+
 const guideDirs = readdirSync("dist/guides", { withFileTypes: true })
   .filter((entry) => entry.isDirectory() && entry.name !== "category")
   .map((entry) => entry.name);
@@ -205,10 +256,38 @@ for (const slug of guideDirs) {
   if (detailSections < 2) failures.push(`${file}: expected at least two player-focused detail sections`);
   if (!html.includes('id="quick-answer"')) failures.push(`${file}: missing quick answer`);
   if (!html.includes('id="sources"')) failures.push(`${file}: missing visible sources`);
+  if (!html.includes('id="next-action"')) failures.push(`${file}: missing explicit next action`);
+  if ((html.match(/id="next-action"/g) ?? []).length !== 1) failures.push(`${file}: expected exactly one explicit next action`);
+  if (!html.includes("Reviewed by Leonida Ledger Editorial Team")) failures.push(`${file}: missing editorial review responsibility`);
+  if (!html.includes("article-applicability")) failures.push(`${file}: missing platform and version applicability`);
+  if (html.includes('class="gta-rail"')) failures.push(`${file}: task articles must not render the GTA 6 portal rail`);
+  if (/spoiler[^>]*>\s*none/i.test(html)) failures.push(`${file}: renders a meaningless none spoiler label`);
+  const answerIndex = html.indexOf('id="quick-answer"');
+  const subjectMediaIndex = html.indexOf("data-media-id");
+  if (subjectMediaIndex >= 0 && answerIndex > subjectMediaIndex) failures.push(`${file}: subject media appears before the quick answer`);
+  if (subjectMediaIndex >= 0 && !html.includes('class="article-lead has-media"')) failures.push(`${file}: answer and subject media must share the first-view lead`);
   if (html.includes('class="rail-answer"')) failures.push(`${file}: repeats quick answer in the sidebar`);
   const quickAnswer = html.match(/<section class="quick-answer"[^>]*>[\s\S]*?<p>(.*?)<\/p>/)?.[1];
   const keyPoints = html.match(/<section class="article-section" id="key-points">([\s\S]*?)<\/section>/)?.[1];
   if (quickAnswer && keyPoints?.includes(quickAnswer)) failures.push(`${file}: repeats the main quick answer in key points`);
+  const detailCopy = [...html.matchAll(/<section class="article-section guide-detail-section"[^>]*>([\s\S]*?)<\/section>/g)]
+    .map((match) => textContent(match[1]))
+    .join(" ");
+  if (detailCopy.length < 300) failures.push(`${file}: lacks enough decision, instruction, comparison, consolidation, or affected-task explanation`);
+}
+
+const updatesRoot = join("dist", "updates");
+if (existsSync(updatesRoot)) {
+  const standaloneUpdates = readdirSync(updatesRoot, { withFileTypes: true }).filter((entry) => entry.isDirectory());
+  for (const entry of standaloneUpdates) {
+    const file = join(updatesRoot, entry.name, "index.html");
+    const html = readFileSync(file, "utf8");
+    const affectedTaskLink = /href="\/(?:guides|gta-6\/database)\//.test(html);
+    const detailSections = (html.match(/class="article-section guide-detail-section"/g) ?? []).length;
+    if (!affectedTaskLink || detailSections < 2 || !html.includes('id="next-action"')) {
+      failures.push(`${file}: standalone update does not pass the player-impact, distinct-intent, completeness, and affected-task gates`);
+    }
+  }
 }
 
 for (const [file, requiredText] of requiredStaticFiles) {
@@ -230,7 +309,7 @@ if (existsSync(vehiclePage)) {
   const html = readFileSync(vehiclePage, "utf8");
   const rowCount = (html.match(/<tr>/g) ?? []).length - 1;
   if (rowCount < 6) failures.push(`${vehiclePage}: expected at least 6 vehicle rows, found ${rowCount}`);
-  if (!html.includes('rel="nofollow noopener"')) failures.push(`${vehiclePage}: source links should be nofollow noopener`);
+  if (!html.includes('rel="noopener"')) failures.push(`${vehiclePage}: source links should use noopener`);
 }
 
 const characterPage = "dist/gta-6/database/characters/index.html";
@@ -238,7 +317,7 @@ if (existsSync(characterPage)) {
   const html = readFileSync(characterPage, "utf8");
   const rowCount = (html.match(/<tr>/g) ?? []).length - 1;
   if (rowCount < 8) failures.push(`${characterPage}: expected at least 8 character rows, found ${rowCount}`);
-  if (!html.includes('rel="nofollow noopener"')) failures.push(`${characterPage}: source links should be nofollow noopener`);
+  if (!html.includes('rel="noopener"')) failures.push(`${characterPage}: source links should use noopener`);
 }
 
 const locationPage = "dist/gta-6/database/locations/index.html";
@@ -246,7 +325,7 @@ if (existsSync(locationPage)) {
   const html = readFileSync(locationPage, "utf8");
   const rowCount = (html.match(/<tr>/g) ?? []).length - 1;
   if (rowCount < 6) failures.push(`${locationPage}: expected at least 6 location rows, found ${rowCount}`);
-  if (!html.includes('rel="nofollow noopener"')) failures.push(`${locationPage}: source links should be nofollow noopener`);
+  if (!html.includes('rel="noopener"')) failures.push(`${locationPage}: source links should use noopener`);
 }
 
 const editionPage = "dist/gta-6/database/editions/index.html";
@@ -254,7 +333,7 @@ if (existsSync(editionPage)) {
   const html = readFileSync(editionPage, "utf8");
   const rowCount = (html.match(/<tr>/g) ?? []).length - 1;
   if (rowCount < 6) failures.push(`${editionPage}: expected at least 6 edition rows, found ${rowCount}`);
-  if (!html.includes('rel="nofollow noopener"')) failures.push(`${editionPage}: source links should be nofollow noopener`);
+  if (!html.includes('rel="noopener"')) failures.push(`${editionPage}: source links should use noopener`);
 }
 
 if (failures.length) {

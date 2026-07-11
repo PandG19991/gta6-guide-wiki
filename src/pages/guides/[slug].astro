@@ -1,8 +1,6 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { getImage } from "astro:assets";
-import AdSlot from "@components/AdSlot.astro";
-import Gta6Rail from "@components/Gta6Rail.astro";
 import GuideMedia from "@components/GuideMedia.astro";
 import { guideArticles } from "@data/guideArticles";
 import { categoryMetaByName, publicGuides } from "@data/guides";
@@ -18,15 +16,22 @@ export function getStaticPaths() {
 }
 
 const { guide } = Astro.props;
-const primaryMedia = mediaById[guide.primaryMediaId];
-const socialImage = await getImage({ src: primaryMedia.local, width: 1200, height: 675, format: "jpg", quality: 82 });
-const image = socialImage.src;
+const primaryMedia = guide.primaryMediaId ? mediaById[guide.primaryMediaId] : undefined;
+const socialImage = primaryMedia
+  ? await getImage({ src: primaryMedia.local, width: 1200, height: 675, format: "jpg", quality: 82 })
+  : undefined;
+const image = socialImage?.src;
 const relatedGuides = publicGuides
   .filter((candidate) => candidate.slug !== guide.slug && candidate.category === guide.category)
   .slice(0, 3);
 const firstAnswer = guide.bullets[0];
 const decisionRows = guide.decisionRows ?? [];
 const guideSections = guideArticles[guide.slug] ?? [];
+const evidenceLabel = {
+  official: "Official sources",
+  "first-party-tested": "Tested by Leonida Ledger",
+  corroborated: "Editor-verified sources"
+}[guide.evidence];
 const playerSourceIds = new Set([
   "rockstar-vi",
   "rockstar-preorders",
@@ -44,11 +49,12 @@ const schema = [
     "@type": "Article",
     headline: guide.title,
     description: guide.deck,
-    image: new URL(image, site.url).toString(),
+    ...(image ? { image: new URL(image, site.url).toString() } : {}),
     inLanguage: "en-US",
     datePublished: guide.updated,
     dateModified: guide.updated,
-    author: { "@type": "Organization", name: site.name },
+    author: { "@type": "Organization", name: "Leonida Ledger Editorial Team" },
+    reviewedBy: { "@type": "Organization", name: "Leonida Ledger Editorial Team" },
     publisher: { "@type": "Organization", name: site.name },
     mainEntityOfPage: `${site.url}/guides/${guide.slug}/`
   },
@@ -68,7 +74,7 @@ const schema = [
   title={guide.title}
   description={guide.deck}
   image={image}
-  imageAlt={primaryMedia.alt}
+  imageAlt={primaryMedia?.alt}
   imageWidth={1200}
   imageHeight={675}
   ogType="article"
@@ -80,21 +86,35 @@ const schema = [
     </nav>
     <h1>{guide.title}</h1>
     <p>{guide.deck}</p>
-    <div class="article-meta"><span>{guide.category}</span><time datetime={guide.updated}>Updated {guide.updated}</time></div>
+    <div class="article-meta">
+      <span>{guide.category}</span>
+      <time datetime={guide.updated}>Updated {guide.updated}</time>
+      <span class="meta-copy">Reviewed by Leonida Ledger Editorial Team</span>
+    </div>
+    <p class="article-applicability">Applies to {guide.platforms.join(", ")} - {guide.gameVersion} - {evidenceLabel}</p>
+    {guide.evidence === "first-party-tested" && guide.tested && (
+      <p class="article-test-details">
+        Tested on {guide.tested.platform}, version {guide.tested.gameVersion}, {guide.tested.testedAt}. Method: {guide.tested.method}
+      </p>
+    )}
+    {guide.spoilerLevel && (
+      <p class={`spoiler-warning ${guide.spoilerLevel}`}>
+        {guide.spoilerLevel === "story" ? "Story detail warning: this guide discusses official promotional story material." : "Gameplay spoiler warning: this guide describes gameplay details."}
+      </p>
+    )}
   </header>
-
-  <Gta6Rail />
 
   <div class="article-layout shell">
     <article class="article-main">
-      <GuideMedia id={guide.primaryMediaId} priority attribution sizes="(max-width: 900px) 100vw, 860px" />
-
-      <section class="quick-answer" id="quick-answer">
-        <strong>Quick answer</strong>
-        <p>{firstAnswer}</p>
-      </section>
-
-      <AdSlot placement="after-answer" />
+      <div class={`article-lead${primaryMedia ? " has-media" : ""}`}>
+        <section class="quick-answer" id="quick-answer">
+          <strong>Quick answer</strong>
+          <p>{firstAnswer}</p>
+        </section>
+        {guide.primaryMediaId && (
+          <GuideMedia id={guide.primaryMediaId} priority attribution sizes="(max-width: 850px) 100vw, 520px" />
+        )}
+      </div>
 
       <section class="article-section" id="key-points">
         <h2>What To Know</h2>
@@ -115,8 +135,6 @@ const schema = [
         </section>
       ))}
 
-      <AdSlot placement="mid-article" />
-
       {decisionRows.length > 0 && (
         <section class="article-section" id="decision-table">
           <h2>Decision Table</h2>
@@ -133,23 +151,28 @@ const schema = [
         </section>
       )}
 
+      <section class="article-section next-action" id="next-action">
+        <strong>Next step</strong>
+        <h2><a href={guide.nextAction.href}>{guide.nextAction.label}</a></h2>
+      </section>
+
       <section class="article-section" id="sources">
         <h2>Sources</h2>
         <div class="source-list compact-sources">
           {guideSources.map((source) => (
-            <p><a href={source.url} target="_blank" rel="nofollow noopener">{source.title}</a><span>{source.publisher} · Accessed {source.accessed}</span></p>
+            <p><a href={source.url} target="_blank" rel="noopener">{source.title}</a><span>{source.publisher} - Accessed {source.accessed}</span></p>
           ))}
         </div>
       </section>
 
       {relatedGuides.length > 0 && (
         <section class="article-section" id="related-guides">
-          <h2>Related Guides</h2>
+          <h2>More In {guide.category}</h2>
           <div class="related-guide-list">
             {relatedGuides.map((item) => (
               <a href={`/guides/${item.slug}/`}>
-                <GuideMedia id={item.primaryMediaId} sizes="140px" />
-                <span><small>{item.category}</small><strong>{item.title}</strong></span><b aria-hidden="true">→</b>
+                {item.primaryMediaId && <GuideMedia id={item.primaryMediaId} sizes="140px" />}
+                <span><small>{item.category}</small><strong>{item.title}</strong></span><b aria-hidden="true">&gt;</b>
               </a>
             ))}
           </div>
@@ -164,13 +187,9 @@ const schema = [
         <a href="#key-points">What to know</a>
         {guideSections.map((section) => <a href={`#${section.id}`}>{section.title}</a>)}
         {decisionRows.length > 0 && <a href="#decision-table">Decision table</a>}
+        <a href="#next-action">Next step</a>
         <a href="#sources">Sources</a>
-        {relatedGuides.length > 0 && <a href="#related-guides">Related guides</a>}
       </nav>
-      {relatedGuides.length > 0 && (
-        <div class="rail-related"><strong>Keep Reading</strong>{relatedGuides.map((item) => <a href={`/guides/${item.slug}/`}>{item.title}<span>→</span></a>)}</div>
-      )}
     </aside>
   </div>
 </BaseLayout>
-

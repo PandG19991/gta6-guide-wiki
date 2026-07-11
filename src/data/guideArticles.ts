@@ -11,7 +11,7 @@ export const guideArticles: Record<string, GuideArticleSection[]> = {
       id: "launch-schedule",
       title: "GTA 6 Launch Schedule",
       paragraphs: [
-        "Grand Theft Auto VI launches on November 19, 2026 for PlayStation 5 and Xbox Series X|S. Rockstar's support page says preloading begins at local midnight on November 12, one week before release.",
+        "Grand Theft Auto VI launches on November 19, 2026 for PlayStation 5 and Xbox Series X|S. Rockstar's support page says console preloading begins November 12 at 12:00 a.m. for the applicable PlayStation or Xbox store region, one week before release.",
         "A final download size and platform-specific release time are not listed in the current official material. Treat store estimates as provisional until the PlayStation and Xbox listings expose final metadata."
       ]
     },
@@ -51,7 +51,7 @@ export const guideArticles: Record<string, GuideArticleSection[]> = {
       ]
     }
   ],
-  "gta-6-map-leonida-regions-evidence-tracker": [
+  "gta-6-map-leonida-regions-locations": [
     {
       id: "confirmed-regions",
       title: "Confirmed Leonida Regions",
@@ -160,7 +160,7 @@ export const guideArticles: Record<string, GuideArticleSection[]> = {
       id: "preload-timing",
       title: "When GTA 6 Preload Starts",
       paragraphs: [
-        "Rockstar says digital preorder customers can begin preloading at local midnight on November 12, 2026. Physical boxes are expected to become available for shipping or pickup from November 12, and their codes can be redeemed as soon as they are received.",
+        "Rockstar says digital preorder customers can begin console preloading November 12, 2026 at 12:00 a.m. for the applicable PlayStation or Xbox store region. Physical boxes are expected to become available for shipping or pickup from November 12, and their codes can be redeemed as soon as they are received.",
         "The box does not contain a disc. It contains a code for the digital download, so internet access and available console storage are required for both formats."
       ]
     },

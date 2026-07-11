@@ -23,22 +23,16 @@ const sitemap = read(sitemapPath);
 const locs = matchAll(sitemap, /<loc>(.*?)<\/loc>/g).map((loc) => new URL(loc));
 const lastmods = matchAll(sitemap, /<lastmod>(.*?)<\/lastmod>/g);
 const today = new Date().toLocaleDateString("sv-SE");
-const withdrawnGuidePaths = [
-  "/guides/gta-6-mission-list-walkthrough-hub/",
-  "/guides/gta-6-beginner-guide-launch-week/",
-  "/guides/gta-6-wanted-level-police-escape-guide/",
-  "/guides/gta-6-money-fast-early-no-exploits/",
-  "/guides/gta-6-cheats-codes-testing-tracker/"
-];
 const redirectedGuidePaths = new Map([
   ["/guides/gta-6-price-standard-ultimate-explained/", "/guides/gta-6-pre-order-standard-vs-ultimate/"],
   ["/guides/gta-6-gta-plus-preorder-benefit/", "/guides/gta-6-pre-order-standard-vs-ultimate/"],
   ["/guides/gta-6-physical-vs-digital-preorder/", "/guides/gta-6-pre-order-standard-vs-ultimate/"],
   ["/guides/gta-6-vintage-vice-city-pack/", "/guides/gta-6-pre-order-standard-vs-ultimate/"],
-  ["/guides/gta-6-grassrivers-location-guide/", "/guides/gta-6-map-leonida-regions-evidence-tracker/"],
-  ["/guides/gta-6-port-gellhorn-location-guide/", "/guides/gta-6-map-leonida-regions-evidence-tracker/"]
+  ["/guides/gta-6-map-leonida-regions-evidence-tracker/", "/guides/gta-6-map-leonida-regions-locations/"],
+  ["/guides/gta-6-grassrivers-location-guide/", "/guides/gta-6-map-leonida-regions-locations/"],
+  ["/guides/gta-6-port-gellhorn-location-guide/", "/guides/gta-6-map-leonida-regions-locations/"]
 ]);
-const nonIndexableGuidePaths = [...withdrawnGuidePaths, ...redirectedGuidePaths.keys()];
+const nonIndexableGuidePaths = [...redirectedGuidePaths.keys()];
 const emptyCategoryPaths = ["/guides/category/missions/"];
 for (const path of [...nonIndexableGuidePaths, ...emptyCategoryPaths]) {
   if (locs.some((loc) => loc.pathname === path)) fail(`non-indexable route appears in sitemap: ${path}`);

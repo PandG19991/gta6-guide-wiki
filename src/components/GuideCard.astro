@@ -10,14 +10,16 @@ const { guide } = Astro.props;
 ---
 
 <article
-  class="guide-row"
+  class={`guide-row${guide.primaryMediaId ? "" : " without-media"}`}
   data-guide-card
   data-category={guide.category}
   data-search={`${guide.title} ${guide.deck} ${guide.category} ${guide.bullets.join(" ")}`.toLowerCase()}
 >
-  <a class="guide-row-media" href={`/guides/${guide.slug}/`} aria-label={guide.title}>
-    <GuideMedia id={guide.primaryMediaId} sizes="(max-width: 720px) 42vw, 220px" />
-  </a>
+  {guide.primaryMediaId && (
+    <a class="guide-row-media" href={`/guides/${guide.slug}/`} aria-label={guide.title}>
+      <GuideMedia id={guide.primaryMediaId} sizes="(max-width: 720px) 42vw, 220px" />
+    </a>
+  )}
   <div class="guide-main">
     <span class="guide-category">{guide.category}</span>
     <h3><a href={`/guides/${guide.slug}/`}>{guide.title}</a></h3>
@@ -26,6 +28,5 @@ const { guide } = Astro.props;
   <div class="guide-links">
     {guide.bullets.slice(0, 2).map((bullet) => <span>{bullet}</span>)}
   </div>
-  <a class="guide-row-arrow" href={`/guides/${guide.slug}/`} aria-label={`Open ${guide.title}`}>→</a>
+  <a class="guide-row-arrow" href={`/guides/${guide.slug}/`} aria-label={`Open ${guide.title}`}>&gt;</a>
 </article>
-

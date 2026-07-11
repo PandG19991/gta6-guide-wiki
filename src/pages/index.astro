@@ -5,7 +5,7 @@ import NewsGuideCard from "@components/NewsGuideCard.astro";
 import GuideMedia from "@components/GuideMedia.astro";
 import { site } from "@data/site";
 import { publicGuides } from "@data/guides";
-import { publicLedgerUpdates } from "@data/updates";
+import { publicUpdates } from "@data/updates";
 
 const guidePaths = [
   { title: "Release & Platforms", deck: "Release date, preload, consoles, and PC status.", href: "/release/", mediaId: "cover-art" },
@@ -15,7 +15,7 @@ const guidePaths = [
   { title: "Buying & Editions", deck: "Standard, Ultimate, preorder bonuses, and value.", href: "/guides/category/buying/", mediaId: "vintage-pack" }
 ] as const;
 const latestGuides = [...publicGuides].sort((a, b) => b.updated.localeCompare(a.updated)).slice(0, 3);
-const latestUpdates = publicLedgerUpdates.slice(0, 2);
+const latestUpdates = publicUpdates.slice(0, 2);
 
 const schema = {
   "@context": "https://schema.org",
@@ -88,7 +88,7 @@ const schema = {
     <aside class="update-list" aria-label="Latest official announcements">
       <div class="section-heading compact-heading"><h2>Official Updates</h2></div>
       {latestUpdates.map((update) => (
-        <a href={update.url} target="_blank" rel="nofollow noopener"><time>{update.date}</time><strong>{update.title}</strong><span>→</span></a>
+        <a href={update.affectedRoutes[0]}><time>{update.date}</time><strong>{update.title}</strong><span>→</span></a>
       ))}
       <a class="update-list-more" href="/updates/">All GTA 6 updates</a>
     </aside>

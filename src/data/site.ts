@@ -5,7 +5,7 @@ export const site = {
     "An unofficial GTA 6 guide hub for release details, Leonida locations, vehicles, characters, editions, and player guides.",
   url: "https://gta6gameguide.xyz",
   author: "Leonida Ledger editorial desk",
-  locale: "en_US",
+  locale: "en-US",
   currentDate: "2026-07-11"
 };
 
@@ -18,7 +18,7 @@ export const navItems = [
   { label: "Updates", href: "/updates/" }
 ];
 
-export const confidenceLevels = [
+export const evidenceLevels = [
   {
     key: "official",
     label: "Official",
@@ -26,24 +26,18 @@ export const confidenceLevels = [
     tone: "green"
   },
   {
-    key: "observed",
-    label: "Observed",
-    description: "Visible in official trailers, media, or store material without extra claims.",
+    key: "first-party-tested",
+    label: "Tested",
+    description: "Reproduced by Leonida Ledger with platform, version, date, and method recorded.",
     tone: "blue"
   },
   {
-    key: "analysis",
-    label: "Analysis",
-    description: "Reasoned guidance or comparison based on available evidence.",
+    key: "corroborated",
+    label: "Corroborated",
+    description: "Verified from reproducible or independent records by an editor.",
     tone: "amber"
-  },
-  {
-    key: "unconfirmed",
-    label: "Unconfirmed",
-    description: "Rumor, leak, or community theory. Not treated as fact.",
-    tone: "gray"
   }
 ] as const;
 
-export type ConfidenceKey = (typeof confidenceLevels)[number]["key"];
+export type EvidenceLevel = (typeof evidenceLevels)[number]["key"];
 

@@ -33,7 +33,7 @@ export const GET: APIRoute = () => {
     ...publicGuides.map((guide) => ({
       path: `/guides/${guide.slug}/`,
       lastmod: guide.updated,
-      changefreq: guide.status === "launch-week" ? "weekly" : "monthly"
+      changefreq: "weekly"
     }))
   ];
 

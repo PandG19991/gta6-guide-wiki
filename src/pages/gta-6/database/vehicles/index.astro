@@ -72,7 +72,7 @@ const schema = [
               <td data-label="Category"><GuideMedia id={row.mediaId} /><strong><a href={row.page}>{row.category}</a></strong></td>
               <td data-label="Status"><span class={`badge ${row.status.toLowerCase()}`}>{row.status}</span></td>
               <td data-label="What is confirmed">{row.proof}</td>
-              <td data-label="Source"><a href={source.url} target="_blank" rel="nofollow noopener">{source.publisher}</a></td>
+              <td data-label="Source"><a href={source.url} target="_blank" rel="noopener">{source.publisher}</a></td>
             </tr>
           );
         })}

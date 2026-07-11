@@ -59,11 +59,13 @@ for (const slug of guideDirs) {
   }
 
   const articleSchema = schema.find((item) => item["@type"] === "Article");
-  if (!articleSchema?.image) throw new Error(`${file}: missing Article image`);
   if (articleSchema.inLanguage !== "en-US") throw new Error(`${file}: missing Article inLanguage`);
+  if (articleSchema.reviewedBy?.name !== "Leonida Ledger Editorial Team") {
+    throw new Error(`${file}: missing editorial review responsibility`);
+  }
   const ogImage = html.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
-  if (!ogImage?.includes("/_astro/")) throw new Error(`${file}: guide OG image must use approved primary media`);
-  if (articleSchema.image !== ogImage) throw new Error(`${file}: Article and OG images must match`);
+  if (!ogImage) throw new Error(`${file}: missing OG image`);
+  if (articleSchema.image && articleSchema.image !== ogImage) throw new Error(`${file}: Article and OG images must match`);
   if (!html.includes('<meta property="og:type" content="article"')) throw new Error(`${file}: missing article og:type`);
 }
 

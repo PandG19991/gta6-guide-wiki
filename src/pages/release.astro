@@ -9,7 +9,7 @@ const facts = [
   ["Platforms", "PlayStation 5 and Xbox Series X|S"],
   ["Standard price", "$79.99"],
   ["Ultimate Edition price", "$99.99"],
-  ["Digital preload", "November 12, 2026 at local midnight"],
+  ["Digital preload", "November 12, 2026 at 12:00 a.m. for the applicable PlayStation or Xbox store region"],
   ["Physical format", "Download code in box; no disc"],
   ["PC release date", "Not officially announced"]
 ] as const;
@@ -80,7 +80,7 @@ const schema = [
         const source = sourceById[id];
         return (
           <p>
-            <a href={source.url} rel="nofollow noopener" target="_blank">{source.title}</a>
+            <a href={source.url} rel="noopener" target="_blank">{source.title}</a>
             <br />
             {source.publisher}: {source.notes}
           </p>

@@ -1,22 +1,21 @@
 import type { MediaId } from "./media";
-import type { ConfidenceKey } from "./site";
+import type { EvidenceLevel } from "./site";
 
-export type GuideStatus = "live" | "tracker" | "launch-week" | "planned";
-export type GuidePublication = "public" | "withdrawn" | "redirect";
+export type { EvidenceLevel } from "./site";
 
-type GuideBase = {
+type GuideContent = {
   slug: string;
+  primaryMediaId?: MediaId;
   title: string;
   deck: string;
   category: "Release" | "Map" | "Characters" | "Vehicles" | "Missions" | "Cheats" | "Buying";
-  intent: "pre-launch" | "launch-week" | "evergreen";
-  status: GuideStatus;
-  confidence: ConfidenceKey;
   updated: string;
   sourceIds: string[];
   bullets: string[];
-  nextUpdate: string;
-  searchTerms: string[];
+  platforms: string[];
+  gameVersion: string;
+  spoilerLevel?: "gameplay" | "story";
+  nextAction: { label: string; href: string };
   decisionRows?: Array<{
     option: string;
     bestFor: string;
@@ -25,1339 +24,620 @@ type GuideBase = {
   }>;
 };
 
-export type PublicGuide = GuideBase & { publication: "public"; primaryMediaId: MediaId; redirectTo?: never };
-export type Guide = PublicGuide | (GuideBase & { publication: "withdrawn"; redirectTo?: never }) | (GuideBase & { publication: "redirect"; redirectTo: string });
-
-export type EvidenceRow = {
-  claim: string;
-  status: "Official" | "Observed" | "Policy" | "Analysis";
-  proof: string;
-  sourceId: string;
+type TestDetails = {
+  platform: string;
+  gameVersion: string;
+  testedAt: string;
+  method: string;
 };
 
-export const guides: Guide[] = [
+export type PublicGuide = GuideContent & (
+  | { evidence: "first-party-tested"; tested: TestDetails }
+  | { evidence: Exclude<EvidenceLevel, "first-party-tested">; tested?: never }
+);
+
+export const publicGuides: PublicGuide[] = [
   {
-    slug: "gta-6-release-date-countdown-preload",
-    publication: "public",
-    primaryMediaId: "cover-art",
-    title: "GTA 6 Release Date and Preload: November 19, 2026",
-    deck: "GTA 6 launches November 19, 2026 on PS5 and Xbox Series X|S, with preload starting one week earlier.",
-    category: "Release",
-    intent: "pre-launch",
-    status: "live",
-    confidence: "official",
-    updated: "2026-07-11",
-    sourceIds: ["rockstar-vi", "take-two-preorders", "rockstar-preorders", "rockstar-support-editions"],
-    bullets: [
+    "slug": "gta-6-release-date-countdown-preload",
+    "primaryMediaId": "cover-art",
+    "title": "GTA 6 Release Date and Preload: November 19, 2026",
+    "deck": "GTA 6 launches November 19, 2026 on PS5 and Xbox Series X|S, with preload starting one week earlier.",
+    "category": "Release",
+    "updated": "2026-07-11",
+    "sourceIds": [
+      "rockstar-vi",
+      "take-two-preorders",
+      "rockstar-preorders",
+      "rockstar-support-editions"
+    ],
+    "bullets": [
       "Grand Theft Auto VI is officially scheduled for November 19, 2026.",
       "Confirmed platforms are PlayStation 5 and Xbox Series X|S.",
       "Digital preloading is scheduled to begin November 12, 2026.",
       "Physical copies contain a download code rather than a disc; no official PC date is listed."
     ],
-    nextUpdate: "Track store-page changes and any platform-specific preload window updates.",
-    searchTerms: ["gta 6 release date", "gta 6 preload", "gta 6 platforms"],
-    decisionRows: [
+    "decisionRows": [
       {
-        option: "PS5 / Xbox Series X|S launch",
-        bestFor: "Console players planning day-one access",
-        status: "Official release date is November 19, 2026, with digital preload scheduled for November 12, 2026.",
-        caveat: "Check final platform store pages close to launch for local timing, preload windows, and file size."
+        "option": "PS5 / Xbox Series X|S launch",
+        "bestFor": "Console players planning day-one access",
+        "status": "Official release date is November 19, 2026, with digital preload scheduled for November 12, 2026.",
+        "caveat": "Check final platform store pages close to launch for local timing, preload windows, and file size."
       },
       {
-        option: "PC launch",
-        bestFor: "Players waiting for a PC version",
-        status: "No official PC release date is listed in the current launch copy.",
-        caveat: "Do not trust PC preorder or download claims unless they cite Rockstar, Take-Two, or a platform store."
+        "option": "PC launch",
+        "bestFor": "Players waiting for a PC version",
+        "status": "No official PC release date is listed in the current launch copy.",
+        "caveat": "Do not trust PC preorder or download claims unless they cite Rockstar, Take-Two, or a platform store."
       }
-    ]
+    ],
+    "evidence": "official",
+    "platforms": [
+      "PlayStation 5",
+      "Xbox Series X|S"
+    ],
+    "gameVersion": "Pre-release official information",
+    "nextAction": {
+      "label": "Prepare your console for preload",
+      "href": "/guides/gta-6-preload-download-size-prep/"
+    }
   },
   {
-    slug: "gta-6-pre-order-standard-vs-ultimate",
-    publication: "public",
-    primaryMediaId: "vintage-pack",
-    title: "GTA 6 Pre-Order Guide: Standard vs Ultimate Edition",
-    deck: "Compare Standard and Ultimate prices, every named edition extra, preorder bonuses, GTA+, and physical versus digital formats.",
-    category: "Buying",
-    intent: "pre-launch",
-    status: "live",
-    confidence: "official",
-    updated: "2026-07-11",
-    sourceIds: ["take-two-preorders", "rockstar-editions", "rockstar-support-editions", "rockstar-support-preorders"],
-    bullets: [
+    "slug": "gta-6-pre-order-standard-vs-ultimate",
+    "primaryMediaId": "vintage-pack",
+    "title": "GTA 6 Pre-Order Guide: Standard vs Ultimate Edition",
+    "deck": "Compare Standard and Ultimate prices, every named edition extra, preorder bonuses, GTA+, and physical versus digital formats.",
+    "category": "Buying",
+    "updated": "2026-07-11",
+    "sourceIds": [
+      "take-two-preorders",
+      "rockstar-editions",
+      "rockstar-support-editions",
+      "rockstar-support-preorders"
+    ],
+    "bullets": [
       "Standard Edition is listed at $79.99.",
       "Ultimate Edition is listed at $99.99.",
       "Ultimate adds named story vehicles, weapons, businesses, clothing, and customization locations.",
       "Preorders and purchases before November 20 include the Vintage Vice City Pack; digital versions also include one month of GTA+.",
       "The physical Standard Edition is a download code in a box with no disc, and there is no physical Ultimate Edition."
     ],
-    nextUpdate: "Add retailer availability and region-specific store links only from official or storefront sources.",
-    searchTerms: ["gta 6 pre order", "gta 6 price", "gta 6 ultimate edition"],
-    decisionRows: [
+    "decisionRows": [
       {
-        option: "Standard Edition",
-        bestFor: "Players who want the base game at the lowest currently listed price",
-        status: "Publisher announcement lists Standard Edition at $79.99.",
-        caveat: "Standard owners can buy the Ultimate Edition Upgrade later through the PlayStation or Xbox store."
+        "option": "Standard Edition",
+        "bestFor": "Players who want the base game at the lowest currently listed price",
+        "status": "Publisher announcement lists Standard Edition at $79.99.",
+        "caveat": "Standard owners can buy the Ultimate Edition Upgrade later through the PlayStation or Xbox store."
       },
       {
-        option: "Ultimate Edition",
-        bestFor: "Players who know they want the higher-priced edition benefits",
-        status: "Publisher announcement lists Ultimate Edition at $99.99.",
-        caveat: "Buy it only if the named vehicles, weapons, businesses, and style items justify the extra cost to you."
+        "option": "Ultimate Edition",
+        "bestFor": "Players who know they want the higher-priced edition benefits",
+        "status": "Publisher announcement lists Ultimate Edition at $99.99.",
+        "caveat": "Buy it only if the named vehicles, weapons, businesses, and style items justify the extra cost to you."
       },
       {
-        option: "Wait before preordering",
-        bestFor: "Players unsure about platform, edition contents, or PC availability",
-        status: "Preorder bonus timing is official, but some storefront details are still best checked near launch.",
-        caveat: "Waiting may mean losing time-limited preorder extras if Rockstar keeps the current cutoff."
+        "option": "Wait before preordering",
+        "bestFor": "Players unsure about platform, edition contents, or PC availability",
+        "status": "Preorder bonus timing is official, but some storefront details are still best checked near launch.",
+        "caveat": "Waiting may mean losing time-limited preorder extras if Rockstar keeps the current cutoff."
       }
-    ]
+    ],
+    "evidence": "official",
+    "platforms": [
+      "PlayStation 5",
+      "Xbox Series X|S"
+    ],
+    "gameVersion": "Pre-release official information",
+    "nextAction": {
+      "label": "Compare every confirmed edition item",
+      "href": "/gta-6/database/editions/"
+    }
   },
   {
-    slug: "gta-6-map-leonida-regions-evidence-tracker",
-    publication: "public",
-    primaryMediaId: "vice-city",
-    title: "GTA 6 Map: Confirmed Leonida Regions and Locations",
-    deck: "Explore the six Leonida destinations Rockstar has named, from Vice City and the Keys to Mount Kalaga.",
-    category: "Map",
-    intent: "pre-launch",
-    status: "tracker",
-    confidence: "observed",
-    updated: "2026-07-11",
-    sourceIds: ["rockstar-vi", "rockstar-leonida", "rockstar-media"],
-    bullets: [
+    "slug": "gta-6-map-leonida-regions-locations",
+    "primaryMediaId": "vice-city",
+    "title": "GTA 6 Map: Confirmed Leonida Regions and Locations",
+    "deck": "Explore the six Leonida destinations Rockstar has named, from Vice City and the Keys to Mount Kalaga.",
+    "category": "Map",
+    "updated": "2026-07-11",
+    "sourceIds": [
+      "rockstar-vi",
+      "rockstar-leonida",
+      "rockstar-media"
+    ],
+    "bullets": [
       "Rockstar describes Leonida as the state that includes Vice City and surrounding regions.",
       "Official destination names currently include Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia, and Mount Kalaga.",
       "Rockstar has not yet published a complete road map, region boundaries, collectibles, or activity markers.",
       "Use community maps as theories until official or in-game navigation data is available."
     ],
-    nextUpdate: "Current official destination and map information is summarized above.",
-    searchTerms: ["gta 6 map", "gta 6 leonida", "gta 6 vice city map"]
+    "evidence": "official",
+    "platforms": [
+      "PlayStation 5",
+      "Xbox Series X|S"
+    ],
+    "gameVersion": "Pre-release official information",
+    "nextAction": {
+      "label": "Browse confirmed Leonida locations",
+      "href": "/gta-6/database/locations/"
+    }
   },
   {
-    slug: "gta-6-characters-official-cast",
-    publication: "public",
-    primaryMediaId: "jason-lucia",
-    title: "GTA 6 Characters: Jason, Lucia, and Confirmed Characters",
-    deck: "Meet Jason, Lucia, and the supporting characters Rockstar has introduced across Leonida.",
-    category: "Characters",
-    intent: "pre-launch",
-    status: "tracker",
-    confidence: "official",
-    updated: "2026-07-11",
-    sourceIds: ["rockstar-leonida"],
-    bullets: [
+    "slug": "gta-6-characters-official-cast",
+    "primaryMediaId": "jason-lucia",
+    "title": "GTA 6 Characters: Jason, Lucia, and Confirmed Characters",
+    "deck": "Meet Jason, Lucia, and the supporting characters Rockstar has introduced across Leonida.",
+    "category": "Characters",
+    "updated": "2026-07-11",
+    "sourceIds": [
+      "rockstar-leonida"
+    ],
+    "bullets": [
       "Jason Duval and Lucia Caminos are the central pair in the current official story setup.",
       "Other officially profiled people include Cal Hampton, Boobie Ike, Dre'Quan Priest, Real Dimez, Raul Bautista, and Brian Heder.",
       "The profiles connect the cast to the Keys, Vice City nightlife, music, smuggling, and robberies.",
       "Rockstar has not announced a complete voice cast, mission order, or character endings."
     ],
-    nextUpdate: "Current official character profiles and relationships are summarized above.",
-    searchTerms: ["gta 6 characters", "gta 6 lucia", "gta 6 jason"]
+    "evidence": "official",
+    "platforms": [
+      "PlayStation 5",
+      "Xbox Series X|S"
+    ],
+    "gameVersion": "Pre-release official information",
+    "nextAction": {
+      "label": "Browse the character database",
+      "href": "/gta-6/database/characters/"
+    }
   },
   {
-    slug: "gta-6-vehicles-confirmed-so-far",
-    publication: "public",
-    primaryMediaId: "grotti-cheetah",
-    title: "GTA 6 Vehicles: Named Cars, Boats, and Official Sightings",
-    deck: "See the vehicles Rockstar has named in edition bonuses plus the cars, bikes, boats, and aircraft shown in official media.",
-    category: "Vehicles",
-    intent: "pre-launch",
-    status: "tracker",
-    confidence: "observed",
-    updated: "2026-07-11",
-    sourceIds: ["rockstar-media", "rockstar-editions", "rockstar-support-editions"],
-    bullets: [
+    "slug": "gta-6-vehicles-confirmed-so-far",
+    "primaryMediaId": "grotti-cheetah",
+    "title": "GTA 6 Vehicles: Named Cars, Boats, and Official Sightings",
+    "deck": "See the vehicles Rockstar has named in edition bonuses plus the cars, bikes, boats, and aircraft shown in official media.",
+    "category": "Vehicles",
+    "updated": "2026-07-11",
+    "sourceIds": [
+      "rockstar-media",
+      "rockstar-editions",
+      "rockstar-support-editions"
+    ],
+    "bullets": [
       "Named vehicles include the '55 Vapid Stanier, '95 Grotti Cheetah, Shitzu Squalo, and '67 Vapid Dominator Buggy.",
       "Official media also shows street cars, motorcycles, boats, aircraft, and police or emergency vehicles.",
       "Rockstar has not published a complete base-game list, normal-world prices, storage limits, or fixed spawn locations.",
       "Edition vehicles should not be assumed to be available through normal early-game play."
     ],
-    nextUpdate: "Create schema for vehicle class, acquisition, price, storage, and proof source.",
-    searchTerms: ["gta 6 cars", "gta 6 vehicles", "gta 6 cars list"]
-  },
-  {
-    slug: "gta-6-mission-list-walkthrough-hub",
-    publication: "withdrawn",
-    title: "GTA 6 Mission List Testing Hub",
-    deck: "A launch-week mission index plan for walkthroughs, rewards, replay notes, and spoiler-safe navigation.",
-    category: "Missions",
-    intent: "launch-week",
-    status: "launch-week",
-    confidence: "analysis",
-    updated: "2026-07-09",
-    sourceIds: ["rockstar-vi", "google-spam", "adsense-publisher"],
-    bullets: [
-      "The mission list is not published before release because no complete official mission order exists.",
-      "The launch-week format will support spoiler-safe summaries, objectives, fail states, rewards, and replay tips.",
-      "Mission pages will be tested from gameplay, not generated from rumor threads.",
-      "A single hub prevents thin one-mission pages until each guide has real value."
+    "evidence": "official",
+    "platforms": [
+      "PlayStation 5",
+      "Xbox Series X|S"
     ],
-    nextUpdate: "Open after launch with spoiler-safe index and first verified story walkthroughs.",
-    searchTerms: ["gta 6 missions", "gta 6 walkthrough", "gta 6 mission list"]
+    "gameVersion": "Pre-release official information",
+    "nextAction": {
+      "label": "Browse the vehicle database",
+      "href": "/gta-6/database/vehicles/"
+    }
   },
   {
-    slug: "gta-6-price-standard-ultimate-explained",
-    publication: "redirect",
-    redirectTo: "/guides/gta-6-pre-order-standard-vs-ultimate/",
-    title: "GTA 6 Price Explained: Standard, Ultimate, and Value Check",
-    deck: "A buyer-focused breakdown of the confirmed US prices, preorder bonus timing, and who should wait before spending more.",
-    category: "Buying",
-    intent: "pre-launch",
-    status: "live",
-    confidence: "official",
-    updated: "2026-07-08",
-    sourceIds: ["take-two-preorders", "rockstar-preorders"],
-    bullets: [
-      "Standard Edition is currently listed at $79.99 in the publisher announcement.",
-      "Ultimate Edition is currently listed at $99.99.",
-      "The Vintage Vice City Pack applies to preorders and purchases before November 20, 2026.",
-      "Players who only want the single-player launch can wait for final storefront details before choosing an edition."
+    "slug": "is-gta-6-coming-to-pc",
+    "primaryMediaId": "cover-art",
+    "title": "Is GTA 6 Coming to PC?",
+    "deck": "Rockstar has announced PS5 and Xbox Series X|S versions, but no PC edition or PC release date yet.",
+    "category": "Release",
+    "updated": "2026-07-11",
+    "sourceIds": [
+      "rockstar-vi",
+      "take-two-preorders",
+      "google-spam"
     ],
-    nextUpdate: "Add platform store links and regional price checks when the storefront pages expose stable public data.",
-    searchTerms: ["gta 6 price", "gta 6 standard edition", "gta 6 ultimate edition price"],
-    decisionRows: [
-      {
-        option: "$79.99 Standard Edition",
-        bestFor: "Single-player-first buyers and players who mainly want launch access",
-        status: "Official publisher announcement lists the Standard Edition at $79.99.",
-        caveat: "Final storefront taxes, refunds, and local currency prices should be checked on the platform store."
-      },
-      {
-        option: "$99.99 Ultimate Edition",
-        bestFor: "Buyers who can verify the extra benefits are worth the additional cost",
-        status: "Official publisher announcement lists the Ultimate Edition at $99.99.",
-        caveat: "Avoid assuming value from the word Ultimate; compare the final official item list first."
-      },
-      {
-        option: "Wait for storefront details",
-        bestFor: "Budget-sensitive buyers, PC waiters, and players unsure about edition contents",
-        status: "Core pricing is official, but store-level terms can still matter before purchase.",
-        caveat: "Waiting may affect preorder bonus eligibility if the current bonus window remains unchanged."
-      }
-    ]
-  },
-  {
-    slug: "is-gta-6-coming-to-pc",
-    publication: "public",
-    primaryMediaId: "cover-art",
-    title: "Is GTA 6 Coming to PC?",
-    deck: "Rockstar has announced PS5 and Xbox Series X|S versions, but no PC edition or PC release date yet.",
-    category: "Release",
-    intent: "pre-launch",
-    status: "live",
-    confidence: "official",
-    updated: "2026-07-11",
-    sourceIds: ["rockstar-vi", "take-two-preorders", "google-spam"],
-    bullets: [
+    "bullets": [
       "Rockstar and Take-Two currently list PlayStation 5 and Xbox Series X|S for launch.",
       "No official PC release date is listed on the current official GTA 6 page.",
       "A page claiming a confirmed PC date should cite Rockstar, Take-Two, or a platform store.",
       "This page will update only when an official PC announcement exists."
     ],
-    nextUpdate: "Watch official Rockstar, Take-Two, and storefront pages for a PC platform announcement.",
-    searchTerms: ["is gta 6 coming to pc", "gta 6 pc release date", "gta 6 pc confirmed"],
-    decisionRows: [
+    "decisionRows": [
       {
-        option: "Buy on PS5 / Xbox Series X|S",
-        bestFor: "Players who want the officially listed launch platforms",
-        status: "Rockstar and Take-Two currently list PlayStation 5 and Xbox Series X|S for launch.",
-        caveat: "Storefront-specific preload, file size, and feature details still need final store checks."
+        "option": "Buy on PS5 / Xbox Series X|S",
+        "bestFor": "Players who want the officially listed launch platforms",
+        "status": "Rockstar and Take-Two currently list PlayStation 5 and Xbox Series X|S for launch.",
+        "caveat": "Storefront-specific preload, file size, and feature details still need final store checks."
       },
       {
-        option: "Wait for PC",
-        bestFor: "PC-only players or players who prefer mods, keyboard/mouse, or future PC performance settings",
-        status: "No official PC release date is listed on the current official GTA 6 page.",
-        caveat: "Avoid third-party PC preorder, beta, or download claims until an official PC announcement exists."
+        "option": "Wait for PC",
+        "bestFor": "PC-only players or players who prefer mods, keyboard/mouse, or future PC performance settings",
+        "status": "No official PC release date is listed on the current official GTA 6 page.",
+        "caveat": "Avoid third-party PC preorder, beta, or download claims until an official PC announcement exists."
       }
-    ]
+    ],
+    "evidence": "official",
+    "platforms": [
+      "PC",
+      "PlayStation 5",
+      "Xbox Series X|S"
+    ],
+    "gameVersion": "Pre-release official information",
+    "nextAction": {
+      "label": "Compare the confirmed console platforms",
+      "href": "/guides/gta-6-platforms-ps5-xbox-series-x-s/"
+    }
   },
   {
-    slug: "gta-6-platforms-ps5-xbox-series-x-s",
-    publication: "public",
-    primaryMediaId: "cover-art",
-    title: "GTA 6 Platforms: PS5 and Xbox Series X|S",
-    deck: "Compare the confirmed PS5 and Xbox Series X|S launch options and see which platforms are not currently listed.",
-    category: "Release",
-    intent: "pre-launch",
-    status: "live",
-    confidence: "official",
-    updated: "2026-07-11",
-    sourceIds: ["rockstar-vi", "take-two-preorders", "rockstar-support-editions"],
-    bullets: [
+    "slug": "gta-6-platforms-ps5-xbox-series-x-s",
+    "primaryMediaId": "cover-art",
+    "title": "GTA 6 Platforms: PS5 and Xbox Series X|S",
+    "deck": "Compare the confirmed PS5 and Xbox Series X|S launch options and see which platforms are not currently listed.",
+    "category": "Release",
+    "updated": "2026-07-11",
+    "sourceIds": [
+      "rockstar-vi",
+      "take-two-preorders",
+      "rockstar-support-editions"
+    ],
+    "bullets": [
       "The current official platform list is PlayStation 5 and Xbox Series X|S.",
       "The official page says GTA 6 plays best on PlayStation 5.",
       "No PS4, Xbox One, Nintendo, or PC launch listing is currently shown in the official launch copy.",
       "Storefront-specific download, preload, and performance details should be checked close to launch."
     ],
-    nextUpdate: "Add store-page links and any platform-specific feature notes once they are public and stable.",
-    searchTerms: ["gta 6 platforms", "gta 6 ps5", "gta 6 xbox series x"],
-    decisionRows: [
+    "decisionRows": [
       {
-        option: "PlayStation 5",
-        bestFor: "Players already on PS5 or choosing a confirmed console platform",
-        status: "Listed in the current official launch platform copy.",
-        caveat: "Check the PlayStation store close to launch for download size, preload timing, and platform terms."
+        "option": "PlayStation 5",
+        "bestFor": "Players already on PS5 or choosing a confirmed console platform",
+        "status": "Listed in the current official launch platform copy.",
+        "caveat": "Check the PlayStation store close to launch for download size, preload timing, and platform terms."
       },
       {
-        option: "Xbox Series X|S",
-        bestFor: "Players already on current Xbox hardware or choosing a confirmed console platform",
-        status: "Listed in the current official launch platform copy.",
-        caveat: "Check the Xbox store close to launch for download size, preload timing, and platform terms."
+        "option": "Xbox Series X|S",
+        "bestFor": "Players already on current Xbox hardware or choosing a confirmed console platform",
+        "status": "Listed in the current official launch platform copy.",
+        "caveat": "Check the Xbox store close to launch for download size, preload timing, and platform terms."
       },
       {
-        option: "PC / last-gen / Nintendo",
-        bestFor: "Players who do not want to buy on the currently listed launch consoles",
-        status: "Not listed as launch platforms in the current official launch copy.",
-        caveat: "Treat dates, store pages, and download links as unconfirmed unless Rockstar, Take-Two, or a platform store publishes them."
+        "option": "PC / last-gen / Nintendo",
+        "bestFor": "Players who do not want to buy on the currently listed launch consoles",
+        "status": "Not listed as launch platforms in the current official launch copy.",
+        "caveat": "Treat dates, store pages, and download links as unconfirmed unless Rockstar, Take-Two, or a platform store publishes them."
       }
-    ]
+    ],
+    "evidence": "official",
+    "platforms": [
+      "PlayStation 5",
+      "Xbox Series X|S"
+    ],
+    "gameVersion": "Pre-release official information",
+    "nextAction": {
+      "label": "Choose between Standard and Ultimate",
+      "href": "/guides/gta-6-pre-order-standard-vs-ultimate/"
+    }
   },
   {
-    slug: "gta-6-preload-download-size-prep",
-    publication: "public",
-    primaryMediaId: "cover-art",
-    title: "GTA 6 Preload Date, Download Size, and Storage Prep",
-    deck: "Preload begins at local midnight on November 12; prepare your console while the final download size is still unlisted.",
-    category: "Release",
-    intent: "pre-launch",
-    status: "live",
-    confidence: "official",
-    updated: "2026-07-11",
-    sourceIds: ["take-two-preorders", "rockstar-preorders", "rockstar-support-editions"],
-    bullets: [
+    "slug": "gta-6-preload-download-size-prep",
+    "primaryMediaId": "cover-art",
+    "title": "GTA 6 Preload Date, Download Size, and Storage Prep",
+    "deck": "Console preload begins November 12 at 12:00 a.m. for the applicable PlayStation or Xbox store region; prepare while the final download size is still unlisted.",
+    "category": "Release",
+    "updated": "2026-07-11",
+    "sourceIds": [
+      "take-two-preorders",
+      "rockstar-preorders",
+      "rockstar-support-editions"
+    ],
+    "bullets": [
       "Digital preloading is scheduled to begin November 12, 2026.",
       "The physical version is described as containing a download code and being available November 12, 2026 to support preloading.",
       "No final file size is treated as confirmed here until official storefront metadata is visible.",
       "Players should keep console storage, account access, and payment details ready before preload week."
     ],
-    nextUpdate: "Add PS5 and Xbox file size, version number, and preload windows when official store metadata appears.",
-    searchTerms: ["gta 6 preload", "gta 6 download size", "gta 6 physical download code"],
-    decisionRows: [
+    "decisionRows": [
       {
-        option: "Digital preorder",
-        bestFor: "Players who want the simplest preload path",
-        status: "Digital preloading is scheduled to begin November 12, 2026.",
-        caveat: "Final file size and exact platform timing still need official store metadata."
+        "option": "Digital preorder",
+        "bestFor": "Players who want the simplest preload path",
+        "status": "Digital preloading is scheduled to begin November 12, 2026.",
+        "caveat": "Final file size and exact platform timing still need official store metadata."
       },
       {
-        option: "Physical box with download code",
-        bestFor: "Collectors or gift buyers who still want launch-week preload support",
-        status: "Current publisher copy describes the physical version as containing a download code available November 12, 2026.",
-        caveat: "Retailer delivery or pickup timing can still affect when the code is actually in hand."
+        "option": "Physical box with download code",
+        "bestFor": "Collectors or gift buyers who still want launch-week preload support",
+        "status": "Current publisher copy describes the physical version as containing a download code available November 12, 2026.",
+        "caveat": "Retailer delivery or pickup timing can still affect when the code is actually in hand."
       },
       {
-        option: "Storage prep",
-        bestFor: "Anyone with limited console storage or slow internet",
-        status: "Final file size is not treated as confirmed yet.",
-        caveat: "Keep free space, account access, payment status, and console updates ready before preload week."
+        "option": "Storage prep",
+        "bestFor": "Anyone with limited console storage or slow internet",
+        "status": "Final file size is not treated as confirmed yet.",
+        "caveat": "Keep free space, account access, payment status, and console updates ready before preload week."
       }
-    ]
-  },
-  {
-    slug: "gta-6-gta-plus-preorder-benefit",
-    publication: "redirect",
-    redirectTo: "/guides/gta-6-pre-order-standard-vs-ultimate/",
-    title: "GTA 6 GTA+ Preorder Benefit Explained",
-    deck: "What the current digital preorder GTA+ benefit says, who it helps, and what not to assume about GTA 6 Online.",
-    category: "Buying",
-    intent: "pre-launch",
-    status: "live",
-    confidence: "official",
-    updated: "2026-07-08",
-    sourceIds: ["take-two-preorders", "rockstar-preorders"],
-    bullets: [
-      "The publisher announcement lists one free month of GTA+ for digital preorders.",
-      "The benefit is described around GTA Online and the GTA+ Games Library, not as a confirmed GTA 6 Online feature list.",
-      "Subscription renewal terms should be checked on the platform store before redeeming.",
-      "Physical buyers should verify retailer and platform terms because the free month is tied to digital preorders in the announcement."
     ],
-    nextUpdate: "Add exact redemption flow and renewal terms when platform store pages expose them clearly.",
-    searchTerms: ["gta 6 gta plus", "gta 6 preorder gta+", "gta 6 digital preorder bonus"],
-    decisionRows: [
-      {
-        option: "Digital preorder with GTA+ month",
-        bestFor: "Players who already use or want to test GTA+ around launch",
-        status: "Publisher announcement lists one free month of GTA+ for digital preorders.",
-        caveat: "Check renewal, cancellation, and platform account terms before redeeming."
-      },
-      {
-        option: "Physical purchase",
-        bestFor: "Players who prefer a box or retailer purchase",
-        status: "The free month is described around digital preorders in the current announcement.",
-        caveat: "Verify retailer and platform terms before assuming the same subscription benefit applies."
-      },
-      {
-        option: "Ignore the subscription bonus",
-        bestFor: "Players buying only for GTA 6 story access",
-        status: "The current benefit language does not confirm a GTA 6 Online feature list.",
-        caveat: "Do not overvalue the bonus until Rockstar explains launch-era online services clearly."
-      }
-    ]
-  },
-  {
-    slug: "gta-6-physical-vs-digital-preorder",
-    publication: "redirect",
-    redirectTo: "/guides/gta-6-pre-order-standard-vs-ultimate/",
-    title: "GTA 6 Physical vs Digital Preorder",
-    deck: "A console buyer guide for preload timing, download-code boxes, collector habits, and refund friction.",
-    category: "Buying",
-    intent: "pre-launch",
-    status: "live",
-    confidence: "analysis",
-    updated: "2026-07-08",
-    sourceIds: ["take-two-preorders", "rockstar-preorders"],
-    bullets: [
-      "Digital preorders are the cleanest path for automatic preload on November 12, 2026.",
-      "The physical version is described as a box with a download code inside.",
-      "Digital buyers should read platform refund rules before preloading.",
-      "Physical buyers should verify retailer delivery timing if launch-night access matters."
+    "evidence": "official",
+    "platforms": [
+      "PlayStation 5",
+      "Xbox Series X|S"
     ],
-    nextUpdate: "Add retailer-specific pickup, delivery, and code-redemption notes only from public retailer pages.",
-    searchTerms: ["gta 6 physical vs digital", "gta 6 physical edition", "gta 6 download code"],
-    decisionRows: [
-      {
-        option: "Digital preorder",
-        bestFor: "Launch-night access, automatic preload, and fewer retailer timing variables",
-        status: "Digital preorders are currently the cleanest path for November 12 preload.",
-        caveat: "Read platform refund rules before preloading."
-      },
-      {
-        option: "Physical download-code box",
-        bestFor: "Collectors, gift buyers, or players who prefer retailer purchases",
-        status: "Publisher copy describes the physical version as a box with a download code.",
-        caveat: "Delivery, pickup time, and code redemption can affect launch access."
-      },
-      {
-        option: "Wait after launch",
-        bestFor: "Players prioritizing reviews, performance reports, or final edition details",
-        status: "Waiting avoids preorder uncertainty.",
-        caveat: "You may miss preorder timing or launch-week preload convenience."
-      }
-    ]
+    "gameVersion": "Pre-release official information",
+    "nextAction": {
+      "label": "Check the full release timeline",
+      "href": "/release/"
+    }
   },
   {
-    slug: "gta-6-vintage-vice-city-pack",
-    publication: "redirect",
-    redirectTo: "/guides/gta-6-pre-order-standard-vs-ultimate/",
-    title: "GTA 6 Vintage Vice City Pack",
-    deck: "A focused tracker for the confirmed preorder bonus and the cutoff date currently attached to it.",
-    category: "Buying",
-    intent: "pre-launch",
-    status: "live",
-    confidence: "official",
-    updated: "2026-07-08",
-    sourceIds: ["rockstar-vi", "take-two-preorders"],
-    bullets: [
-      "The Vintage Vice City Pack is the named preorder bonus currently shown by Rockstar.",
-      "Take-Two says preorders and purchases before November 20, 2026 include the pack.",
-      "The exact item list should be checked against Rockstar's edition pages before purchase.",
-      "This site will not claim exclusive items beyond what official copy confirms."
+    "slug": "gta-6-trailer-2-breakdown-evidence",
+    "primaryMediaId": "vice-city",
+    "title": "GTA 6 Trailer 2 Breakdown: Story, Characters, and Locations",
+    "deck": "The useful Trailer 2 takeaways for Jason and Lucia's story, Leonida's regions, vehicles, and the official setting.",
+    "category": "Map",
+    "updated": "2026-07-11",
+    "sourceIds": [
+      "rockstar-vi",
+      "rockstar-media",
+      "rockstar-leonida"
     ],
-    nextUpdate: "Add the official item list and platform terms when Rockstar exposes stable edition detail pages.",
-    searchTerms: ["vintage vice city pack", "gta 6 preorder bonus", "gta 6 bonus items"],
-    decisionRows: [
-      {
-        option: "Buy inside the bonus window",
-        bestFor: "Players who know they want GTA 6 and value preorder cosmetics or extras",
-        status: "Take-Two says preorders and purchases before November 20, 2026 include the pack.",
-        caveat: "Verify the exact item list on official edition pages before treating the pack as a major value driver."
-      },
-      {
-        option: "Wait for more detail",
-        bestFor: "Players who care more about reviews, performance, or final edition contents",
-        status: "The pack name and timing are official, but item-level value still needs stable official detail.",
-        caveat: "Waiting past the cutoff could mean losing the preorder bonus if terms stay the same."
-      }
-    ]
-  },
-  {
-    slug: "gta-6-trailer-2-breakdown-evidence",
-    publication: "public",
-    primaryMediaId: "vice-city",
-    title: "GTA 6 Trailer 2 Breakdown: Story, Characters, and Locations",
-    deck: "The useful Trailer 2 takeaways for Jason and Lucia's story, Leonida's regions, vehicles, and the official setting.",
-    category: "Map",
-    intent: "pre-launch",
-    status: "tracker",
-    confidence: "observed",
-    updated: "2026-07-11",
-    sourceIds: ["rockstar-vi", "rockstar-media", "rockstar-leonida"],
-    bullets: [
+    "bullets": [
       "Trailer 2 centers Jason and Lucia after a failed score pulls them into a conspiracy across Leonida.",
       "Official footage shows Vice City nightlife, coastal routes, rural areas, vehicles, and law enforcement.",
       "A single frame does not confirm a mission objective, purchasable property, mechanic, or map marker.",
       "Rockstar's media catalog provides the original trailer and official screenshots."
     ],
-    nextUpdate: "Build a timestamped observation table after reviewing official media with source links beside each note.",
-    searchTerms: ["gta 6 trailer 2 breakdown", "gta 6 trailer analysis", "gta 6 official trailer"]
+    "evidence": "official",
+    "platforms": [
+      "PlayStation 5",
+      "Xbox Series X|S"
+    ],
+    "gameVersion": "Pre-release official information",
+    "spoilerLevel": "story",
+    "nextAction": {
+      "label": "Explore confirmed Leonida locations",
+      "href": "/guides/gta-6-map-leonida-regions-locations/"
+    }
   },
   {
-    slug: "gta-6-vice-city-location-guide",
-    publication: "public",
-    primaryMediaId: "vice-city",
-    title: "GTA 6 Vice City Location Guide",
-    deck: "How Vice City fits into Leonida, Jason and Lucia's story, and the official map information available now.",
-    category: "Map",
-    intent: "pre-launch",
-    status: "tracker",
-    confidence: "official",
-    updated: "2026-07-11",
-    sourceIds: ["rockstar-vi", "rockstar-leonida"],
-    bullets: [
+    "slug": "gta-6-vice-city-location-guide",
+    "primaryMediaId": "vice-city",
+    "title": "GTA 6 Vice City Location Guide",
+    "deck": "How Vice City fits into Leonida, Jason and Lucia's story, and the official map information available now.",
+    "category": "Map",
+    "updated": "2026-07-11",
+    "sourceIds": [
+      "rockstar-vi",
+      "rockstar-leonida"
+    ],
+    "bullets": [
       "Rockstar presents Vice City as a central setting inside Leonida.",
       "Official copy frames the story around Jason and Lucia in and beyond Vice City.",
       "Rockstar has not published confirmed neighborhood, shop, collectible, or activity lists for Vice City.",
       "Use the Leonida map guide for links to the other officially named destinations."
     ],
-    nextUpdate: "Current official Vice City and Leonida details are summarized above.",
-    searchTerms: ["gta 6 vice city", "gta 6 vice city map", "gta 6 locations"]
+    "evidence": "official",
+    "platforms": [
+      "PlayStation 5",
+      "Xbox Series X|S"
+    ],
+    "gameVersion": "Pre-release official information",
+    "nextAction": {
+      "label": "See every confirmed Leonida region",
+      "href": "/guides/gta-6-map-leonida-regions-locations/"
+    }
   },
   {
-    slug: "gta-6-leonida-keys-location-guide",
-    publication: "public",
-    primaryMediaId: "leonida-keys",
-    title: "GTA 6 Leonida Keys Location Guide",
-    deck: "Explore the Leonida Keys, Jason's local network, Brian Heder's boat yard, and the region's story connections.",
-    category: "Map",
-    intent: "pre-launch",
-    status: "tracker",
-    confidence: "official",
-    updated: "2026-07-11",
-    sourceIds: ["rockstar-leonida"],
-    bullets: [
+    "slug": "gta-6-leonida-keys-location-guide",
+    "primaryMediaId": "leonida-keys",
+    "title": "GTA 6 Leonida Keys Location Guide",
+    "deck": "Explore the Leonida Keys, Jason's local network, Brian Heder's boat yard, and the region's story connections.",
+    "category": "Map",
+    "updated": "2026-07-11",
+    "sourceIds": [
+      "rockstar-leonida"
+    ],
+    "bullets": [
       "Leonida Keys is an official destination name on Rockstar's Leonida page.",
       "Jason's official bio ties him to the Keys and local drug runners.",
       "Activity, property, and vehicle-spawn claims are not confirmed in current official material.",
       "The current guide covers the official region name and Jason's confirmed connection to the Keys."
     ],
-    nextUpdate: "Current official Leonida Keys and Jason details are summarized above.",
-    searchTerms: ["gta 6 leonida keys", "gta 6 keys", "gta 6 map locations"]
-  },
-  {
-    slug: "gta-6-grassrivers-location-guide",
-    publication: "redirect",
-    redirectTo: "/guides/gta-6-map-leonida-regions-evidence-tracker/",
-    title: "GTA 6 Grassrivers Location Guide",
-    deck: "What Rockstar has shown and named about Grassrivers, Leonida's wetland destination.",
-    category: "Map",
-    intent: "pre-launch",
-    status: "tracker",
-    confidence: "official",
-    updated: "2026-07-11",
-    sourceIds: ["rockstar-leonida"],
-    bullets: [
-      "Grassrivers is listed as an official destination on Rockstar's Leonida page.",
-      "The current site treats the name as confirmed, not the full map boundary.",
-      "Rockstar has not published collectible, wildlife, route, or activity details for Grassrivers.",
-      "Exact boundaries and map markers are not confirmed in current official material."
+    "evidence": "official",
+    "platforms": [
+      "PlayStation 5",
+      "Xbox Series X|S"
     ],
-    nextUpdate: "Current official Grassrivers details are summarized above.",
-    searchTerms: ["gta 6 grassrivers", "gta 6 grass rivers", "gta 6 leonida map"]
+    "gameVersion": "Pre-release official information",
+    "nextAction": {
+      "label": "See every confirmed Leonida region",
+      "href": "/guides/gta-6-map-leonida-regions-locations/"
+    }
   },
   {
-    slug: "gta-6-port-gellhorn-location-guide",
-    publication: "redirect",
-    redirectTo: "/guides/gta-6-map-leonida-regions-evidence-tracker/",
-    title: "GTA 6 Port Gellhorn Location Guide",
-    deck: "What is currently known about Port Gellhorn, the coastal destination outside Vice City.",
-    category: "Map",
-    intent: "pre-launch",
-    status: "tracker",
-    confidence: "official",
-    updated: "2026-07-11",
-    sourceIds: ["rockstar-leonida"],
-    bullets: [
-      "Port Gellhorn appears as an official destination name on Rockstar's Leonida page.",
-      "Rockstar has not published a confirmed city layout, economy, mission chain, or activity list for Port Gellhorn.",
-      "Rockstar identifies Port Gellhorn as a coastal destination in Leonida.",
-      "Rumor-map claims are excluded from the current answer."
+    "slug": "gta-6-jason-duval-character-guide",
+    "primaryMediaId": "jason-duval",
+    "title": "GTA 6 Jason Duval Character Guide",
+    "deck": "Jason Duval's Army background, life in the Leonida Keys, local connections, and relationship with Lucia.",
+    "category": "Characters",
+    "updated": "2026-07-11",
+    "sourceIds": [
+      "rockstar-leonida"
     ],
-    nextUpdate: "Current official Port Gellhorn details are summarized above.",
-    searchTerms: ["gta 6 port gellhorn", "port gellhorn gta 6", "gta 6 locations"]
-  },
-  {
-    slug: "gta-6-jason-duval-character-guide",
-    publication: "public",
-    primaryMediaId: "jason-duval",
-    title: "GTA 6 Jason Duval Character Guide",
-    deck: "Jason Duval's Army background, life in the Leonida Keys, local connections, and relationship with Lucia.",
-    category: "Characters",
-    intent: "pre-launch",
-    status: "tracker",
-    confidence: "official",
-    updated: "2026-07-11",
-    sourceIds: ["rockstar-leonida"],
-    bullets: [
+    "bullets": [
       "Jason Duval is one of the central GTA 6 characters officially profiled by Rockstar.",
       "Rockstar's bio connects him to the Keys and local drug runners.",
       "His relationship with Lucia is central to the official story setup.",
       "Voice actor, full mission arc, and ending details are not confirmed on this site."
     ],
-    nextUpdate: "Current official Jason details are summarized above.",
-    searchTerms: ["gta 6 jason", "jason duval gta 6", "gta 6 protagonist"]
+    "evidence": "official",
+    "platforms": [
+      "PlayStation 5",
+      "Xbox Series X|S"
+    ],
+    "gameVersion": "Pre-release official information",
+    "nextAction": {
+      "label": "Meet the rest of the confirmed cast",
+      "href": "/guides/gta-6-characters-official-cast/"
+    }
   },
   {
-    slug: "gta-6-lucia-caminos-character-guide",
-    publication: "public",
-    primaryMediaId: "lucia-caminos",
-    title: "GTA 6 Lucia Caminos Character Guide",
-    deck: "Lucia Caminos' family, prison background, Liberty City connection, plan, and relationship with Jason.",
-    category: "Characters",
-    intent: "pre-launch",
-    status: "tracker",
-    confidence: "official",
-    updated: "2026-07-11",
-    sourceIds: ["rockstar-leonida"],
-    bullets: [
+    "slug": "gta-6-lucia-caminos-character-guide",
+    "primaryMediaId": "lucia-caminos",
+    "title": "GTA 6 Lucia Caminos Character Guide",
+    "deck": "Lucia Caminos' family, prison background, Liberty City connection, plan, and relationship with Jason.",
+    "category": "Characters",
+    "updated": "2026-07-11",
+    "sourceIds": [
+      "rockstar-leonida"
+    ],
+    "bullets": [
       "Lucia Caminos is one of the central characters officially profiled by Rockstar.",
       "Rockstar's bio connects her background to family, prison, and a plan for a better life.",
       "Her partnership with Jason is part of the current official story framing.",
       "Gameplay abilities, mission order, and endings remain unconfirmed."
     ],
-    nextUpdate: "Current official Lucia details are summarized above.",
-    searchTerms: ["gta 6 lucia", "lucia caminos gta 6", "gta 6 female protagonist"]
+    "evidence": "official",
+    "platforms": [
+      "PlayStation 5",
+      "Xbox Series X|S"
+    ],
+    "gameVersion": "Pre-release official information",
+    "nextAction": {
+      "label": "Meet the rest of the confirmed cast",
+      "href": "/guides/gta-6-characters-official-cast/"
+    }
   },
   {
-    slug: "gta-6-real-dimez-character-guide",
-    publication: "public",
-    primaryMediaId: "real-dimez",
-    title: "GTA 6 Real Dimez Character Guide",
-    deck: "Meet Bae-Luxe and Roxy, their rise as Real Dimez, and their connection to Only Raw Records.",
-    category: "Characters",
-    intent: "pre-launch",
-    status: "tracker",
-    confidence: "official",
-    updated: "2026-07-11",
-    sourceIds: ["rockstar-leonida"],
-    bullets: [
+    "slug": "gta-6-real-dimez-character-guide",
+    "primaryMediaId": "real-dimez",
+    "title": "GTA 6 Real Dimez Character Guide",
+    "deck": "Meet Bae-Luxe and Roxy, their rise as Real Dimez, and their connection to Only Raw Records.",
+    "category": "Characters",
+    "updated": "2026-07-11",
+    "sourceIds": [
+      "rockstar-leonida"
+    ],
+    "bullets": [
       "Real Dimez are officially profiled on Rockstar's Leonida page.",
       "The official copy links them to social media presence, rap tracks, and Only Raw Records.",
       "This page tracks confirmed ties without turning music-scene hints into mission claims.",
       "Song lists, radio appearances, and mission roles remain unconfirmed until sourced."
     ],
-    nextUpdate: "Current official Real Dimez details are summarized above.",
-    searchTerms: ["gta 6 real dimez", "real dimez gta 6", "gta 6 only raw records"]
+    "evidence": "official",
+    "platforms": [
+      "PlayStation 5",
+      "Xbox Series X|S"
+    ],
+    "gameVersion": "Pre-release official information",
+    "nextAction": {
+      "label": "Meet the rest of the confirmed cast",
+      "href": "/guides/gta-6-characters-official-cast/"
+    }
   },
   {
-    slug: "how-to-avoid-gta-6-spoilers-before-launch",
-    publication: "public",
-    primaryMediaId: "cover-art",
-    title: "How to Avoid GTA 6 Spoilers Before Launch",
-    deck: "A practical spoiler-control guide for muting leaks, avoiding fake download bait, and staying on official GTA 6 information paths.",
-    category: "Release",
-    intent: "pre-launch",
-    status: "live",
-    confidence: "analysis",
-    updated: "2026-07-11",
-    sourceIds: ["rockstar-vi", "google-spam", "adsense-publisher"],
-    bullets: [
+    "slug": "how-to-avoid-gta-6-spoilers-before-launch",
+    "primaryMediaId": "cover-art",
+    "title": "How to Avoid GTA 6 Spoilers Before Launch",
+    "deck": "A practical spoiler-control guide for muting leaks, avoiding fake download bait, and staying on official GTA 6 information paths.",
+    "category": "Release",
+    "updated": "2026-07-11",
+    "sourceIds": [
+      "rockstar-vi",
+      "google-spam",
+      "adsense-publisher"
+    ],
+    "bullets": [
       "Use official Rockstar, Take-Two, platform store, and source-tracked guide pages for launch facts.",
       "Mute terms around Lucia, Jason, endings, missions, map leaks, and final mission before launch week.",
       "Avoid beta, download, generator, and leak pages that mix spoilers with malware bait or thin search spam.",
       "Use spoiler-safe release pages and avoid walkthroughs until you are ready for story details."
     ],
-    nextUpdate: "Add platform-specific mute steps for YouTube, Reddit, TikTok, X, and search results if spoiler leaks become widespread.",
-    searchTerms: ["gta 6 spoilers", "avoid gta 6 spoilers", "gta 6 leaks"],
-    decisionRows: [
+    "decisionRows": [
       {
-        option: "Strict blackout",
-        bestFor: "Players who want story, mission, and map surprises preserved",
-        status: "Mute character, ending, mission, leak, and final-mission terms across feeds.",
-        caveat: "You may miss legitimate official trailers or preorder updates unless official sources are allowed."
+        "option": "Strict blackout",
+        "bestFor": "Players who want story, mission, and map surprises preserved",
+        "status": "Mute character, ending, mission, leak, and final-mission terms across feeds.",
+        "caveat": "You may miss legitimate official trailers or preorder updates unless official sources are allowed."
       },
       {
-        option: "Official-only feed",
-        bestFor: "Players who want news without leak threads or unverified claims",
-        status: "Follow Rockstar, Take-Two, platform stores, and source-led guide pages.",
-        caveat: "Official trailers can still reveal setting, character, and feature details."
+        "option": "Official-only feed",
+        "bestFor": "Players who want news without leak threads or unverified claims",
+        "status": "Follow Rockstar, Take-Two, platform stores, and source-led guide pages.",
+        "caveat": "Official trailers can still reveal setting, character, and feature details."
       },
       {
-        option: "Spoiler-safe guides",
-        bestFor: "Players who want launch prep without mission outcomes",
-        status: "Use pages that label speculation and keep walkthrough spoilers out of broad hubs.",
-        caveat: "Post-launch pages should still be checked for spoiler warnings before reading deeply."
+        "option": "Spoiler-safe guides",
+        "bestFor": "Players who want launch prep without mission outcomes",
+        "status": "Use pages that label speculation and keep walkthrough spoilers out of broad hubs.",
+        "caveat": "Post-launch pages should still be checked for spoiler warnings before reading deeply."
       }
-    ]
-  },
-  {
-    slug: "gta-6-beginner-guide-launch-week",
-    publication: "withdrawn",
-    title: "GTA 6 Beginner Guide for Launch Week",
-    deck: "A spoiler-safe beginner hub planned for first settings, saving, map reading, wanted levels, money, and vehicles.",
-    category: "Missions",
-    intent: "launch-week",
-    status: "launch-week",
-    confidence: "analysis",
-    updated: "2026-07-09",
-    sourceIds: ["rockstar-vi", "google-spam"],
-    bullets: [
-      "A real beginner guide requires hands-on launch testing, so this page does not invent controls or systems.",
-      "The launch-week checklist will cover settings, saving, map use, wanted levels, money, and early vehicles.",
-      "Spoilers will be separated from basic setup and first-hour guidance.",
-      "Thin placeholder sections will stay unpublished until they answer a real player question."
     ],
-    nextUpdate: "Replace planning bullets with tested steps during launch week.",
-    searchTerms: ["gta 6 beginner guide", "gta 6 tips", "gta 6 launch guide"]
-  },
-  {
-    slug: "gta-6-wanted-level-police-escape-guide",
-    publication: "withdrawn",
-    title: "GTA 6 Wanted Level and Police Escape Test Plan",
-    deck: "A launch-week test plan for wanted levels, escape routes, hiding, vehicles, and repeatable police behavior.",
-    category: "Missions",
-    intent: "launch-week",
-    status: "launch-week",
-    confidence: "analysis",
-    updated: "2026-07-09",
-    sourceIds: ["rockstar-vi", "google-spam"],
-    bullets: [
-      "No wanted-level mechanics are treated as final until tested in the released game.",
-      "The guide will test stars, line of sight, vehicle swaps, safe locations, and mission restrictions.",
-      "Exploit or online-cheating claims will not be promoted.",
-      "The page is prebuilt so launch-week test notes have a stable URL."
+    "evidence": "corroborated",
+    "platforms": [
+      "PlayStation 5",
+      "Xbox Series X|S"
     ],
-    nextUpdate: "Run repeatable escape tests on console launch and publish only consistent results.",
-    searchTerms: ["gta 6 wanted level", "gta 6 police", "gta 6 escape cops"]
-  },
-  {
-    slug: "gta-6-money-fast-early-no-exploits",
-    publication: "withdrawn",
-    title: "GTA 6 Early Money Testing Tracker: No Exploits",
-    deck: "A future early-money tracker that will avoid fake unlimited-money claims and separate story, side activity, and online advice.",
-    category: "Missions",
-    intent: "launch-week",
-    status: "launch-week",
-    confidence: "analysis",
-    updated: "2026-07-09",
-    sourceIds: ["adsense-publisher", "google-spam", "rockstar-vi"],
-    bullets: [
-      "No GTA 6 money method is confirmed here before launch testing.",
-      "The guide will exclude malware bait, fake generators, and online-cheating instructions.",
-      "Launch-week sections will compare early story rewards, repeatable activities, risk, and time cost.",
-      "Every method will include platform, prerequisites, payout, and whether it affects progression."
-    ],
-    nextUpdate: "Test early-game earning routes and publish only repeatable, policy-safe methods.",
-    searchTerms: ["gta 6 money fast", "gta 6 early money", "gta 6 no exploit money"]
-  },
-  {
-    slug: "gta-6-cheats-codes-testing-tracker",
-    publication: "withdrawn",
-    title: "GTA 6 Cheats: Codes and Testing Tracker",
-    deck: "A no-fake-codes page that will only publish cheat codes after official confirmation or repeatable in-game testing.",
-    category: "Cheats",
-    intent: "launch-week",
-    status: "launch-week",
-    confidence: "analysis",
-    updated: "2026-07-09",
-    sourceIds: ["rockstar-vi", "google-spam", "adsense-publisher"],
-    bullets: [
-      "No GTA 6 cheat codes are treated as confirmed on this site before release.",
-      "Launch testing will record platform, input method, effect, limitations, and side effects.",
-      "Fake unlimited-money or exploit claims are excluded.",
-      "Cheat pages will distinguish fun codes from online cheating or exploit content."
-    ],
-    nextUpdate: "Add a test matrix on launch day and publish only repeatable results.",
-    searchTerms: ["gta 6 cheats", "gta 6 cheats ps5", "gta 6 cheats xbox"]
+    "gameVersion": "Pre-release official information",
+    "nextAction": {
+      "label": "Start with confirmed GTA 6 information",
+      "href": "/gta-6/"
+    }
   }
 ];
 
-export const publicGuides = guides.filter((guide): guide is PublicGuide => guide.publication === "public");
-export const liveGuides = guides.filter((guide) => guide.status === "live" || guide.status === "tracker");
-export const plannedGuides = guides.filter((guide) => guide.status === "launch-week" || guide.status === "planned");
-
-export const guideBySlug = Object.fromEntries(guides.map((guide) => [guide.slug, guide]));
+export const guideBySlug = Object.fromEntries(publicGuides.map((guide) => [guide.slug, guide]));
 
 export const guideCategoryMeta = [
   {
-    category: "Release",
-    slug: "release",
-    title: "GTA 6 Release Guides",
-    deck: "Release date, preload, platforms, PC status, and launch-preparation guidance.",
-    image: "/assets/og-release.png"
+    "category": "Release",
+    "slug": "release",
+    "title": "GTA 6 Release Guides",
+    "deck": "Release date, preload, platforms, PC status, and launch-preparation guidance.",
+    "image": "/assets/og-release.png"
   },
   {
-    category: "Buying",
-    slug: "buying",
-    title: "GTA 6 Buying Guides",
-    deck: "Preorder, price, edition, bonus, physical-vs-digital, and purchase-timing guidance.",
-    image: "/assets/og-buying.png"
+    "category": "Buying",
+    "slug": "buying",
+    "title": "GTA 6 Buying Guides",
+    "deck": "Preorder, price, edition, bonus, physical-vs-digital, and purchase-timing guidance.",
+    "image": "/assets/og-buying.png"
   },
   {
-    category: "Map",
-    slug: "map",
-    title: "GTA 6 Map and Location Guides",
-    deck: "Leonida, Vice City, official regions, trailer details, and spoiler-safe location guides.",
-    image: "/assets/og-map.png"
+    "category": "Map",
+    "slug": "map",
+    "title": "GTA 6 Map and Location Guides",
+    "deck": "Leonida, Vice City, official regions, trailer details, and spoiler-safe location guides.",
+    "image": "/assets/og-map.png"
   },
   {
-    category: "Characters",
-    slug: "characters",
-    title: "GTA 6 Character Guides",
-    deck: "Official character profiles and relationship details confirmed by Rockstar.",
-    image: "/assets/og-characters.png"
+    "category": "Characters",
+    "slug": "characters",
+    "title": "GTA 6 Character Guides",
+    "deck": "Official character profiles and relationship details confirmed by Rockstar.",
+    "image": "/assets/og-characters.png"
   },
   {
-    category: "Vehicles",
-    slug: "vehicles",
-    title: "GTA 6 Vehicle Guides",
-    deck: "Current vehicle classes shown in official GTA 6 material.",
-    image: "/assets/og-vehicles.png"
+    "category": "Vehicles",
+    "slug": "vehicles",
+    "title": "GTA 6 Vehicle Guides",
+    "deck": "Current vehicle classes shown in official GTA 6 material.",
+    "image": "/assets/og-vehicles.png"
   },
   {
-    category: "Missions",
-    slug: "missions",
-    title: "GTA 6 Mission and Walkthrough Guides",
-    deck: "Spoiler-control and current mission-related preparation guides.",
-    image: "/assets/og-missions.png"
+    "category": "Missions",
+    "slug": "missions",
+    "title": "GTA 6 Mission and Walkthrough Guides",
+    "deck": "Spoiler-control and current mission-related preparation guides.",
+    "image": "/assets/og-missions.png"
   },
   {
-    category: "Cheats",
-    slug: "cheats",
-    title: "GTA 6 Cheat Guides",
-    deck: "Current GTA 6 cheat-code status and guidance for avoiding fake codes and generators.",
-    image: "/assets/og-cheats.png"
+    "category": "Cheats",
+    "slug": "cheats",
+    "title": "GTA 6 Cheat Guides",
+    "deck": "Current GTA 6 cheat-code status and guidance for avoiding fake codes and generators.",
+    "image": "/assets/og-cheats.png"
   }
-] as const satisfies Array<{ category: Guide["category"]; slug: string; title: string; deck: string; image: string }>;
+] as const satisfies Array<{
+  category: PublicGuide["category"];
+  slug: string;
+  title: string;
+  deck: string;
+  image: string;
+}>;
 
 export const publicGuideCategoryMeta = guideCategoryMeta.filter((meta) =>
   publicGuides.some((guide) => guide.category === meta.category)
 );
 export const categoryMetaBySlug = Object.fromEntries(guideCategoryMeta.map((meta) => [meta.slug, meta]));
 export const categoryMetaByName = Object.fromEntries(guideCategoryMeta.map((meta) => [meta.category, meta]));
-
-export const guideEvidenceRows: Record<string, EvidenceRow[]> = {
-  "gta-6-release-date-countdown-preload": [
-    {
-      claim: "Launch date",
-      status: "Official",
-      proof: "Rockstar and Take-Two list November 19, 2026 as the scheduled release date.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Launch platforms",
-      status: "Official",
-      proof: "The current platform copy lists PlayStation 5 and Xbox Series X|S.",
-      sourceId: "take-two-preorders"
-    },
-    {
-      claim: "Preload timing",
-      status: "Official",
-      proof: "The preorder announcement says digital preloading is scheduled to begin November 12, 2026.",
-      sourceId: "rockstar-preorders"
-    },
-    {
-      claim: "PC status",
-      status: "Official",
-      proof: "The current official launch platform copy does not list a PC release date.",
-      sourceId: "rockstar-vi"
-    }
-  ],
-  "gta-6-pre-order-standard-vs-ultimate": [
-    {
-      claim: "Standard Edition price",
-      status: "Official",
-      proof: "Take-Two's preorder announcement lists Standard Edition at $79.99.",
-      sourceId: "take-two-preorders"
-    },
-    {
-      claim: "Ultimate Edition price",
-      status: "Official",
-      proof: "Take-Two's preorder announcement lists Ultimate Edition at $99.99.",
-      sourceId: "take-two-preorders"
-    },
-    {
-      claim: "Preorder bonus window",
-      status: "Official",
-      proof: "The publisher copy ties the Vintage Vice City Pack to preorders and purchases before November 20, 2026.",
-      sourceId: "rockstar-preorders"
-    },
-    {
-      claim: "GTA+ digital benefit",
-      status: "Official",
-      proof: "The announcement describes one free month of GTA+ for digital preorders.",
-      sourceId: "take-two-preorders"
-    }
-  ],
-  "gta-6-map-leonida-regions-evidence-tracker": [
-    {
-      claim: "Official setting",
-      status: "Official",
-      proof: "Rockstar frames Leonida as the state that includes Vice City and surrounding destinations.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Named destinations",
-      status: "Official",
-      proof: "The official Leonida page lists Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia, and Mount Kalaga as current destination names.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Map boundary restraint",
-      status: "Analysis",
-      proof: "This tracker does not claim full map borders, coordinates, collectibles, or activity density before official or launch-tested proof exists.",
-      sourceId: "rockstar-media"
-    }
-  ],
-  "gta-6-price-standard-ultimate-explained": [
-    {
-      claim: "Base price",
-      status: "Official",
-      proof: "Standard Edition is listed at $79.99 in the publisher preorder announcement.",
-      sourceId: "take-two-preorders"
-    },
-    {
-      claim: "Higher edition price",
-      status: "Official",
-      proof: "Ultimate Edition is listed at $99.99 in the same announcement.",
-      sourceId: "take-two-preorders"
-    },
-    {
-      claim: "Value caution",
-      status: "Analysis",
-      proof: "The page recommends comparing final item lists and store terms before paying extra.",
-      sourceId: "rockstar-preorders"
-    }
-  ],
-  "is-gta-6-coming-to-pc": [
-    {
-      claim: "Current launch platforms",
-      status: "Official",
-      proof: "Rockstar's current GTA 6 page names PS5 and Xbox Series X|S for launch.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "PC date not announced",
-      status: "Official",
-      proof: "The official page and current preorder copy do not list a PC launch date.",
-      sourceId: "take-two-preorders"
-    },
-    {
-      claim: "Fake PC claim filter",
-      status: "Policy",
-      proof: "Unverified PC download, beta, or preorder claims are kept out unless they cite official sources.",
-      sourceId: "google-spam"
-    }
-  ],
-  "gta-6-platforms-ps5-xbox-series-x-s": [
-    {
-      claim: "PS5 support",
-      status: "Official",
-      proof: "PlayStation 5 is named in the current official platform list.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Xbox Series X|S support",
-      status: "Official",
-      proof: "Xbox Series X|S is named in the current official platform list.",
-      sourceId: "take-two-preorders"
-    },
-    {
-      claim: "Unsupported launch platforms",
-      status: "Official",
-      proof: "The current official launch copy does not list PS4, Xbox One, Nintendo, or PC.",
-      sourceId: "rockstar-vi"
-    }
-  ],
-  "gta-6-preload-download-size-prep": [
-    {
-      claim: "Digital preload date",
-      status: "Official",
-      proof: "The preorder announcement says digital preload begins November 12, 2026.",
-      sourceId: "rockstar-preorders"
-    },
-    {
-      claim: "Physical download code",
-      status: "Official",
-      proof: "Publisher copy describes the physical version as a box with a download code available for preload.",
-      sourceId: "take-two-preorders"
-    },
-    {
-      claim: "Download size",
-      status: "Analysis",
-      proof: "No final file size is treated as confirmed until official store metadata is visible.",
-      sourceId: "rockstar-preorders"
-    }
-  ],
-  "gta-6-gta-plus-preorder-benefit": [
-    {
-      claim: "Digital preorder benefit",
-      status: "Official",
-      proof: "The publisher announcement lists one free month of GTA+ for digital preorders.",
-      sourceId: "take-two-preorders"
-    },
-    {
-      claim: "Benefit scope",
-      status: "Official",
-      proof: "The current copy describes GTA+ around GTA Online and the GTA+ Games Library, not a final GTA 6 Online feature list.",
-      sourceId: "rockstar-preorders"
-    },
-    {
-      claim: "Subscription caution",
-      status: "Analysis",
-      proof: "Readers should check platform renewal and cancellation terms before redeeming a subscription benefit.",
-      sourceId: "rockstar-preorders"
-    }
-  ],
-  "gta-6-physical-vs-digital-preorder": [
-    {
-      claim: "Digital preload path",
-      status: "Official",
-      proof: "Digital preloading is scheduled for November 12, 2026.",
-      sourceId: "rockstar-preorders"
-    },
-    {
-      claim: "Physical format",
-      status: "Official",
-      proof: "The current publisher copy describes the physical version as containing a download code.",
-      sourceId: "take-two-preorders"
-    },
-    {
-      claim: "Retail timing risk",
-      status: "Analysis",
-      proof: "Physical access still depends on retailer delivery, pickup, and code redemption timing.",
-      sourceId: "take-two-preorders"
-    }
-  ],
-  "gta-6-vintage-vice-city-pack": [
-    {
-      claim: "Bonus name",
-      status: "Official",
-      proof: "Rockstar names the Vintage Vice City Pack as the current preorder bonus.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Bonus cutoff",
-      status: "Official",
-      proof: "Take-Two says preorders and purchases before November 20, 2026 include the pack.",
-      sourceId: "take-two-preorders"
-    },
-    {
-      claim: "Item-level restraint",
-      status: "Analysis",
-      proof: "The page does not claim a final item list beyond the official pack name and timing.",
-      sourceId: "rockstar-preorders"
-    }
-  ],
-  "gta-6-trailer-2-breakdown-evidence": [
-    {
-      claim: "Official media basis",
-      status: "Official",
-      proof: "Rockstar lists Trailer 2 and the current public media set through its official GTA 6 pages.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Observation boundary",
-      status: "Analysis",
-      proof: "The page limits trailer notes to official media and does not convert frame observations into mission or story claims.",
-      sourceId: "rockstar-media"
-    },
-    {
-      claim: "Leak boundary",
-      status: "Policy",
-      proof: "Rockstar's copyright guidance is the reason this site avoids leaked pre-release material and does not rehost official assets by default.",
-      sourceId: "rockstar-copyright"
-    }
-  ],
-  "gta-6-vehicles-confirmed-so-far": [
-    {
-      claim: "Official media basis",
-      status: "Observed",
-      proof: "Rockstar's official GTA 6 media pages are the current public basis for vehicle observations.",
-      sourceId: "rockstar-media"
-    },
-    {
-      claim: "Model-name restraint",
-      status: "Analysis",
-      proof: "The page tracks vehicle classes and launch-week fields without claiming model names, prices, spawns, or handling before official or tested proof exists.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Media use boundary",
-      status: "Policy",
-      proof: "Rockstar's copyright policy is why this site links to official media and uses original assets instead of rehosting official screenshots by default.",
-      sourceId: "rockstar-copyright"
-    }
-  ],
-  "gta-6-mission-list-walkthrough-hub": [
-    {
-      claim: "Mission list status",
-      status: "Analysis",
-      proof: "The current official GTA 6 pages do not publish a complete mission order, so this hub does not invent one before release.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Walkthrough proof path",
-      status: "Analysis",
-      proof: "Mission pages will open only after hands-on testing can record objectives, fail states, rewards, replay notes, and spoiler level.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Fake guide boundary",
-      status: "Policy",
-      proof: "Thin mission lists, copied walkthroughs, leak bait, and fake early-money routes are excluded to keep the guide useful and policy-safe.",
-      sourceId: "google-spam"
-    }
-  ],
-  "gta-6-cheats-codes-testing-tracker": [
-    {
-      claim: "Cheat code status",
-      status: "Analysis",
-      proof: "Current official GTA 6 pages do not publish a cheat-code list, so this tracker does not treat any code as confirmed before release.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Testing standard",
-      status: "Analysis",
-      proof: "Launch-week rows will require platform, input method, visible effect, limitations, side effects, and repeatability before a code is listed.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Fake-code boundary",
-      status: "Policy",
-      proof: "Unlimited-money generators, download bait, online-cheating instructions, and unverifiable code lists stay out of the site.",
-      sourceId: "google-spam"
-    }
-  ],
-  "gta-6-money-fast-early-no-exploits": [
-    {
-      claim: "Money method status",
-      status: "Analysis",
-      proof: "Current official GTA 6 pages do not publish early-game payout routes, so this guide does not list money methods before release testing.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Testing standard",
-      status: "Analysis",
-      proof: "Launch-week rows will require platform, prerequisite, payout, repeatability, risk, time cost, and progression impact before a method is recommended.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Exploit boundary",
-      status: "Policy",
-      proof: "Unlimited-money generators, malware bait, online-cheating instructions, and unverifiable exploit claims stay out of the site.",
-      sourceId: "google-spam"
-    }
-  ],
-  "gta-6-wanted-level-police-escape-guide": [
-    {
-      claim: "Wanted-system status",
-      status: "Analysis",
-      proof: "Current official GTA 6 pages do not publish final wanted-level rules, so this guide does not claim star counts, police AI, or escape routes before release testing.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Testing standard",
-      status: "Analysis",
-      proof: "Launch-week rows will require platform, wanted level, trigger, line-of-sight behavior, vehicle changes, safe-location result, and repeatability.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Exploit boundary",
-      status: "Policy",
-      proof: "Exploit chains, online-cheating instructions, and unverified police-escape claims stay out of the guide until tested and policy-safe.",
-      sourceId: "google-spam"
-    }
-  ],
-  "gta-6-beginner-guide-launch-week": [
-    {
-      claim: "Beginner systems status",
-      status: "Analysis",
-      proof: "Current official GTA 6 pages do not publish final controls, settings, saving, map, or first-hour systems, so this guide does not invent those steps before release.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Testing standard",
-      status: "Analysis",
-      proof: "Launch-week rows will require platform, setting path, input method, repeatable result, spoiler level, and whether the step affects progression.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Thin-content boundary",
-      status: "Policy",
-      proof: "Generic tips, copied walkthroughs, leak bait, and untested first-hour advice stay out until they answer a real player question.",
-      sourceId: "google-spam"
-    }
-  ],
-  "gta-6-vice-city-location-guide": [
-    {
-      claim: "Official setting",
-      status: "Official",
-      proof: "Rockstar's Leonida page presents Vice City as an official GTA 6 destination inside Leonida.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Launch context",
-      status: "Official",
-      proof: "The current official GTA 6 page frames Vice City and Leonida as the public setting context for the game.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Neighborhood restraint",
-      status: "Analysis",
-      proof: "The page does not publish neighborhood, shop, collectible, or activity claims before official or tested location data exists.",
-      sourceId: "rockstar-leonida"
-    }
-  ],
-  "gta-6-leonida-keys-location-guide": [
-    {
-      claim: "Official destination name",
-      status: "Official",
-      proof: "Leonida Keys is listed as an official destination on Rockstar's Leonida page.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Character tie",
-      status: "Official",
-      proof: "Jason's official profile connects him to the Keys and local drug runners.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Marker restraint",
-      status: "Analysis",
-      proof: "Activity, property, and vehicle-spawn claims remain out until official material or launch-week testing supports them.",
-      sourceId: "rockstar-leonida"
-    }
-  ],
-  "gta-6-grassrivers-location-guide": [
-    {
-      claim: "Official destination name",
-      status: "Official",
-      proof: "Grassrivers is listed as an official destination on Rockstar's Leonida page.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Boundary restraint",
-      status: "Analysis",
-      proof: "The current page treats the destination name as confirmed without claiming the full map boundary.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Collectible restraint",
-      status: "Analysis",
-      proof: "Collectible, wildlife, route, and activity notes wait for official detail or launch-week testing.",
-      sourceId: "rockstar-leonida"
-    }
-  ],
-  "gta-6-port-gellhorn-location-guide": [
-    {
-      claim: "Official destination name",
-      status: "Official",
-      proof: "Port Gellhorn appears as an official destination name on Rockstar's Leonida page.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Layout restraint",
-      status: "Analysis",
-      proof: "The page does not infer city layout, economy, mission chains, or activity density before launch.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Future proof path",
-      status: "Analysis",
-      proof: "Missions, vehicles, activities, and collectibles will be added only when official material or tested gameplay supports them.",
-      sourceId: "rockstar-leonida"
-    }
-  ],
-  "gta-6-characters-official-cast": [
-    {
-      claim: "Official central pair",
-      status: "Official",
-      proof: "Rockstar's Leonida page profiles Jason Duval and Lucia Caminos as the central character pair in the current story setup.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Official supporting profiles",
-      status: "Official",
-      proof: "The same official page also profiles Cal Hampton, Boobie Ike, Dre'Quan Priest, Real Dimez, Raul Bautista, and Brian Heder.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Casting restraint",
-      status: "Analysis",
-      proof: "Voice actor, mission role, and ending claims stay out unless Rockstar, Take-Two, or tested gameplay confirms them.",
-      sourceId: "rockstar-leonida"
-    }
-  ],
-  "gta-6-jason-duval-character-guide": [
-    {
-      claim: "Official profile",
-      status: "Official",
-      proof: "Jason Duval has an official profile on Rockstar's Leonida page.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Keys connection",
-      status: "Official",
-      proof: "Rockstar's bio connects Jason to the Keys and local drug runners.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Story restraint",
-      status: "Analysis",
-      proof: "The page does not claim Jason's full mission arc, voice actor, gameplay abilities, or ending before official or tested evidence exists.",
-      sourceId: "rockstar-leonida"
-    }
-  ],
-  "gta-6-lucia-caminos-character-guide": [
-    {
-      claim: "Official profile",
-      status: "Official",
-      proof: "Lucia Caminos has an official profile on Rockstar's Leonida page.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Official background",
-      status: "Official",
-      proof: "Rockstar's bio connects Lucia to family, prison, and a plan to change her odds.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Story restraint",
-      status: "Analysis",
-      proof: "Gameplay abilities, mission order, relationship outcomes, and endings remain unconfirmed on this site.",
-      sourceId: "rockstar-leonida"
-    }
-  ],
-  "gta-6-real-dimez-character-guide": [
-    {
-      claim: "Official profile",
-      status: "Official",
-      proof: "Real Dimez are officially profiled on Rockstar's Leonida page.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Official music-scene tie",
-      status: "Official",
-      proof: "The official copy links Real Dimez to social media presence, rap tracks, DWNPLY, and Only Raw Records.",
-      sourceId: "rockstar-leonida"
-    },
-    {
-      claim: "Mission restraint",
-      status: "Analysis",
-      proof: "Song lists, radio appearances, exact mission roles, and reward claims remain out until official or tested evidence supports them.",
-      sourceId: "rockstar-leonida"
-    }
-  ],
-  "how-to-avoid-gta-6-spoilers-before-launch": [
-    {
-      claim: "Official-source path",
-      status: "Analysis",
-      proof: "Spoiler-safe launch prep should start with official Rockstar or publisher pages and source-tracked guide summaries.",
-      sourceId: "rockstar-vi"
-    },
-    {
-      claim: "Leak and bait risk",
-      status: "Policy",
-      proof: "Google's spam guidance warns against manipulative, low-value, or deceptive pages; GTA leak/download bait belongs outside this site's recommendations.",
-      sourceId: "google-spam"
-    },
-    {
-      claim: "Ad-safety boundary",
-      status: "Policy",
-      proof: "The site avoids thin, misleading, or copied spoiler content that would reduce user value and create publisher-policy risk.",
-      sourceId: "adsense-publisher"
-    }
-  ]
-};
-

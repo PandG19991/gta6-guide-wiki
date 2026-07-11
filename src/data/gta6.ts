@@ -1,4 +1,4 @@
-import type { ConfidenceKey } from "./site";
+import type { EvidenceLevel } from "./site";
 import type { MediaId } from "./media";
 
 export const gta6RailItems = [
@@ -25,35 +25,35 @@ export const gta6HubStats = [
 export const gta6DatabaseCards: Array<{
   title: string;
   href: string;
-  confidence: ConfidenceKey;
+  evidence: EvidenceLevel;
   deck: string;
   mediaId: MediaId;
 }> = [
   {
     title: "Vehicles",
     href: "/gta-6/database/vehicles/",
-    confidence: "observed",
+    evidence: "official",
     deck: "Browse vehicle classes shown in official GTA 6 material.",
     mediaId: "grotti-cheetah"
   },
   {
     title: "Characters",
     href: "/gta-6/database/characters/",
-    confidence: "official",
+    evidence: "official",
     deck: "Browse Jason, Lucia, and other characters profiled by Rockstar.",
     mediaId: "jason-lucia"
   },
   {
     title: "Locations",
     href: "/gta-6/database/locations/",
-    confidence: "official",
+    evidence: "official",
     deck: "Browse Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia, and Mount Kalaga.",
     mediaId: "vice-city"
   },
   {
     title: "Editions",
     href: "/gta-6/database/editions/",
-    confidence: "official",
+    evidence: "official",
     deck: "Compare Standard and Ultimate Editions, preorder bonuses, GTA+ benefits, and preload details.",
     mediaId: "vintage-pack"
   }
@@ -62,7 +62,7 @@ export const gta6DatabaseCards: Array<{
 export const gta6FeatureSections = [
   {
     title: "Release Information",
-    confidence: "official" as const,
+    evidence: "official" as const,
     points: [
       "Grand Theft Auto VI is scheduled for November 19, 2026.",
       "The currently listed launch platforms are PlayStation 5 and Xbox Series X|S.",
@@ -73,18 +73,18 @@ export const gta6FeatureSections = [
   },
   {
     title: "Map, Locations, and Setting",
-    confidence: "official" as const,
+    evidence: "official" as const,
     points: [
       "Leonida is the official state setting.",
       "Official destination names include Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia, and Mount Kalaga.",
       "Leaked map claims are not part of the confirmed location list."
     ],
     sourceId: "rockstar-leonida",
-    href: "/guides/gta-6-map-leonida-regions-evidence-tracker/"
+    href: "/guides/gta-6-map-leonida-regions-locations/"
   },
   {
     title: "Characters and Story Setup",
-    confidence: "official" as const,
+    evidence: "official" as const,
     points: [
       "Jason Duval and Lucia Caminos are the central pair in the current official setup.",
       "Rockstar has profiled several supporting people and groups.",
@@ -95,7 +95,7 @@ export const gta6FeatureSections = [
   },
   {
     title: "Vehicles and Driving",
-    confidence: "official" as const,
+    evidence: "official" as const,
     points: [
       "Rockstar names multiple vehicles in the Ultimate Edition and Vintage Vice City Pack.",
       "Official media also shows cars, motorcycles, boats, aircraft, and police or emergency vehicles.",
@@ -106,7 +106,7 @@ export const gta6FeatureSections = [
   },
   {
     title: "Editions and Preorder",
-    confidence: "official" as const,
+    evidence: "official" as const,
     points: [
       "Standard Edition includes the game; Ultimate adds named story vehicles, weapons, businesses, and customization locations.",
       "Standard owners can buy the Ultimate Edition Upgrade later through the PlayStation or Xbox store.",
@@ -146,7 +146,7 @@ export const vehicleDatabaseRows: Array<{
     status: "Observed",
     proof: "Leonida's coastal setting and official media support watercraft tracking, but the final list remains unconfirmed.",
     sourceId: "rockstar-vi",
-    page: "/guides/gta-6-map-leonida-regions-evidence-tracker/",
+    page: "/guides/gta-6-map-leonida-regions-locations/",
     mediaId: "leonida-keys"
   },
   {
@@ -278,7 +278,7 @@ export const locationDatabaseRows: Array<{
     status: "Official",
     proof: "Rockstar lists Grassrivers as an official destination and describes its wetland setting.",
     sourceId: "rockstar-leonida",
-    page: "/guides/gta-6-map-leonida-regions-evidence-tracker/",
+    page: "/guides/gta-6-map-leonida-regions-locations/",
     mediaId: "grassrivers"
   },
   {
@@ -286,7 +286,7 @@ export const locationDatabaseRows: Array<{
     status: "Official",
     proof: "Rockstar lists Port Gellhorn as an official Leonida destination and describes its coastal setting.",
     sourceId: "rockstar-leonida",
-    page: "/guides/gta-6-map-leonida-regions-evidence-tracker/",
+    page: "/guides/gta-6-map-leonida-regions-locations/",
     mediaId: "port-gellhorn"
   },
   {
@@ -294,7 +294,7 @@ export const locationDatabaseRows: Array<{
     status: "Official",
     proof: "Rockstar lists Ambrosia as an official Leonida destination; exact boundaries and activities are not confirmed.",
     sourceId: "rockstar-leonida",
-    page: "/guides/gta-6-map-leonida-regions-evidence-tracker/",
+    page: "/guides/gta-6-map-leonida-regions-locations/",
     mediaId: "vice-city"
   },
   {
@@ -302,7 +302,7 @@ export const locationDatabaseRows: Array<{
     status: "Official",
     proof: "Rockstar lists Mount Kalaga as an official Leonida destination; exact terrain routes and activities are not confirmed.",
     sourceId: "rockstar-leonida",
-    page: "/guides/gta-6-map-leonida-regions-evidence-tracker/",
+    page: "/guides/gta-6-map-leonida-regions-locations/",
     mediaId: "vice-city"
   }
 ];
