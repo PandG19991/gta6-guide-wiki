@@ -33,8 +33,10 @@ const privateRecordPatterns = [
 const privateFilename = /^(?:candidate[-_]?queue|content[-_]?plan|editorial[-_]?queue|keyword[-_]?opportunities|submission[-_]?queue|contribution[-_]?records?|revenue[-_]?report)(?:\.[^.]+)?$/i;
 const hasPrivatePathSegment = (file) => file.split(/[\\/]/).some((part) => privateFilename.test(part));
 
-for (const file of publicRepositoryFiles) {
+for (const file of repositoryFiles) {
   if (hasPrivatePathSegment(file)) failures.push(`${file}: private operating file must stay outside the public repository`);
+}
+for (const file of publicRepositoryFiles) {
   const source = readFileSync(file, "utf8");
   for (const [pattern, label] of privateRecordPatterns) {
     if (pattern.test(source)) failures.push(`${file}: contains private ${label}`);
@@ -52,7 +54,9 @@ if (!privateRecordPatterns.some(([pattern]) => pattern.test('const draft = { sea
 if (privateRecordPatterns.some(([pattern]) => pattern.test("Players use search terms to find a guide."))) {
   failures.push("private-data gate must not treat ordinary player-facing words as private records");
 }
-if (!hasPrivatePathSegment("src/private/candidate-queue.json")) failures.push("private-data gate must detect sensitive path names");
+for (const privatePath of ["src/private/candidate-queue.json", "docs/revenue-report.md", "openspec/candidate_queue.yaml"]) {
+  if (!hasPrivatePathSegment(privatePath)) failures.push(`private-data gate must detect sensitive path ${privatePath}`);
+}
 
 const binaryExtensions = new Set([".avif", ".br", ".gif", ".gz", ".ico", ".jpeg", ".jpg", ".otf", ".pdf", ".png", ".ttf", ".webp", ".woff", ".woff2", ".zip"]);
 const decoder = new TextDecoder("utf-8", { fatal: true });
