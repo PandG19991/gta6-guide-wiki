@@ -27,11 +27,13 @@ const relatedGuides = publicGuides
 const firstAnswer = guide.bullets[0];
 const decisionRows = guide.decisionRows ?? [];
 const guideSections = guideArticles[guide.slug] ?? [];
-const evidenceLabel = {
-  official: "Official sources",
-  "first-party-tested": "Tested by Leonida Ledger",
-  corroborated: "Editor-verified sources"
-}[guide.evidence];
+const evidenceLabel = guide.editorial
+  ? "Editorial guidance"
+  : {
+      official: "Official sources",
+      "first-party-tested": "Tested by Leonida Ledger",
+      corroborated: "Editor-verified sources"
+    }[guide.evidence];
 const playerSourceIds = new Set([
   "rockstar-vi",
   "rockstar-preorders",

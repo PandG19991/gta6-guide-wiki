@@ -1,32 +1,26 @@
 # Monetization readiness
 
-Ad code is intentionally disabled until the publisher account, consent requirements, and production domain are ready.
+Ad code is not included in the current build. AdSense activation is conditional on a real publisher account, applicable consent behavior, clear disclosures, and a stable production placement.
 
-## Reserved placements
+## Activation prerequisites
 
-- `after-answer`: after the useful answer, with a 250 px desktop and 120 px mobile reservation.
-- `mid-article`: after the player-focused detail sections and before decision or source content.
-
-`AdSlot.astro` renders nothing by default. Activation requires all of these values:
-
-- `PUBLIC_ADS_ENABLED=true`
-- `PUBLIC_ADSENSE_CLIENT`
-- `PUBLIC_ADSENSE_SLOT_AFTER_ANSWER`
-- `PUBLIC_ADSENSE_SLOT_MID_ARTICLE`
-
-Do not enable the flag until the actual AdSense loader, consent behavior, publisher identity, and privacy disclosure have been reviewed together.
-
-## Launch gate
-
-- The custom domain and Search Console property are active.
 - Policy, contact, privacy, and correction pages match production behavior.
 - The selected pages are complete, useful, and contain no under-construction inventory.
 - Publisher approval and applicable consent behavior are ready.
-- Ads do not appear before the quick answer or interrupt tables and navigation.
-- Layout reservations prevent ad loading from shifting article content.
+- The production placement has a fixed responsive size and does not shift article content.
+- Ads remain distinguishable from navigation, downloads, tables, and other player actions.
 
-Search impressions are a measurement baseline, not an eligibility requirement. Start with a bounded page set and remove any placement that harms answer access, layout stability, or task completion.
+Search traffic is a measurement baseline, not an AdSense eligibility prerequisite.
+
+## First experiment
+
+- Add one fixed-size placement after the Quick Answer on a small set of substantial information pages.
+- Do not place ads before the answer, inside navigation, beside controls, or on short pages that do not need one.
+- Compare answer access, layout stability, engagement, viewability, and policy notifications against the pre-ad baseline.
+- Remove the placement if it harms the player task or Core Web Vitals.
+
+Affiliate links are a separate experiment. Add them only to relevant buying-decision pages after the specific program accepts the publisher, disclose the relationship near the recommendation, and use `rel="sponsored nofollow"`.
 
 ## Monitoring
 
-Track indexed pages, search impressions, click-through rate, engaged visits, Core Web Vitals, ad viewability, and policy notifications. Improve existing useful pages before creating additional inventory.
+Track indexed pages, search impressions, click-through rate, Core Web Vitals, ad viewability, affiliate conversion, and policy notifications. Improve existing useful pages before creating additional inventory.

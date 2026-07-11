@@ -32,8 +32,9 @@ type TestDetails = {
 };
 
 export type PublicGuide = GuideContent & (
-  | { evidence: "first-party-tested"; tested: TestDetails }
-  | { evidence: Exclude<EvidenceLevel, "first-party-tested">; tested?: never }
+  | { evidence: "first-party-tested"; tested: TestDetails; editorial?: never }
+  | { evidence: Exclude<EvidenceLevel, "first-party-tested">; tested?: never; editorial?: never }
+  | { editorial: true; evidence?: never; tested?: never }
 );
 
 export const publicGuides: PublicGuide[] = [
@@ -533,9 +534,7 @@ export const publicGuides: PublicGuide[] = [
     "category": "Release",
     "updated": "2026-07-11",
     "sourceIds": [
-      "rockstar-vi",
-      "google-spam",
-      "adsense-publisher"
+      "rockstar-vi"
     ],
     "bullets": [
       "Use official Rockstar, Take-Two, platform store, and source-tracked guide pages for launch facts.",
@@ -563,7 +562,7 @@ export const publicGuides: PublicGuide[] = [
         "caveat": "Post-launch pages should still be checked for spoiler warnings before reading deeply."
       }
     ],
-    "evidence": "corroborated",
+    "editorial": true,
     "platforms": [
       "PlayStation 5",
       "Xbox Series X|S"

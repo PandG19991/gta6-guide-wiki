@@ -1,8 +1,16 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { execFileSync } from "node:child_process";
+import { extname, join } from "node:path";
 
 const failures = [];
-const publicDataFiles = ["src/data/guides.ts", "src/data/guideArticles.ts", "src/data/updates.ts"];
+const filesIn = (dir) =>
+  readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(dir, entry.name);
+    return entry.isDirectory() ? filesIn(path) : [path];
+  });
+const publicDataFiles = execFileSync("git", ["ls-files", "--", "src/data"], { encoding: "utf8" })
+  .split(/\r?\n/)
+  .filter(Boolean);
 const privateSourcePatterns = [
   [/["']?searchTerms["']?\s*:/, "searchTerms"],
   [/["']?nextUpdate["']?\s*:/, "nextUpdate"],
@@ -21,6 +29,21 @@ for (const file of publicDataFiles) {
   const source = readFileSync(file, "utf8");
   for (const [pattern, label] of privateSourcePatterns) {
     if (pattern.test(source)) failures.push(`${file}: contains private ${label}`);
+  }
+}
+
+const binaryExtensions = new Set([".avif", ".br", ".gif", ".gz", ".ico", ".jpeg", ".jpg", ".otf", ".pdf", ".png", ".ttf", ".webp", ".woff", ".woff2", ".zip"]);
+const decoder = new TextDecoder("utf-8", { fatal: true });
+for (const file of filesIn("dist")) {
+  if (binaryExtensions.has(extname(file).toLowerCase())) continue;
+  let output;
+  try {
+    output = decoder.decode(readFileSync(file));
+  } catch {
+    continue;
+  }
+  for (const [pattern, label] of privateSourcePatterns) {
+    if (pattern.test(output)) failures.push(`${file}: built text asset contains private ${label}`);
   }
 }
 
@@ -201,13 +224,14 @@ for (const pathname of indexablePaths) {
   }
 }
 
-const htmlFiles = (dir) =>
-  readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    const path = join(dir, entry.name);
-    return entry.isDirectory() ? htmlFiles(path) : path.endsWith(".html") ? [path] : [];
-  });
+const htmlFiles = (dir) => filesIn(dir).filter((path) => path.endsWith(".html"));
 const textContent = (html) => html.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-const publicHtmlFiles = htmlFiles("dist").filter((file) => file !== join("dist", "404.html"));
+const allHtmlFiles = htmlFiles("dist");
+for (const file of allHtmlFiles) {
+  const html = readFileSync(file, "utf8");
+  if (!/<html\b[^>]*\blang="en-US"/i.test(html)) failures.push(`${file}: built page must declare lang="en-US"`);
+}
+const publicHtmlFiles = allHtmlFiles.filter((file) => file !== join("dist", "404.html"));
 for (const file of publicHtmlFiles) {
   const html = readFileSync(file, "utf8").toLowerCase();
   for (const label of prohibitedPublicCopy) {
@@ -274,6 +298,13 @@ for (const slug of guideDirs) {
     .map((match) => textContent(match[1]))
     .join(" ");
   if (detailCopy.length < 300) failures.push(`${file}: lacks enough decision, instruction, comparison, consolidation, or affected-task explanation`);
+}
+
+const spoilerGuide = "dist/guides/how-to-avoid-gta-6-spoilers-before-launch/index.html";
+if (existsSync(spoilerGuide)) {
+  const html = readFileSync(spoilerGuide, "utf8");
+  if (!html.includes("Editorial guidance")) failures.push(`${spoilerGuide}: editorial advice must be labeled as editorial guidance`);
+  if (html.includes("Editor-verified sources")) failures.push(`${spoilerGuide}: editorial advice must not be labeled as corroborated evidence`);
 }
 
 const updatesRoot = join("dist", "updates");
