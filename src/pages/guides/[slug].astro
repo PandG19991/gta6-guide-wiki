@@ -99,7 +99,7 @@ const schema = [
       <section class="article-section" id="key-points">
         <h2>What To Know</h2>
         <ul class="key-points">
-          {guide.bullets.map((bullet) => <li>{bullet}</li>)}
+          {guide.bullets.slice(1).map((bullet) => <li>{bullet}</li>)}
         </ul>
       </section>
 
@@ -158,7 +158,6 @@ const schema = [
     </article>
 
     <aside class="article-rail">
-      <div class="rail-answer"><strong>Quick Answer</strong><p>{firstAnswer}</p></div>
       <nav aria-label="On this page">
         <strong>On This Page</strong>
         <a href="#quick-answer">Quick answer</a>

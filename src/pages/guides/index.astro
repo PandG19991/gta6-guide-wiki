@@ -4,13 +4,15 @@ import GuideCard from "@components/GuideCard.astro";
 import { publicGuideCategoryMeta, publicGuides } from "@data/guides";
 import { site } from "@data/site";
 
+const description = "Browse GTA 6 release, buying, map, character, vehicle, platform, and spoiler-prevention guides.";
+
 const schema = [
   {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: "GTA 6 Guides",
     url: `${site.url}/guides/`,
-    description: "Browse GTA 6 release, buying, map, character, vehicle, mission, and launch-preparation guides.",
+    description,
     mainEntity: {
       "@type": "ItemList",
       itemListElement: publicGuides.map((guide, index) => ({
@@ -32,7 +34,7 @@ const schema = [
 ];
 ---
 
-<BaseLayout title="GTA 6 Guides" description="Browse GTA 6 release, buying, map, character, vehicle, mission, and launch-preparation guides." schema={schema}>
+<BaseLayout title="GTA 6 Guides" description={description} schema={schema}>
   <header class="page-header shell">
     <h1 class="page-title">GTA 6 Guides</h1>
     <p class="page-intro">

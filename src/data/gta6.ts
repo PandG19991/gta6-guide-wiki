@@ -278,7 +278,7 @@ export const locationDatabaseRows: Array<{
     status: "Official",
     proof: "Rockstar lists Grassrivers as an official destination and describes its wetland setting.",
     sourceId: "rockstar-leonida",
-    page: "/guides/gta-6-grassrivers-location-guide/",
+    page: "/guides/gta-6-map-leonida-regions-evidence-tracker/",
     mediaId: "grassrivers"
   },
   {
@@ -286,7 +286,7 @@ export const locationDatabaseRows: Array<{
     status: "Official",
     proof: "Rockstar lists Port Gellhorn as an official Leonida destination and describes its coastal setting.",
     sourceId: "rockstar-leonida",
-    page: "/guides/gta-6-port-gellhorn-location-guide/",
+    page: "/guides/gta-6-map-leonida-regions-evidence-tracker/",
     mediaId: "port-gellhorn"
   },
   {

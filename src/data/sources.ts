@@ -34,7 +34,7 @@ export const sources: Source[] = [
     url: "https://www.take2games.com/ir/news/rockstar-games-announces-pre-orders-grand-theft-auto-vi",
     accessed: "2026-07-11",
     priority: 1,
-    notes: "Investor-grade confirmation for release date, platform, prices, preorder benefits, and preload."
+    notes: "Official confirmation of the release date, platforms, prices, preorder benefits, and preload."
   },
   {
     id: "rockstar-leonida",

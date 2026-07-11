@@ -20,7 +20,7 @@ const { guide } = Astro.props;
   </a>
   <div class="guide-main">
     <span class="guide-category">{guide.category}</span>
-    <h3><a href={`/guides/${guide.slug}/`}>{guide.title.replace("GTA 6 ", "")}</a></h3>
+    <h3><a href={`/guides/${guide.slug}/`}>{guide.title}</a></h3>
     <p>{guide.deck}</p>
   </div>
   <div class="guide-links">

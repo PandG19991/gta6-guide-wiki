@@ -30,13 +30,17 @@ const withdrawnGuidePaths = [
   "/guides/gta-6-money-fast-early-no-exploits/",
   "/guides/gta-6-cheats-codes-testing-tracker/"
 ];
-const redirectedGuidePaths = [
-  "/guides/gta-6-price-standard-ultimate-explained/",
-  "/guides/gta-6-gta-plus-preorder-benefit/",
-  "/guides/gta-6-physical-vs-digital-preorder/",
-  "/guides/gta-6-vintage-vice-city-pack/"
-];
-for (const path of [...withdrawnGuidePaths, ...redirectedGuidePaths]) {
+const redirectedGuidePaths = new Map([
+  ["/guides/gta-6-price-standard-ultimate-explained/", "/guides/gta-6-pre-order-standard-vs-ultimate/"],
+  ["/guides/gta-6-gta-plus-preorder-benefit/", "/guides/gta-6-pre-order-standard-vs-ultimate/"],
+  ["/guides/gta-6-physical-vs-digital-preorder/", "/guides/gta-6-pre-order-standard-vs-ultimate/"],
+  ["/guides/gta-6-vintage-vice-city-pack/", "/guides/gta-6-pre-order-standard-vs-ultimate/"],
+  ["/guides/gta-6-grassrivers-location-guide/", "/guides/gta-6-map-leonida-regions-evidence-tracker/"],
+  ["/guides/gta-6-port-gellhorn-location-guide/", "/guides/gta-6-map-leonida-regions-evidence-tracker/"]
+]);
+const nonIndexableGuidePaths = [...withdrawnGuidePaths, ...redirectedGuidePaths.keys()];
+const emptyCategoryPaths = ["/guides/category/missions/"];
+for (const path of [...nonIndexableGuidePaths, ...emptyCategoryPaths]) {
   if (locs.some((loc) => loc.pathname === path)) fail(`non-indexable route appears in sitemap: ${path}`);
 }
 if (lastmods.length !== locs.length) fail("sitemap must define one lastmod per URL");
@@ -92,18 +96,24 @@ const htmlFiles = files(dist).filter((file) => file.endsWith(".html") && !file.e
 const seenTitles = new Map();
 
 const redirects = read(join(dist, "_redirects"));
-for (const path of redirectedGuidePaths) {
-  const rule = `${path} /guides/gta-6-pre-order-standard-vs-ultimate/ 301`;
+for (const [path, target] of redirectedGuidePaths) {
+  const rule = `${path} ${target} 301`;
   if (!redirects.includes(rule)) fail(`missing permanent redirect rule: ${rule}`);
   if (existsSync(expectedFileFor(new URL(path, origin)))) fail(`redirect route emitted HTML: ${path}`);
+}
+for (const path of emptyCategoryPaths) {
+  if (existsSync(expectedFileFor(new URL(path, origin)))) fail(`empty guide category emitted HTML: ${path}`);
 }
 
 for (const file of htmlFiles) {
   const html = read(file);
   const label = relative(dist, file);
   const ownPath = `/${label.replaceAll("\\", "/").replace(/index\.html$/, "")}`;
-  if ([...withdrawnGuidePaths, ...redirectedGuidePaths].includes(ownPath)) fail(`${label}: non-indexable route emitted HTML: ${ownPath}`);
+  if (nonIndexableGuidePaths.includes(ownPath)) fail(`${label}: non-indexable route emitted HTML: ${ownPath}`);
   if (ownPath.startsWith("/guides/category/") && !html.includes("data-guide-card")) fail(`${label}: empty guide category emitted HTML`);
+  for (const path of redirectedGuidePaths.keys()) {
+    if (html.includes(`href="${path}"`)) fail(`${label}: links to redirected guide: ${path}`);
+  }
   const title = html.match(/<title>(.*?)<\/title>/)?.[1]?.trim();
   const description = html.match(/<meta name="description" content="(.*?)"/)?.[1]?.trim();
   const canonical = html.match(/<link rel="canonical" href="(.*?)"/)?.[1];

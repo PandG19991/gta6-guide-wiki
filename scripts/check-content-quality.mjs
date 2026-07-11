@@ -117,7 +117,12 @@ const prohibitedPublicCopy = [
   "Evidence Tracker",
   "Official Cast Tracker",
   "Evidence Only",
-  "source-tracked launch timing"
+  "source-tracked launch timing",
+  "visible source boundaries",
+  "Investor-grade confirmation",
+  "Security contact metadata",
+  "Rating-board listings and launch marketing details",
+  "See what changed for players"
 ];
 const requiredBuiltPages = [
   ["dist/gta-6/index.html", ["GTA 6 Guide And Database", "Browse the Database", "Confirmed Features"]],
@@ -178,6 +183,18 @@ for (const file of publicHtmlFiles) {
   }
 }
 
+const home = readFileSync("dist/index.html", "utf8");
+if (home.includes("missions, and cheats")) failures.push("dist/index.html: promises unavailable mission or cheat coverage");
+if (!home.includes("release date, PC status, preload, preorder, map, characters, vehicles, and editions")) {
+  failures.push("dist/index.html: missing current homepage coverage summary");
+}
+
+const guideIndex = readFileSync("dist/guides/index.html", "utf8");
+const guideIndexHead = guideIndex.match(/<head>[\s\S]*?<\/head>/i)?.[0] ?? "";
+if (/\b(?:mission|cheat)s?\b/i.test(guideIndexHead)) failures.push("dist/guides/index.html: metadata promises unavailable mission or cheat coverage");
+if (guideIndex.includes(">Is Coming to PC?</a>")) failures.push("dist/guides/index.html: PC guide card title is malformed");
+if (!guideIndex.includes(">Is GTA 6 Coming to PC?</a>")) failures.push("dist/guides/index.html: PC guide card title is missing");
+
 const guideDirs = readdirSync("dist/guides", { withFileTypes: true })
   .filter((entry) => entry.isDirectory() && entry.name !== "category")
   .map((entry) => entry.name);
@@ -188,6 +205,10 @@ for (const slug of guideDirs) {
   if (detailSections < 2) failures.push(`${file}: expected at least two player-focused detail sections`);
   if (!html.includes('id="quick-answer"')) failures.push(`${file}: missing quick answer`);
   if (!html.includes('id="sources"')) failures.push(`${file}: missing visible sources`);
+  if (html.includes('class="rail-answer"')) failures.push(`${file}: repeats quick answer in the sidebar`);
+  const quickAnswer = html.match(/<section class="quick-answer"[^>]*>[\s\S]*?<p>(.*?)<\/p>/)?.[1];
+  const keyPoints = html.match(/<section class="article-section" id="key-points">([\s\S]*?)<\/section>/)?.[1];
+  if (quickAnswer && keyPoints?.includes(quickAnswer)) failures.push(`${file}: repeats the main quick answer in key points`);
 }
 
 for (const [file, requiredText] of requiredStaticFiles) {
