@@ -231,38 +231,6 @@ export const guideArticles: Record<string, GuideArticleSection[]> = {
       ]
     }
   ],
-  "gta-6-grassrivers-location-guide": [
-    {
-      id: "grassrivers-setting",
-      title: "Grassrivers In Leonida",
-      paragraphs: [
-        "Grassrivers is one of the six destinations named by Rockstar. It represents Leonida's wetland environment and expands the map beyond Vice City's streets and beaches."
-      ]
-    },
-    {
-      id: "grassrivers-status",
-      title: "What Is Still Unknown",
-      paragraphs: [
-        "Rockstar has not published Grassrivers boundaries, routes, activities, collectibles, or wildlife systems as a complete guide. Use the name and wetland setting as confirmed context, not as a finished map."
-      ]
-    }
-  ],
-  "gta-6-port-gellhorn-location-guide": [
-    {
-      id: "port-gellhorn-setting",
-      title: "Port Gellhorn In Leonida",
-      paragraphs: [
-        "Port Gellhorn is an officially named coastal destination outside Vice City. Its inclusion confirms that the state includes additional communities and shoreline areas beyond the main city."
-      ]
-    },
-    {
-      id: "port-gellhorn-status",
-      title: "What Players Can Confirm Today",
-      paragraphs: [
-        "The destination name and coastal setting are current official information. A complete street layout, economy, mission chain, property list, and activity map have not been published."
-      ]
-    }
-  ],
   "gta-6-jason-duval-character-guide": [
     {
       id: "jason-background",

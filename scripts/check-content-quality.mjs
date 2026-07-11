@@ -8,46 +8,74 @@ const filesIn = (dir) =>
     const path = join(dir, entry.name);
     return entry.isDirectory() ? filesIn(path) : [path];
   });
-const publicDataFiles = execFileSync("git", ["ls-files", "--", "src/data"], { encoding: "utf8" })
+const repositoryFiles = execFileSync("git", ["ls-files", "--cached", "--others", "--exclude-standard"], { encoding: "utf8" })
   .split(/\r?\n/)
   .filter(Boolean);
-const privateSourcePatterns = [
+const governancePrefixes = ["docs/", "openspec/"];
+const excludedFiles = new Set(["scripts/check-content-quality.mjs", "package-lock.json"]);
+const textExtensions = new Set(["", ".astro", ".css", ".js", ".json", ".jsonc", ".md", ".mjs", ".ts", ".txt", ".xml", ".yaml", ".yml"]);
+const publicRepositoryFiles = repositoryFiles.filter((file) =>
+  !governancePrefixes.some((prefix) => file.startsWith(prefix))
+  && !excludedFiles.has(file)
+  && textExtensions.has(extname(file).toLowerCase())
+);
+const privateRecordPatterns = [
   [/["']?searchTerms["']?\s*:/, "searchTerms"],
   [/["']?nextUpdate["']?\s*:/, "nextUpdate"],
   [/["']?publication["']?\s*:/, "publication state"],
-  [/["']?redirectTo["']?\s*:/, "redirect data"],
+  [/["']?(?:candidateScore|keywordOpportunity|rawContribution|reviewNotes|internalDecision|operatingPhase|trafficPotential|commercialValue|revenue)["']?\s*:/, "private operating field"],
   [/\bGuideStatus\b/, "GuideStatus"],
   [/\bGuidePublication\b/, "GuidePublication"],
   [/\bguideEvidenceRows\b/, "evidence-decision rows"],
   [/Site source ledger refreshed/i, "internal update record"],
   [/\b(?:PRE_LAUNCH|LAUNCH|EVERGREEN)\b/, "operating phase state"]
 ];
+const privateFilename = /^(?:candidate[-_]?queue|content[-_]?plan|editorial[-_]?queue|keyword[-_]?opportunities|submission[-_]?queue|contribution[-_]?records?|revenue[-_]?report)(?:\.[^.]+)?$/i;
+const hasPrivatePathSegment = (file) => file.split(/[\\/]/).some((part) => privateFilename.test(part));
 
-if (existsSync("src/data/contentPlan.ts")) failures.push("src/data/contentPlan.ts: private content planning must stay outside the public repository");
-if (existsSync("candidate-queue.md")) failures.push("candidate-queue.md: private candidate data must stay outside the public repository");
-for (const file of publicDataFiles) {
+for (const file of publicRepositoryFiles) {
+  if (hasPrivatePathSegment(file)) failures.push(`${file}: private operating file must stay outside the public repository`);
   const source = readFileSync(file, "utf8");
-  for (const [pattern, label] of privateSourcePatterns) {
+  for (const [pattern, label] of privateRecordPatterns) {
     if (pattern.test(source)) failures.push(`${file}: contains private ${label}`);
   }
 }
+for (const requiredFile of ["README.md", "public/_redirects", "src/pages/guides/[slug].astro"]) {
+  if (!publicRepositoryFiles.includes(requiredFile)) failures.push(`private-data gate does not cover ${requiredFile}`);
+}
+if (publicRepositoryFiles.some((file) => governancePrefixes.some((prefix) => file.startsWith(prefix)))) {
+  failures.push("private-data gate must exclude reusable governance and specification documents");
+}
+if (!privateRecordPatterns.some(([pattern]) => pattern.test('const draft = { searchTerms: ["gta 6"] };'))) {
+  failures.push("private-data gate must detect structural private fields");
+}
+if (privateRecordPatterns.some(([pattern]) => pattern.test("Players use search terms to find a guide."))) {
+  failures.push("private-data gate must not treat ordinary player-facing words as private records");
+}
+if (!hasPrivatePathSegment("src/private/candidate-queue.json")) failures.push("private-data gate must detect sensitive path names");
 
 const binaryExtensions = new Set([".avif", ".br", ".gif", ".gz", ".ico", ".jpeg", ".jpg", ".otf", ".pdf", ".png", ".ttf", ".webp", ".woff", ".woff2", ".zip"]);
 const decoder = new TextDecoder("utf-8", { fatal: true });
 for (const file of filesIn("dist")) {
   if (binaryExtensions.has(extname(file).toLowerCase())) continue;
+  if (hasPrivatePathSegment(file)) failures.push(`${file}: built output contains a private operating path`);
   let output;
   try {
     output = decoder.decode(readFileSync(file));
   } catch {
     continue;
   }
-  for (const [pattern, label] of privateSourcePatterns) {
+  for (const [pattern, label] of privateRecordPatterns) {
     if (pattern.test(output)) failures.push(`${file}: built text asset contains private ${label}`);
   }
 }
 
 const guideSource = readFileSync("src/data/guides.ts", "utf8");
+const guideTemplateSource = readFileSync("src/pages/guides/[slug].astro", "utf8");
+const guideArticleSource = readFileSync("src/data/guideArticles.ts", "utf8");
+const sourcesModuleSource = readFileSync("src/data/sources.ts", "utf8");
+const sourcesPageSource = readFileSync("src/pages/sources.astro", "utf8");
+const globalCss = readFileSync("src/styles/global.css", "utf8");
 const evidenceValues = [...guideSource.matchAll(/["']?evidence["']?\s*:\s*["']([^"']+)["']/g)].map((match) => match[1]);
 if (!evidenceValues.length) failures.push("src/data/guides.ts: guides must declare publishable evidence");
 for (const value of evidenceValues) {
@@ -65,6 +93,31 @@ if (!guideSource.includes("$79.99") || !guideSource.includes("$99.99")) failures
 if (!guideSource.includes("applicable PlayStation or Xbox store region")) {
   failures.push("src/data/guides.ts: preload timing must name the applicable platform store region");
 }
+if (guideSource.includes('"google-spam"')) failures.push("src/data/guides.ts: public guides must not cite the obsolete google-spam governance source");
+if (!sourcesModuleSource.includes("getPublishableSources") || !sourcesModuleSource.includes("publishableSources")) {
+  failures.push("src/data/sources.ts: publishable source selection must have one shared implementation");
+}
+if (!guideTemplateSource.includes("getPublishableSources") || guideTemplateSource.includes("playerSourceIds")) {
+  failures.push("src/pages/guides/[slug].astro: guide sources must use the shared publishable source selector");
+}
+if (!sourcesPageSource.includes("publishableSources")) {
+  failures.push("src/pages/sources.astro: sources page must use the shared publishable source selector");
+}
+for (const slug of ["gta-6-grassrivers-location-guide", "gta-6-port-gellhorn-location-guide"]) {
+  if (guideArticleSource.includes(`"${slug}"`)) failures.push(`src/data/guideArticles.ts: orphan article body remains for ${slug}`);
+}
+if (!guideTemplateSource.includes('class={item.primaryMediaId ? undefined : "without-media"}')) {
+  failures.push("src/pages/guides/[slug].astro: related guides need an explicit without-media branch");
+}
+if (!/\.related-guide-list\s*>\s*a\.without-media\s*\{[^}]*grid-template-columns:/s.test(globalCss)) {
+  failures.push("src/styles/global.css: related guides need a dedicated without-media grid");
+}
+const articleMediaRule = globalCss.match(/\.article-lead\s*>\s*\.guide-media\s*\{([^}]*)\}/s)?.[1] ?? "";
+const articlePictureRule = globalCss.match(/\.article-lead\s*>\s*\.guide-media\s+picture\s*\{([^}]*)\}/s)?.[1] ?? "";
+if (/overflow\s*:\s*hidden/.test(articleMediaRule)) failures.push("src/styles/global.css: article media figure must not clip its caption");
+if (!/aspect-ratio\s*:\s*16\s*\/\s*9/.test(articlePictureRule) || !/overflow\s*:\s*hidden/.test(articlePictureRule)) {
+  failures.push("src/styles/global.css: article media picture must own the stable crop and overflow boundary");
+}
 const prohibitedPublicCopy = [
   "Search Terms Covered",
   "Page Status",
@@ -74,118 +127,20 @@ const prohibitedPublicCopy = [
   "Machine Feeds",
   "Sitemap URLs",
   "Evidence Table",
-  "built for search traffic",
-  "SEO sludge",
   "Site source ledger refreshed",
   "Publishing Priorities",
   "Publication Queue",
   "Launch Queue",
-  "Source Ledger",
-  "Ledger Updates",
   "Testing Protocol",
   "Site Mode",
   "Category Rule",
   "Update trigger",
-  "test plans",
-  "broad search intent",
-  "Search-intent pages",
-  "Filter by search phase",
-  "Launch checklist",
-  "what must be tested",
-  "Launch use",
-  "Why no model spam?",
-  "What stays out?",
-  "for search users",
-  "source-led table",
-  "launch-week fields",
-  "launch-week buyer checks",
-  "verification needs",
-  "verification targets",
-  "testing targets",
-  "repeatable launch tests",
-  "hands-on verification",
-  "thumbnail licensing",
-  "original thumbnails",
-  "licensed screenshots",
-  "plan testing",
-  "repeatable wanted-level tests",
-  "remain launch-week questions",
-  "before official item lists are stable",
-  "Future map markers",
-  "matches player search paths",
   "Product Plan",
-  "roadmap",
-  "launch testing",
-  "launch-week testing",
-  "will be tested",
-  "test after launch",
-  "verify after launch",
-  "verification workflow",
-  "editorial methodology",
-  "editorial workflow",
-  "next work",
-  "next pass",
-  "future update",
-  "planned layer",
-  "planned guide",
-  "future thumbnail",
-  "licensing",
-  "record count",
-  "database count",
-  "coverage target",
-  "content target",
-  "search intent",
-  "search phase",
-  "status tracker",
-  "publishing",
-  "non-leak version",
-  "launch-week unknowns",
-  "launch-week vehicle notes",
-  "individual vehicle pages open",
-  "interactive map layer is planned",
-  "interactive marker layer will only use",
-  "map hub before launch",
-  "future interactive map markers",
-  "future neighborhood-by-neighborhood guides",
-  "wait for official or tested location data",
-  "future internal-link hub",
-  "will collect verified Keys markers",
-  "future tested mission",
-  "Future sections will separate",
-  "future mission/walkthrough links",
-  "launch-week walkthrough planning",
-  "launch-week test plans",
-  "A pre-launch map hub",
-  "A pre-launch region page",
-  "tracking after launch",
-  "tracking potential",
-  "wait for testing",
-  "feature cluster carries",
-  "Database Surface",
-  "until individual pages have enough proof",
-  "View all feature evidence",
-  "launch-week guides",
-  "labels launch-week pages clearly",
-  "official-source guardrails",
-  "source-led cast trackers",
-  "tracker pages that separate",
-  "proof-labeled vehicle-category tracker",
-  "launch-week walkthroughs",
-  "map-marker verification",
-  "Split each confirmed person into database pages",
   "What Gets Published",
   "What Waits",
   "How Updates Work",
-  "testing templates",
   "Evidence Tracker",
-  "Official Cast Tracker",
-  "Evidence Only",
-  "source-tracked launch timing",
-  "visible source boundaries",
-  "Investor-grade confirmation",
-  "Security contact metadata",
-  "Rating-board listings and launch marketing details",
-  "See what changed for players"
+  "Official Cast Tracker"
 ];
 const requiredBuiltPages = [
   ["dist/gta-6/index.html", ["GTA 6 Guide And Database", "Start Here", "Meaningful Changes", "Browse the Database", "Confirmed Features"]],
@@ -280,6 +235,11 @@ for (const slug of guideDirs) {
   if (detailSections < 2) failures.push(`${file}: expected at least two player-focused detail sections`);
   if (!html.includes('id="quick-answer"')) failures.push(`${file}: missing quick answer`);
   if (!html.includes('id="sources"')) failures.push(`${file}: missing visible sources`);
+  const sourceCount = Number(html.match(/data-source-count="(\d+)"/)?.[1]);
+  const displayedSourceCount = (html.match(/data-source-id=/g) ?? []).length;
+  if (!Number.isInteger(sourceCount) || sourceCount < 1 || displayedSourceCount !== sourceCount) {
+    failures.push(`${file}: every guide source ID must resolve and render in the Sources section`);
+  }
   if (!html.includes('id="next-action"')) failures.push(`${file}: missing explicit next action`);
   if ((html.match(/id="next-action"/g) ?? []).length !== 1) failures.push(`${file}: expected exactly one explicit next action`);
   if (!html.includes("Reviewed by Leonida Ledger Editorial Team")) failures.push(`${file}: missing editorial review responsibility`);

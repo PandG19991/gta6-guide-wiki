@@ -360,7 +360,7 @@ button, input, select { font: inherit; }
 .article-main { min-width: 0; }
 .article-lead { display: grid; }
 .article-lead.has-media { grid-template-columns: minmax(260px, .82fr) minmax(380px, 1.18fr); gap: 20px; align-items: stretch; }
-.article-lead > .guide-media { min-height: 250px; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--line); }
+.article-lead > .guide-media picture { display: block; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--line); }
 .article-lead > .guide-media img { width: 100%; height: 100%; object-fit: cover; }
 .guide-media figcaption { margin-top: 7px; color: var(--muted); font-size: .76rem; }
 .guide-media figcaption a { color: var(--coral-dark); font-weight: 800; }
@@ -390,6 +390,7 @@ button, input, select { font: inherit; }
 .rail-related { position: static; margin-top: 18px; }
 .related-guide-list { display: grid; border-top: 1px solid var(--line); }
 .related-guide-list > a { min-height: 96px; display: grid; grid-template-columns: 140px 1fr 30px; align-items: center; gap: 14px; border-bottom: 1px solid var(--line); padding-block: 10px; }
+.related-guide-list > a.without-media { grid-template-columns: minmax(0, 1fr) 30px; }
 .related-guide-list .guide-media { width: 140px; aspect-ratio: 16 / 9; overflow: hidden; }
 .related-guide-list img { width: 100%; height: 100%; object-fit: cover; }
 .related-guide-list small { display: block; color: var(--coral-dark); font-weight: 900; text-transform: uppercase; }
@@ -497,7 +498,6 @@ button, input, select { font: inherit; }
   .home-split { grid-template-columns: 1fr; }
   .article-layout { grid-template-columns: 1fr; }
   .article-lead.has-media { grid-template-columns: 1fr; }
-  .article-lead > .guide-media { min-height: 0; }
   .article-rail { display: none; }
   .footer-grid { grid-template-columns: 1fr; gap: 28px; }
 }
@@ -549,6 +549,7 @@ button, input, select { font: inherit; }
   .quick-answer { padding: 15px 17px; }
   .quick-answer p { font-size: 1rem; }
   .related-guide-list > a { grid-template-columns: 110px 1fr 24px; }
+  .related-guide-list > a.without-media { grid-template-columns: minmax(0, 1fr) 24px; }
   .related-guide-list .guide-media { width: 110px; }
   .database-category-grid,
   .feature-grid,

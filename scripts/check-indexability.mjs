@@ -9,6 +9,11 @@ const manifestPath = join(dist, "site.webmanifest");
 
 const read = (file) => readFileSync(file, "utf8");
 const matchAll = (text, regex) => [...text.matchAll(regex)].map((match) => match[1]);
+const permanentGuideRedirects = (file) => new Map(read(file)
+  .split(/\r?\n/)
+  .map((line) => line.trim().split(/\s+/))
+  .filter(([path, target, status]) => path?.startsWith("/guides/") && target && status === "301")
+  .map(([path, target]) => [path, target]));
 const fail = (message) => {
   throw new Error(message);
 };
@@ -23,15 +28,8 @@ const sitemap = read(sitemapPath);
 const locs = matchAll(sitemap, /<loc>(.*?)<\/loc>/g).map((loc) => new URL(loc));
 const lastmods = matchAll(sitemap, /<lastmod>(.*?)<\/lastmod>/g);
 const today = new Date().toLocaleDateString("sv-SE");
-const redirectedGuidePaths = new Map([
-  ["/guides/gta-6-price-standard-ultimate-explained/", "/guides/gta-6-pre-order-standard-vs-ultimate/"],
-  ["/guides/gta-6-gta-plus-preorder-benefit/", "/guides/gta-6-pre-order-standard-vs-ultimate/"],
-  ["/guides/gta-6-physical-vs-digital-preorder/", "/guides/gta-6-pre-order-standard-vs-ultimate/"],
-  ["/guides/gta-6-vintage-vice-city-pack/", "/guides/gta-6-pre-order-standard-vs-ultimate/"],
-  ["/guides/gta-6-map-leonida-regions-evidence-tracker/", "/guides/gta-6-map-leonida-regions-locations/"],
-  ["/guides/gta-6-grassrivers-location-guide/", "/guides/gta-6-map-leonida-regions-locations/"],
-  ["/guides/gta-6-port-gellhorn-location-guide/", "/guides/gta-6-map-leonida-regions-locations/"]
-]);
+const redirectedGuidePaths = permanentGuideRedirects("public/_redirects");
+if (redirectedGuidePaths.size === 0) fail("public/_redirects must define at least one permanent guide redirect");
 const nonIndexableGuidePaths = [...redirectedGuidePaths.keys()];
 const emptyCategoryPaths = ["/guides/category/missions/"];
 for (const path of [...nonIndexableGuidePaths, ...emptyCategoryPaths]) {

@@ -121,3 +121,23 @@ export const sources: Source[] = [
 
 export const sourceById = Object.fromEntries(sources.map((source) => [source.id, source]));
 
+const publishableSourceIds = new Set([
+  "rockstar-vi",
+  "rockstar-preorders",
+  "take-two-preorders",
+  "rockstar-leonida",
+  "rockstar-media",
+  "rockstar-editions",
+  "rockstar-support-editions",
+  "rockstar-support-preorders"
+]);
+
+export const publishableSources = sources.filter((source) => publishableSourceIds.has(source.id));
+
+export const getPublishableSources = (ids: string[]) => ids.map((id) => {
+  const source = sourceById[id];
+  if (!source) throw new Error(`Unknown source: ${id}`);
+  if (!publishableSourceIds.has(id)) throw new Error(`Source is not publishable: ${id}`);
+  return source;
+});
+

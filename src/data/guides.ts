@@ -227,8 +227,7 @@ export const publicGuides: PublicGuide[] = [
     "updated": "2026-07-11",
     "sourceIds": [
       "rockstar-vi",
-      "take-two-preorders",
-      "google-spam"
+      "take-two-preorders"
     ],
     "bullets": [
       "Rockstar and Take-Two currently list PlayStation 5 and Xbox Series X|S for launch.",

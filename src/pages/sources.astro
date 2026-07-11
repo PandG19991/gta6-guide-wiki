@@ -1,18 +1,6 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import { sources } from "@data/sources";
-
-const gta6SourceIds = new Set([
-  "rockstar-vi",
-  "rockstar-preorders",
-  "take-two-preorders",
-  "rockstar-leonida",
-  "rockstar-media",
-  "rockstar-editions",
-  "rockstar-support-editions",
-  "rockstar-support-preorders"
-]);
-const gta6Sources = sources.filter((source) => gta6SourceIds.has(source.id));
+import { publishableSources } from "@data/sources";
 ---
 
 <BaseLayout title="GTA 6 Sources And Corrections" description="Official GTA 6 sources used by Leonida Ledger, plus source priorities and correction contact details.">
@@ -37,7 +25,7 @@ const gta6Sources = sources.filter((source) => gta6SourceIds.has(source.id));
         </tr>
       </thead>
       <tbody>
-        {gta6Sources.map((source) => (
+        {publishableSources.map((source) => (
           <tr>
             <td>
               <a href={source.url} target="_blank" rel="noopener"><strong>{source.title}</strong></a>
