@@ -60,9 +60,7 @@ for (const slug of guideDirs) {
 
   const articleSchema = schema.find((item) => item["@type"] === "Article");
   if (articleSchema.inLanguage !== "en-US") throw new Error(`${file}: missing Article inLanguage`);
-  if (articleSchema.reviewedBy?.name !== "Leonida Ledger Editorial Team") {
-    throw new Error(`${file}: missing editorial review responsibility`);
-  }
+  if (articleSchema.reviewedBy) throw new Error(`${file}: unsupported self-review schema must stay absent`);
   const ogImage = html.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
   if (!ogImage) throw new Error(`${file}: missing OG image`);
   if (articleSchema.image && articleSchema.image !== ogImage) throw new Error(`${file}: Article and OG images must match`);

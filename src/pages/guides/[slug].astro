@@ -27,13 +27,6 @@ const relatedGuides = publicGuides
 const firstAnswer = guide.bullets[0];
 const decisionRows = guide.decisionRows ?? [];
 const guideSections = guideArticles[guide.slug] ?? [];
-const evidenceLabel = guide.editorial
-  ? "Editorial guidance"
-  : {
-      official: "Official sources",
-      "first-party-tested": "Tested by Leonida Ledger",
-      corroborated: "Editor-verified sources"
-    }[guide.evidence];
 const guideSources = getPublishableSources(guide.sourceIds);
 const schema = [
   {
@@ -46,7 +39,6 @@ const schema = [
     datePublished: guide.updated,
     dateModified: guide.updated,
     author: { "@type": "Organization", name: "Leonida Ledger Editorial Team" },
-    reviewedBy: { "@type": "Organization", name: "Leonida Ledger Editorial Team" },
     publisher: { "@type": "Organization", name: site.name },
     mainEntityOfPage: `${site.url}/guides/${guide.slug}/`
   },
@@ -81,9 +73,8 @@ const schema = [
     <div class="article-meta">
       <span>{guide.category}</span>
       <time datetime={guide.updated}>Updated {guide.updated}</time>
-      <span class="meta-copy">Reviewed by Leonida Ledger Editorial Team</span>
     </div>
-    <p class="article-applicability">Applies to {guide.platforms.join(", ")} - {guide.gameVersion} - {evidenceLabel}</p>
+    <p class="article-applicability">Applies to {guide.platforms.join(", ")}</p>
     {guide.evidence === "first-party-tested" && guide.tested && (
       <p class="article-test-details">
         Tested on {guide.tested.platform}, version {guide.tested.gameVersion}, {guide.tested.testedAt}. Method: {guide.tested.method}
@@ -152,7 +143,7 @@ const schema = [
         <h2>Sources</h2>
         <div class="source-list compact-sources" data-source-count={guide.sourceIds.length}>
           {guideSources.map((source) => (
-            <p><a href={source.url} target="_blank" rel="noopener" data-source-id={source.id}>{source.title}</a><span>{source.publisher} - Accessed {source.accessed}</span></p>
+            <p><a href={source.url} target="_blank" rel="noopener" data-source-id={source.id}>{source.title}</a><span>{source.publisher}</span></p>
           ))}
         </div>
       </section>

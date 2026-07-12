@@ -352,7 +352,6 @@ button, input, select { font: inherit; }
 .article-header > p { max-width: 75ch; margin: 12px 0 0; color: var(--ink-soft); font-size: 1.05rem; }
 .article-meta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px; color: var(--muted); font-family: var(--font-mono); font-size: .76rem; }
 .article-meta span { color: var(--coral-dark); font-family: var(--font-body); font-weight: 900; text-transform: uppercase; }
-.article-meta .meta-copy { color: var(--muted); font-weight: 700; text-transform: none; }
 .article-header .article-applicability,
 .article-header .article-test-details { margin-top: 8px; font-family: var(--font-mono); font-size: .78rem; }
 .spoiler-warning { border-left: 4px solid var(--coral); padding: 10px 14px; background: var(--paper); font-weight: 700; }
@@ -456,7 +455,6 @@ button, input, select { font: inherit; }
 .faq-list details { border: 1px solid var(--line); background: var(--paper); }
 .faq-list summary { cursor: pointer; padding: 14px; font-weight: 800; }
 .faq-list p { padding: 0 14px 14px; }
-.source-note { border-left: 4px solid var(--teal); padding: 12px 15px; background: var(--paper); }
 .affected-links { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 8px; font-size: .78rem; }
 .affected-links a { color: var(--coral-dark); font-weight: 800; }
 

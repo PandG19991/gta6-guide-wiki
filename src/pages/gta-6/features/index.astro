@@ -2,7 +2,6 @@
 import Gta6Rail from "@components/Gta6Rail.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { gta6FeatureSections } from "@data/gta6";
-import { sourceById } from "@data/sources";
 import { site } from "@data/site";
 
 const schema = [
@@ -45,21 +44,15 @@ const schema = [
 
   <section class="section-tight shell">
     <div class="feature-list">
-      {gta6FeatureSections.map((section) => {
-        const source = sourceById[section.sourceId];
-        return (
+      {gta6FeatureSections.map((section) => (
           <article class="feature-panel">
             <h2>{section.title}</h2>
             <ul>
               {section.points.map((point) => <li>{point}</li>)}
             </ul>
-            <p class="source-note">
-              Primary source: <a href={source.url} target="_blank" rel="noopener">{source.publisher}</a>
-            </p>
             <a class="button secondary" href={section.href}>Open related guide</a>
           </article>
-        );
-      })}
+      ))}
     </div>
   </section>
 </BaseLayout>

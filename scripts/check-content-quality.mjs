@@ -146,7 +146,14 @@ const prohibitedPublicCopy = [
   "What Waits",
   "How Updates Work",
   "Evidence Tracker",
-  "Official Cast Tracker"
+  "Official Cast Tracker",
+  "Reviewed by Leonida Ledger Editorial Team",
+  "Pre-release official information",
+  "Accessed 202",
+  "Primary source:",
+  "Editorial guidance",
+  "Editor-verified sources",
+  "Tested by Leonida Ledger"
 ];
 const requiredBuiltPages = [
   ["dist/gta-6/index.html", ["GTA 6 Guide And Database", "Start Here", "Meaningful Changes", "Browse the Database", "Confirmed Features"]],
@@ -248,8 +255,7 @@ for (const slug of guideDirs) {
   }
   if (!html.includes('id="next-action"')) failures.push(`${file}: missing explicit next action`);
   if ((html.match(/id="next-action"/g) ?? []).length !== 1) failures.push(`${file}: expected exactly one explicit next action`);
-  if (!html.includes("Reviewed by Leonida Ledger Editorial Team")) failures.push(`${file}: missing editorial review responsibility`);
-  if (!html.includes("article-applicability")) failures.push(`${file}: missing platform and version applicability`);
+  if (!html.includes("article-applicability")) failures.push(`${file}: missing platform applicability`);
   if (html.includes('class="gta-rail"')) failures.push(`${file}: task articles must not render the GTA 6 portal rail`);
   if (/spoiler[^>]*>\s*none/i.test(html)) failures.push(`${file}: renders a meaningless none spoiler label`);
   const answerIndex = html.indexOf('id="quick-answer"');
@@ -264,13 +270,6 @@ for (const slug of guideDirs) {
     .map((match) => textContent(match[1]))
     .join(" ");
   if (detailCopy.length < 300) failures.push(`${file}: lacks enough decision, instruction, comparison, consolidation, or affected-task explanation`);
-}
-
-const spoilerGuide = "dist/guides/how-to-avoid-gta-6-spoilers-before-launch/index.html";
-if (existsSync(spoilerGuide)) {
-  const html = readFileSync(spoilerGuide, "utf8");
-  if (!html.includes("Editorial guidance")) failures.push(`${spoilerGuide}: editorial advice must be labeled as editorial guidance`);
-  if (html.includes("Editor-verified sources")) failures.push(`${spoilerGuide}: editorial advice must not be labeled as corroborated evidence`);
 }
 
 const updatesRoot = join("dist", "updates");
