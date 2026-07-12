@@ -76,6 +76,7 @@ for (const file of filesIn("dist")) {
 
 const guideSource = readFileSync("src/data/guides.ts", "utf8");
 const guideTemplateSource = readFileSync("src/pages/guides/[slug].astro", "utf8");
+const guideMediaSource = readFileSync("src/components/GuideMedia.astro", "utf8");
 const guideArticleSource = readFileSync("src/data/guideArticles.ts", "utf8");
 const sourcesModuleSource = readFileSync("src/data/sources.ts", "utf8");
 const sourcesPageSource = readFileSync("src/pages/sources.astro", "utf8");
@@ -116,11 +117,12 @@ if (!guideTemplateSource.includes('class={item.primaryMediaId ? undefined : "wit
 if (!/\.related-guide-list\s*>\s*a\.without-media\s*\{[^}]*grid-template-columns:/s.test(globalCss)) {
   failures.push("src/styles/global.css: related guides need a dedicated without-media grid");
 }
-const articleMediaRule = globalCss.match(/\.article-lead\s*>\s*\.guide-media\s*\{([^}]*)\}/s)?.[1] ?? "";
 const articlePictureRule = globalCss.match(/\.article-lead\s*>\s*\.guide-media\s+picture\s*\{([^}]*)\}/s)?.[1] ?? "";
-if (/overflow\s*:\s*hidden/.test(articleMediaRule)) failures.push("src/styles/global.css: article media figure must not clip its caption");
 if (!/aspect-ratio\s*:\s*16\s*\/\s*9/.test(articlePictureRule) || !/overflow\s*:\s*hidden/.test(articlePictureRule)) {
   failures.push("src/styles/global.css: article media picture must own the stable crop and overflow boundary");
+}
+if (/figcaption|media\.sourceUrl/.test(guideMediaSource)) {
+  failures.push("src/components/GuideMedia.astro: media provenance must stay internal instead of rendering repeated source captions");
 }
 const prohibitedPublicCopy = [
   "Search Terms Covered",

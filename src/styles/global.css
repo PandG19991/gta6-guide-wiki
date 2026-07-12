@@ -362,8 +362,6 @@ button, input, select { font: inherit; }
 .article-lead.has-media { grid-template-columns: minmax(260px, .82fr) minmax(380px, 1.18fr); gap: 20px; align-items: stretch; }
 .article-lead > .guide-media picture { display: block; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--line); }
 .article-lead > .guide-media img { width: 100%; height: 100%; object-fit: cover; }
-.guide-media figcaption { margin-top: 7px; color: var(--muted); font-size: .76rem; }
-.guide-media figcaption a { color: var(--coral-dark); font-weight: 800; }
 .quick-answer { margin: 0; border-left: 5px solid var(--coral); padding: 22px; background: var(--paper); }
 .quick-answer strong { color: var(--coral-dark); font-size: .75rem; text-transform: uppercase; }
 .quick-answer p { margin: 6px 0 0; font-size: 1.12rem; font-weight: 700; }

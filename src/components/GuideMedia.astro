@@ -5,11 +5,10 @@ import { mediaById, type MediaId } from "@data/media";
 interface Props {
   id: MediaId;
   priority?: boolean;
-  attribution?: boolean;
   sizes?: string;
 }
 
-const { id, priority = false, attribution = false, sizes = "(max-width: 768px) 100vw, 680px" } = Astro.props;
+const { id, priority = false, sizes = "(max-width: 768px) 100vw, 680px" } = Astro.props;
 const media = mediaById[id];
 if (!media || media.rights !== "approved") throw new Error(`Unapproved media: ${id}`);
 ---
@@ -26,11 +25,9 @@ if (!media || media.rights !== "approved") throw new Error(`Unapproved media: ${
     priority={priority}
     data-media-id={media.id}
   />
-  {attribution && <figcaption>{media.attribution} · <a href={media.sourceUrl} target="_blank" rel="noopener">Source</a></figcaption>}
 </figure>
 
 <style>
   .guide-media { margin: 0; }
   .guide-media :global(img) { display: block; width: 100%; height: auto; }
-  figcaption { margin-top: 0.35rem; color: var(--muted); font-size: 0.8rem; }
 </style>
